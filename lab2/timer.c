@@ -81,6 +81,7 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
       val.bcd= (st & TIMER_BCD);
       break;
     default:
+      return 1;
       break;
     }
     timer_print_config(timer,field,val);
