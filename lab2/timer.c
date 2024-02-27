@@ -7,7 +7,7 @@
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
   /* To be implemented by the students */
-  //rintf("%s is not yet implemented!\n", __func__);
+  //printf("%s is not yet implemented!\n", __func__);
 
   return 1;
 }
@@ -55,14 +55,34 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
   default:
     return 1;
   }
-  sys_outb(TIMER_CTRL, word);
-  int r = util_sys_inb(timer_address, st);
+  sys_outb(TIMER_CTRL, word);  //Writes Read-back command to Control Register
+  int r = util_sys_inb(timer_address, st); //read the configuration of the specified timer and writes it to st
+  
 
   return r;
 }
 
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                         enum timer_status_field field) {
-
-  return 1;
+    union timer_status_field_val val;
+    //put in val the configuration fields stated by field, by masking st.
+    switch (field)
+    {
+    case tsf_all:
+      val.byte=st;
+      break;
+    case tsf_initial:
+      val.in_mode= (TIMER_LSB_MSB & st) >>4;
+      break;
+    case tsf_mode:
+      val.count_mode= (st&(BIT(1)|BIT(2)|BIT(3)))>>1;
+      break;
+    case tsf_base:
+      val.bcd= (st & TIMER_BCD);
+      break;
+    default:
+      break;
+    }
+    timer_print_config(timer,field,val);
+  return 0;
 }
