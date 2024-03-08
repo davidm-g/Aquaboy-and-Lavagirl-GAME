@@ -19,4 +19,4 @@
  * @param value address of 8-bit variable to be update with the value read
  * @return Return 0 upon success and non-zero otherwise
  */
-int(util_sys_inb)(int port, uint8_t *value, int *counter);
+int(util_sys_inb)(int port, uint8_t *value);

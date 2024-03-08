@@ -1,15 +1,13 @@
 #include <lcom/lcf.h>
 
-#include <lcom/lab3.h>
+#include "keyboard.h"
 #include <i8042.h>
+#include <lcom/lab3.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include "keyboard.h"
-extern bool make;
-extern int size;
-extern uint8_t bytes[];
-extern bool complete;
-extern int global_counter;
+
+extern int sys_inb_counter;
+extern uint8_t kbd_outbuf;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -36,12 +34,16 @@ int main(int argc, char *argv[]) {
 }
 
 int(kbd_test_scan)() {
-  uint8_t bit_no = 0x01;
-  int ipc_status, r;
+  uint8_t bit_no = 0x01, bytes[2];
+  int ipc_status, r, size = 0;
   message msg;
-  if (keyboard_subscribe_int(&bit_no) != 0)
+  bool make = false;
+
+  if ((keyboard_subscribe_int(&bit_no)) != 0) {
     return 1;
-  while (bytes[0] != ESC_BREAK) {
+  }
+
+  while (kbd_outbuf != ESC_BREAK) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -52,11 +54,35 @@ int(kbd_test_scan)() {
         case HARDWARE:
           if (msg.m_notify.interrupts & bit_no) {
             kbc_ih();
-            if(complete){
-              kbd_print_scancode(make, size, bytes);
-              complete = false;
-              size = 0;
+            if (size == 0) {
+              bytes[0] = kbd_outbuf;
+              size++;
+              if (kbd_outbuf == 0xE0) {
+                continue;
+              }
+              else {
+                if ((kbd_outbuf & BIT(7)) != 0) {
+                  make = false;
+                }
+                else {
+                  make = true;
+                }
+              }
             }
+            else {
+              bytes[1] = kbd_outbuf;
+              size++;
+              if ((kbd_outbuf & BIT(7)) != 0) {
+                make = false;
+              }
+              else {
+                make = true;
+              }
+            }
+            if (kbd_print_scancode(make, size, bytes) != 0) {
+              return 1;
+            }
+            size = 0;
           }
           break;
         default:
@@ -67,6 +93,7 @@ int(kbd_test_scan)() {
       /* no standard messages expected: do nothing */
     }
   }
+  kbd_print_no_sysinb(sys_inb_counter);
 
   return keyboard_unsubscribe_int();
 }

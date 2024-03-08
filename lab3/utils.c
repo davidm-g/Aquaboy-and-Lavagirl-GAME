@@ -1,9 +1,7 @@
 #include <lcom/lcf.h>
 #include <stdint.h>
 
-#define LAB3
-
-int global_counter = 0;
+int sys_inb_counter = 0;
 
 int(util_sys_inb)(int port, uint8_t *value) {
   if (value == NULL) {
@@ -14,7 +12,7 @@ int(util_sys_inb)(int port, uint8_t *value) {
   *value = val & 0xFF;
 
 #ifdef LAB3
-  global_counter++;
+  sys_inb_counter++;
 #endif
 
   return ret;

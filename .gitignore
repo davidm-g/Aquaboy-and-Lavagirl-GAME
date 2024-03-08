@@ -1,0 +1,8 @@
+/.minix-src
+/.idea
+/.gitignore
+*.o
+*.txt
+*.gdbinit
+lab2/lab2
+lab3/lab3
