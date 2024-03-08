@@ -1,5 +1,6 @@
 {
     "files.associations": {
-        "lcf.h": "c"
+        "lcf.h": "c",
+        "lab3.h": "c"
     }
 }
