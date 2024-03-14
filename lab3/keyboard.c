@@ -36,20 +36,24 @@ int can_read_outbuf() {
   if (util_sys_inb(ST_REGISTER, &st) != 0) {
     return 1;
   }
-  // timeout error
-  if ((st & TIM_ERR) != 0) {
-    return 1;
-  }
-  // parity error
-  if ((st & PAR_ERR) != 0) {
-    return 1;
-  }
   // empty out_buf
   if ((st & OBF) == 0) {
     return 1;
   }
+  // timeout error
+  if ((st & TIM_ERR) != 0) {
+    util_sys_inb(OUT_BUF, &kbd_outbuf);
+    return 1;
+  }
+  // parity error
+  if ((st & PAR_ERR) != 0) {
+    util_sys_inb(OUT_BUF, &kbd_outbuf);
+    return 1;
+  }
+  
   // mouse data in buffer
   if ((st & AUX) != 0) {
+    util_sys_inb(OUT_BUF, &kbd_outbuf);
     return 1;
   }
 
