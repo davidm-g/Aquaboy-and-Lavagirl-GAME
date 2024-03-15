@@ -99,10 +99,48 @@ int(kbd_test_scan)() {
 }
 
 int(kbd_test_poll)() {
-  /* To be completed by the students */
-  printf("%s is not yet implemented!\n", __func__);
-
-  return 1;
+  uint8_t bytes[2];
+  int size = 0;
+  bool make = false;
+  while(kbd_outbuf != ESC_BREAK){
+      if(can_read_outbuf()==0){
+        if (util_sys_inb(OUT_BUF, &kbd_outbuf) != 0) {
+        return 1;
+        }
+        if (size == 0) {
+              bytes[0] = kbd_outbuf;
+              size++;
+              if (kbd_outbuf == 0xE0) {
+                continue;
+              }
+              else {
+                if ((kbd_outbuf & BIT(7)) != 0) {
+                  make = false;
+                }
+                else {
+                  make = true;
+                }
+              }
+            }
+            else {
+              bytes[1] = kbd_outbuf;
+              size++;
+              if ((kbd_outbuf & BIT(7)) != 0) {
+                make = false;
+              }
+              else {
+                make = true;
+              }
+            }
+            if (kbd_print_scancode(make, size, bytes) != 0) {
+              return 1;
+            }
+            size = 0;
+      }
+  }
+  if(restore_interrupts()) return 1;
+  printf("line 142");
+  return 0;
 }
 
 int(kbd_test_timed_scan)(uint8_t n) {
