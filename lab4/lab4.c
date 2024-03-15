@@ -3,8 +3,12 @@
 
 #include <stdint.h>
 #include <stdio.h>
-
 // Any header files included below this line should have been created by you
+#include "i8042.h"
+
+
+extern uint8_t kbd_outbuf;
+
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -36,6 +40,7 @@ int(mouse_test_packet)(uint32_t cnt) {
   message msg;
   if (mouse_subscribe_int(&bit_no) != 0)
     return 1;
+  mouse_enable_data_reporting(); // lcf library function to enable data reporting
   while (cnt > 0) { /* You may want to use a different condition */
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -46,8 +51,9 @@ int(mouse_test_packet)(uint32_t cnt) {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE: /* hardware interrupt notification */
           if (msg.m_notify.interrupts & bit_no) {
+            mouse_ih();
             mouse_int_handler();
-            cnt--;
+            
           }
           break;
         default:
@@ -58,7 +64,9 @@ int(mouse_test_packet)(uint32_t cnt) {
       /* no standard messages expected: do nothing */
     }
   }
+  send_cmd_mouse(DISABLE_DATA); //disable data reporting
   return mouse_unsubscribe_int();
+
 }
 
 int(mouse_test_async)(uint8_t idle_time) {

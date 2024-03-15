@@ -4,6 +4,7 @@
 #define OBF BIT(0)
 #define ENABLE_INTERRUPT BIT(0)
 #define IBF BIT(1)
+#define FIRST_BYTE BIT(3)
 #define INH BIT(4)
 #define AUX BIT(5)
 #define TIM_ERR BIT(6)
@@ -14,9 +15,11 @@
 #define OUT_BUF 0x60
 #define KBC_CMD_REG 0x64
 #define ESC_BREAK 0x81
-
+#define ACK 0XFA
+#define NACK 0XFE
+#define ERROR 0XFC
 #define MOUSE_IRQ 12
-
+#define REQUEST_MOUSE 0XD4
 #define KEYBOARD_IRQ 1
 #define ENABLE_DATA 0XF4
 #define DISABLE_DATA 0XF5
