@@ -2,9 +2,11 @@
 #include "i8042.h"
 #include <lcom/lcf.h>
 #include <stdint.h>
-
+uint8_t packet_assemble[3];
+struct packet packet;
 int mouse_hook_id = 2;
 uint8_t kbd_outbuf;
+int byte_counter=0;
 int(mouse_subscribe_int)(uint8_t *bit_no) {
   if (bit_no == NULL)
     return 1;
@@ -37,7 +39,7 @@ int write_to_kbc(uint8_t port, uint8_t cmdbyte) {
 int read_value_data_from_kbc(uint8_t port, uint8_t *output) {
   int attempts = 10;
   while (attempts > 0) {
-    if (can_read_outbuf() == 0) {
+    if (can_read_outbuf_mouse() == 0) {
       if (util_sys_inb(OUT_BUF, output) == 0) { // read data from output buffer
         return 0;
       }
@@ -47,7 +49,7 @@ int read_value_data_from_kbc(uint8_t port, uint8_t *output) {
   }
   return 1; // if attempts end, throw error
 }
-int can_read_outbuf() {
+int can_read_outbuf_mouse() {
   uint8_t st = 0;
   // read status
   if (util_sys_inb(ST_REGISTER, &st) != 0) {
@@ -90,11 +92,45 @@ int send_cmd_mouse(uint8_t cmd){ //function to send commands to mouse
 void(mouse_ih)() {
   int attempts = 10;
   while (attempts > 0) {
-    if (can_read_outbuf() == 0) {
+    if (can_read_outbuf_mouse() == 0) {
       if (util_sys_inb(OUT_BUF, &kbd_outbuf) == 0) {
         return;
       }
     }
     attempts--;
   }
+}
+
+void bytes_to_packet(){
+  if(byte_counter==0 && (kbd_outbuf & FIRST_BYTE)){ //if its the first byte the BIT(3) must be 1, but we need
+      packet_assemble[byte_counter]=kbd_outbuf;     //byte_counter==0 to be sure of it
+      byte_counter++;
+    }
+  else if(byte_counter==1 || byte_counter==2){ 
+      packet_assemble[byte_counter]=kbd_outbuf;
+      byte_counter++;
+  }
+}
+void packet_parse(){ //see documentation of struct packet
+    for(int i=0;i<3;i++){
+      packet.bytes[i]=packet_assemble[i]; //pôr o mouse packet raw byte
+    }
+    packet.lb= (packet_assemble[0]& LB); //simple masks, see mouse data packet byte 1
+    packet.rb= (packet_assemble[0] & RB);
+    packet.mb = (packet_assemble[0] & MB);
+    packet.x_ov = (packet_assemble[0] & X_OV);
+    packet.y_ov = (packet_assemble[0] & Y_OV);
+    if(packet_assemble[0] & X_MSB){ //if x_delta MSB is 1
+      packet.delta_x = (0xFF00 | packet_assemble[1]); //we need to span the msb through the rest of the delta x bits, since it has 16 bits 
+    }
+    else{
+      packet.delta_x = packet_assemble[1]; //by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
+    }
+    if(packet_assemble[0] & Y_MSB){ //if y_delta MSB is 1
+      packet.delta_y = (0xFF00 | packet_assemble[2]); //we need to span the msb through the rest of the delta y bits, since it has 16 bits. 
+    }
+    else{
+      packet.delta_y = packet_assemble[2]; //by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
+    }
+
 }

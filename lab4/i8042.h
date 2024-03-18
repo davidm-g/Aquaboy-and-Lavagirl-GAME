@@ -4,11 +4,19 @@
 #define OBF BIT(0)
 #define ENABLE_INTERRUPT BIT(0)
 #define IBF BIT(1)
-#define FIRST_BYTE BIT(3)
 #define INH BIT(4)
 #define AUX BIT(5)
 #define TIM_ERR BIT(6)
 #define PAR_ERR BIT(7)
+#define LB BIT(0)
+#define RB BIT(1)
+#define MB BIT(2)
+#define FIRST_BYTE BIT(3)
+#define X_MSB BIT(4)
+#define Y_MSB BIT(5)
+#define X_OV BIT(6)
+#define Y_OV BIT(7)
+
 #define ST_REGISTER 0x64
 #define READ_CMD_BYTE 0x20
 #define WRITE_CMD_BYTE 0x60

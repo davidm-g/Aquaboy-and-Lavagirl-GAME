@@ -5,10 +5,10 @@
 #include <stdio.h>
 // Any header files included below this line should have been created by you
 #include "i8042.h"
-
-
+#include "mouse.h"
+extern struct packet packet;
 extern uint8_t kbd_outbuf;
-
+extern int byte_counter;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -36,11 +36,11 @@ int main(int argc, char *argv[]) {
 
 int(mouse_test_packet)(uint32_t cnt) {
   uint8_t bit_no = 0x02;
-  int ipc_status, r, size;
+  int ipc_status, r;
   message msg;
   if (mouse_subscribe_int(&bit_no) != 0)
     return 1;
-  mouse_enable_data_reporting(); // lcf library function to enable data reporting
+  send_cmd_mouse(ENABLE_DATA); //user version of mouse_enable_data_reporting
   while (cnt > 0) { /* You may want to use a different condition */
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -52,8 +52,13 @@ int(mouse_test_packet)(uint32_t cnt) {
         case HARDWARE: /* hardware interrupt notification */
           if (msg.m_notify.interrupts & bit_no) {
             mouse_ih();
-            mouse_int_handler();
-            
+            bytes_to_packet(); //put the byte in the packet, making sure its syncronized
+            if(byte_counter==3){ //we can now assemble the packet
+              packet_parse();
+              mouse_print_packet(&packet);
+              byte_counter=0;
+              cnt--;
+            }
           }
           break;
         default:
@@ -75,7 +80,7 @@ int(mouse_test_async)(uint8_t idle_time) {
   return 1;
 }
 
-int(mouse_test_gesture)() {
+int(mouse_test_gesture)(uint8_t x_len, uint8_t tolerance) {
   /* To be completed */
   printf("%s: under construction\n", __func__);
   return 1;
