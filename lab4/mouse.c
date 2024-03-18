@@ -80,10 +80,10 @@ int send_cmd_mouse(uint8_t cmd){ //function to send commands to mouse
     int attempts=10;
     while(attempts>0){
       if(write_to_kbc(KBC_CMD_REG,REQUEST_MOUSE)) return 1; //write 0xD4 to port 0x64
-      if(write_to_kbc(WRITE_CMD_BYTE,cmd)) return 1; //	write the code for the command to port 0x60   // wait a lil bit
-      if(read_value_data_from_kbc(OUT_BUF,&response)) return 1; //read the acknowledgement byte from port 0x60
+      if(write_to_kbc(WRITE_CMD_BYTE,cmd)) return 1; //	write the code for the command to port 0x60 
+      if(read_value_data_from_kbc(OUT_BUF,&response)) return 1; //read the acknowledgement byte 
       if(response==ACK) return 0; // when ack, ggwp
-      attempts--;
+        attempts--;
     }
     return 1;
 }
