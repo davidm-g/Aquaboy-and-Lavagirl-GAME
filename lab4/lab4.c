@@ -3,12 +3,14 @@
 
 #include <stdint.h>
 #include <stdio.h>
+#include "timer.h"
 // Any header files included below this line should have been created by you
 #include "i8042.h"
 #include "mouse.h"
 extern struct packet packet;
 extern uint8_t kbd_outbuf;
 extern int byte_counter;
+extern int global_counter;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -75,9 +77,52 @@ int(mouse_test_packet)(uint32_t cnt) {
 }
 
 int(mouse_test_async)(uint8_t idle_time) {
-  /* To be completed */
-  printf("%s(%u): under construction\n", __func__, idle_time);
-  return 1;
+  uint8_t mouse_bit_no = 0x02, timer_bit_no = 0x00;
+  int ipc_status, r, last_key_time = 0;
+  message msg;
+  send_cmd_mouse(ENABLE_DATA);
+  if (timer_subscribe_int(&timer_bit_no) != 0)
+    return 1;
+  if ((mouse_subscribe_int(&mouse_bit_no)) != 0) {
+    return 1;
+  }
+
+  while ((global_counter - last_key_time) < (idle_time * 60)) {
+    /* Get a request message. */
+    if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
+      printf("driver_receive failed with: %d", r);
+      continue;
+    }
+    if (is_ipc_notify(ipc_status)) {
+      switch (_ENDPOINT_P(msg.m_source)) {
+        case HARDWARE:
+          if (msg.m_notify.interrupts & timer_bit_no) {
+            timer_int_handler();
+          }
+          if (msg.m_notify.interrupts & mouse_bit_no) {
+            last_key_time = global_counter;
+            mouse_ih();
+            bytes_to_packet(); //put the byte in the packet, making sure its syncronized
+            if(byte_counter==3){ //we can now assemble the packet
+              packet_parse();
+              mouse_print_packet(&packet);
+              byte_counter=0;
+            }
+          }
+          break;
+        default:
+          break;
+      }
+    }
+    else { /* received a standard message, not a notification */
+      /* no standard messages expected: do nothing */
+    }
+  }
+  send_cmd_mouse(DISABLE_DATA); //disable data reporting
+  if (timer_unsubscribe_int() != 0)
+    return 1;
+
+  return mouse_unsubscribe_int();
 }
 
 int(mouse_test_gesture)(uint8_t x_len, uint8_t tolerance) {
