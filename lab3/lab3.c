@@ -6,7 +6,7 @@
 #include <i8254.h>
 #include <lcom/lab3.h>
 #include <stdbool.h>
-#include <stdint.h>m
+#include <stdint.h>
 
 extern int sys_inb_counter;
 extern uint8_t kbd_outbuf;
