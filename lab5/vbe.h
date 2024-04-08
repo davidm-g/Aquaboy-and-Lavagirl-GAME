@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
 
-void vg_draw_pixel(uint16_t x, uint16_t y, uint32_t color);
+int vg_draw_pixel(uint16_t x, uint16_t y, uint32_t color);
 uint16_t get_hres();
 uint16_t get_vres();
 int (vg_draw_hline)(uint16_t x, uint16_t y, uint16_t len, uint32_t color);
