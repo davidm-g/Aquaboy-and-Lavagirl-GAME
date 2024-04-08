@@ -12,7 +12,7 @@
 #include "vbe.h"
 #include "keyboard.h"
 extern uint8_t kbd_outbuf;
-
+extern vbe_mode_info_t vmi_p;
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -52,7 +52,7 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
   if(set_graphic_mode(mode) != 0) return 1;
   if(vg_draw_rectangle(x, y, width, height, color)!=0) return 1;
   if(wait_esc_key() != 0) return 1;
-  if(set_text_mode() != 0) return 1;
+  if(vg_exit() != 0) return 1;
 
   return 0;
 }
