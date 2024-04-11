@@ -58,11 +58,28 @@ int(video_test_rectangle)(uint16_t mode, uint16_t x, uint16_t y,
 }
 
 int(video_test_pattern)(uint16_t mode, uint8_t no_rectangles, uint32_t first, uint8_t step) {
-  /* To be completed */
-  printf("%s(0x%03x, %u, 0x%08x, %d): under construction\n", __func__,
-         mode, no_rectangles, first, step);
-
-  return 1;
+  map_phys_virt(mode);
+  if(set_graphic_mode(mode) != 0) return 1;
+  uint16_t vertical= vmi_p.YResolution/no_rectangles;
+  uint16_t horizontal= vmi_p.XResolution/no_rectangles;
+  uint32_t color;
+  for(uint16_t i = 0; i < no_rectangles; i++){ //row
+    for(uint16_t j = 0; j < no_rectangles; j++){//column
+      if(vmi_p.MemoryModel == DIRECT_COLOR){
+        uint32_t red = red_value(first_red(first), j, step);
+        uint32_t green = green_value(first_green(first), i, step);
+        uint32_t blue = blue_value(first_blue(first), i, j, step);
+        color = direct_mode(red, green, blue);
+      }
+      else{
+        color = index_indexed_mode(i, j, no_rectangles, first, step);
+      }
+      if(vg_draw_rectangle(j*horizontal, i*vertical, horizontal, vertical, color) != 0) return 1;
+    }
+  }
+  if(wait_esc_key() != 0) return 1;
+  if(vg_exit() != 0) return 1;
+  return 0;
 }
 
 int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {

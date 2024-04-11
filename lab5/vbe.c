@@ -57,3 +57,37 @@ int (vg_draw_rectangle)(uint16_t x, uint16_t y, uint16_t width, uint16_t height,
         if(vg_draw_hline(x, y+i, width, color) != 0) return 1;
     return 0;
 }
+
+uint32_t index_indexed_mode(uint16_t row, uint16_t col,uint8_t no_rectangles, uint32_t first, uint8_t step){
+  return (first + (row * no_rectangles + col) * step) % (1 << vmi_p.BitsPerPixel);
+}
+
+uint32_t direct_mode(uint32_t red, uint32_t green, uint32_t blue){
+  return (red << vmi_p.RedFieldPosition) | (green << vmi_p.GreenFieldPosition) | (blue << vmi_p.BlueFieldPosition);
+}
+uint32_t first_red(uint32_t color){
+  uint32_t redMask = (1 << vmi_p.RedMaskSize) - 1; //100000000-1 = 011111111, if redmasksize = 8
+  uint32_t redComponent = color >> vmi_p.RedFieldPosition;
+  return redMask & redComponent;
+}
+uint32_t first_green(uint32_t color){
+  uint32_t greenMask = (1 << vmi_p.GreenMaskSize) - 1; 
+  uint32_t greenComponent = color >> vmi_p.GreenFieldPosition;
+  return greenMask & greenComponent;
+}
+uint32_t first_blue(uint32_t color){
+  uint32_t blueMask = (1 << vmi_p.BlueMaskSize) - 1; 
+  uint32_t blueComponent = color >> vmi_p.BlueFieldPosition;
+  return blueMask & blueComponent;
+}
+uint32_t red_value(uint32_t first_red, uint16_t col_num, uint8_t step){
+  return (first_red + col_num * step) % (1 << vmi_p.RedMaskSize);
+}
+
+uint32_t green_value(uint32_t first_green, uint16_t row_num, uint8_t step){
+  return (first_green + row_num * step) % (1 << vmi_p.GreenMaskSize);
+}
+
+uint32_t blue_value(uint32_t first_blue, uint16_t row_num, uint16_t col_num, uint8_t step){
+  return (first_blue + (row_num+col_num) * step) % (1 << vmi_p.BlueMaskSize);
+}
