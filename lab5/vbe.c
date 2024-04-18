@@ -6,7 +6,9 @@ static uint16_t hres;
 static uint16_t vres;
 static void *video_mem;
 static uint8_t bits_per_pixel;
+static uint8_t *map;
 vbe_mode_info_t vmi_p;
+
 uint16_t get_hres(){
   return hres;
 }
@@ -90,4 +92,17 @@ uint32_t green_value(uint32_t first_green, uint16_t row_num, uint8_t step){
 
 uint32_t blue_value(uint32_t first_blue, uint16_t row_num, uint16_t col_num, uint8_t step){
   return (first_blue + (row_num+col_num) * step) % (1 << vmi_p.BlueMaskSize);
+}
+
+int print_xpm(xpm_map_t xpm, uint16_t x, uint16_t y){
+  xpm_image_t img; 
+  map = xpm_load(xpm, XPM_INDEXED, &img); //get pixmap from XPM
+  for(uint16_t i = 0; i < img.height; i++){
+    for(uint16_t j = 0; j < img.width; j++){
+      size_t n = img.size/(img.width*img.height); 
+      if(vg_draw_pixel(x+j, y+i, *map) != 0) return 1;
+      map+=n;
+    }
+  }
+  return 0;
 }
