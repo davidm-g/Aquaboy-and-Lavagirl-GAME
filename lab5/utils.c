@@ -13,3 +13,40 @@ int(util_sys_inb)(int port, uint8_t *value) {
 
   return ret;
 }
+
+bool (getSpeedDir)(uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf, //return true if we advance displacement bytes, 1 or -1 byte otherwise
+                    int16_t speed, int16_t *displacement) {
+  int16_t xDif = xf - xi;
+  int16_t yDif = yf - yi;
+  if(xDif + yDif > 0) { //se estamos a avançar
+    if(speed>0)
+    *displacement = speed;
+    else
+    *displacement = 1;
+  }
+  else {
+    if(speed>0)
+      *displacement = -speed;
+    else
+      *displacement = -1;
+  }
+  if (speed > 0)
+    return true; 
+  return false;
+}
+
+int(util_get_LSB)(uint16_t val, uint8_t *lsb) {
+  if (lsb == NULL){
+    return 1;
+  }
+  *lsb = val & 0x00FF;
+  return 0;
+}
+
+int(util_get_MSB)(uint16_t val, uint8_t *msb) {
+  if (msb == NULL) {
+    return 1;
+  }
+  *msb = val >> 8;
+  return 0;
+}
