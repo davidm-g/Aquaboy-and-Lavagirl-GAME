@@ -114,9 +114,9 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
     return 1;
   if (print_xpm(xpm, xi, yi) != 0)
     return 1;
-  bool horizontal = true;
+  bool horizontal = false;
   if (xi != xf) {
-    horizontal = false;
+    horizontal = true;
   }
   int16_t displacement;
   bool normal;
@@ -130,8 +130,10 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
   if ((keyboard_subscribe_int(&kbd_bit_no)) != 0)
     return 1;
   timer_set_frequency(0, fr_rate);
+  xpm_image_t img; 
+  xpm_load(xpm, XPM_INDEXED, &img); //get pixmap from XPM
 
-  while (kbd_outbuf != ESC_BREAK && (xi != xf || yi != yf)) {
+  while (kbd_outbuf != ESC_BREAK) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -142,6 +144,7 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
         case HARDWARE:
           if (msg.m_notify.interrupts & timer_bit_no) {
             timer_int_handler();
+            vg_draw_rectangle(xi, yi, img.width, img.height, 0);
             if (normal) { // we move "displacement" bytes
               if (horizontal) {
                 xi += displacement;
@@ -168,7 +171,6 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
                 }
               }
             }
-
             if (print_xpm(xpm, xi, yi) != 0)
               return 1;
           }
@@ -190,8 +192,6 @@ int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint1
     return 1;
 
   return keyboard_unsubscribe_int();
-
-  return 0;
 }
 
 int(video_test_controller)() {
