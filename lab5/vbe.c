@@ -24,7 +24,7 @@ void map_phys_virt(uint16_t mode){
   
   struct minix_mem_range mr;
   unsigned int vram_base = vmi_p.PhysBasePtr; 
-  unsigned int vram_size = hres * vres * (bits_per_pixel/8); //we were putting bits instead of bytes
+  unsigned int vram_size = hres * vres * ((bits_per_pixel+7)/8); //we were putting bits instead of bytes
   int r;
   mr.mr_base = (phys_bytes) vram_base;	
   mr.mr_limit = mr.mr_base + vram_size; 
@@ -38,11 +38,10 @@ void map_phys_virt(uint16_t mode){
 }
 
 int vg_draw_pixel(uint16_t x, uint16_t y, uint32_t color) {
-    size_t n = (size_t) (bits_per_pixel/8); //number of bytes per pixel
-    uint8_t *ptr;
-    ptr = video_mem;
-    ptr += hres*y*n + x*n;
-    if(memcpy(ptr, &color, n)==NULL) return 1;
+    size_t n = (size_t) ((bits_per_pixel+7)/8); //number of bytes per pixel
+    uint32_t pos= ((hres*y + x)*n);
+    uint8_t *ptr =video_mem;
+    if(memcpy(ptr+pos, &color, n)==NULL) return 1;
     return 0;
 }
 
