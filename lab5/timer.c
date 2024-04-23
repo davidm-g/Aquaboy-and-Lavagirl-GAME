@@ -91,6 +91,7 @@ int (timer_get_conf)(uint8_t timer, uint8_t *st) {
 int (timer_display_conf)(uint8_t timer, uint8_t st,
                         enum timer_status_field field) {
     union timer_status_field_val val;
+    int count=0;
     //put in val the configuration fields stated by field, by masking st.
     switch (field)
     {
@@ -101,7 +102,16 @@ int (timer_display_conf)(uint8_t timer, uint8_t st,
       val.in_mode= (TIMER_LSB_MSB & st) >>4;
       break;
     case tsf_mode:
-      val.count_mode= (st&(BIT(1)|BIT(2)|BIT(3)))>>1;
+      count=(st&(BIT(1)|BIT(2)|BIT(3)))>>1;
+      if(count==6){
+        val.count_mode=2;
+      }
+      else if(count==7){
+        val.count_mode=3;
+      }
+      else{
+        val.count_mode=count;
+      }
       break;
     case tsf_base:
       val.bcd= (st & TIMER_BCD);
