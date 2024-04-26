@@ -5,6 +5,7 @@
 #include "devices/graphics/video.h"
 #include "devices/graphics/vbe.h"
 #include "visuals/xpms/background.xpm"
+#include "visuals/xpms/LAVABOY.xpm"
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");

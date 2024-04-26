@@ -1,9 +1,10 @@
 {
-    "files.associations": {
-        "lcf.h": "c",
-        "lab3.h": "c",
-        "i8254.h": "c",
-        "timer.h": "c",
-        "stdint.h": "c"
-    }
+  "files.associations": {
+    "lcf.h": "c",
+    "lab3.h": "c",
+    "i8254.h": "c",
+    "timer.h": "c",
+    "stdint.h": "c",
+    "stdarg.h": "c"
+  }
 }
