@@ -1,23 +1,22 @@
 #include <lcom/lcf.h>
 #include <stdarg.h> // va_* macros are defined here
 #include "sprite.h"
-Sprite (*create_sprite)(uint32_t *map, uint16_t x, uint16_t y,int16_t xpeed, int16_t yspeed){
+Sprite *create_sprite(xpm_map_t map, uint16_t x, uint16_t y,int16_t xpeed, int16_t yspeed){
     xpm_image_t img;
     Sprite *sp = (Sprite *) malloc(sizeof(Sprite));
     if(sp == NULL)
         return NULL;
-    sp->map = map;
     sp->x = x;
     sp->y = y;
     sp->xpeed = xpeed;
     sp->yspeed = yspeed;
-    sp->map= (uint32_t *)(map, XPM_8_8_8_8, &img);
+    sp->map= (uint32_t *) xpm_load(map, XPM_8_8_8_8, &img);
     if(sp->map ==NULL){
         free(sp);
         return NULL;
     }
     sp->width=img.width;
-    sp->heigth=img.height;
+    sp->height=img.height;
     return sp;
 }
 void destroy_sprite(Sprite *sp){
@@ -32,7 +31,7 @@ void destroy_sprite(Sprite *sp){
     return;
 }
 
-AnimSprite (*create_animSprite)(uint8_t no_pic,uint32_t *pic1[], ...) {
+AnimSprite *create_animSprite(uint8_t no_pic, xpm_map_t pic1, ...) {
     AnimSprite *asp = malloc(sizeof(AnimSprite));
     // create a standard sprite with first pixmap
     asp->sp = create_sprite(pic1,0,0,0,0);
@@ -47,12 +46,12 @@ AnimSprite (*create_animSprite)(uint8_t no_pic,uint32_t *pic1[], ...) {
     va_list ap; 
     va_start(ap, pic1);
     for( int i = 1; i < no_pic; i++ ) {
-        uint32_t **tmp = va_arg(ap, uint32_t **);
+        xpm_map_t tmp = va_arg(ap, xpm_map_t);
         xpm_image_t img;
         asp->map[i] =(uint32_t*) xpm_load(tmp, XPM_8_8_8_8, &img);
         if( asp->map[i] == NULL
-        || img.width != asp->sp->width || img.height != asp->sp->heigth){// failure: release allocated memory
-            for(j = 1; j<i;j ++)
+        || img.width != asp->sp->width || img.height != asp->sp->height){// failure: release allocated memory
+            for(int j = 1; j<i;j ++)
                 free(asp->map[i]);
             free(asp->map);
             destroy_sprite(asp->sp);
@@ -63,7 +62,7 @@ AnimSprite (*create_animSprite)(uint8_t no_pic,uint32_t *pic1[], ...) {
     }
     va_end(ap);
     asp->num_fig = no_pic;
-
+    return asp;
 }
 
 void destroy_animSprite(AnimSprite *asp){
@@ -75,4 +74,19 @@ void destroy_animSprite(AnimSprite *asp){
     free(asp);
     asp=NULL;
     return;
+}
+
+int draw_sprite(Sprite* sprite, uint16_t x, uint16_t y){
+    for(uint16_t i = 0; i < sprite->height; i++){
+        for(uint16_t j = 0; j < sprite->width; j++){
+            printf("%x\n",*((uint32_t*)sprite->map));
+            if((*(sprite->map)) == 0x000001){
+                sprite->map++;
+                continue;
+            }
+            if(vg_draw_pixel(x+j, y+i, *(sprite->map)) != 0) return 1;
+            sprite->map++;
+        }
+    }
+    return 0;
 }

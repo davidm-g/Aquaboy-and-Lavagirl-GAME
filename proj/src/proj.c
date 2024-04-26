@@ -6,6 +6,8 @@
 #include "devices/graphics/vbe.h"
 #include "visuals/xpms/background.xpm"
 #include "visuals/xpms/LAVABOY.xpm"
+#include "visuals/xpms/LAVABOY2.xpm"
+#include "visuals/sprite.h"
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -34,7 +36,13 @@ int (proj_main_loop)(int argc, char **argv) {
     map_phys_virt(0x115);
     if(set_graphic_mode(0x115)!=0) return 1;
     if(print_xpm((xpm_map_t) background_xpm, 0, 0)!=0) return 1;
+    
+    Sprite* lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 0, 0, 0, 0);
+    if(lavaboy == NULL) return 1;
+    if(draw_sprite(lavaboy, 300, 300)!=0) return 1;
+    
     if(wait_esc_key()!=0) return 1;
     if(vg_exit()!=0) return 1; 
+    
     return 0; 
 }

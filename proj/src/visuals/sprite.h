@@ -1,4 +1,5 @@
 #include <lcom/lcf.h>
+#include "../devices/graphics/vbe.h"
 typedef struct {
     uint16_t x,y;
     uint16_t width,height;
@@ -6,7 +7,7 @@ typedef struct {
     uint32_t *map;
 } Sprite;   
 
-Sprite *create_sprite(uint32_t *map, uint16_t x, uint16_t y,int16_t xpeed, int16_t yspeed);
+Sprite *create_sprite(xpm_map_t map, uint16_t x, uint16_t y,int16_t xpeed, int16_t yspeed);
 void destroy_sprite(Sprite *sp);
 
 typedef struct {
@@ -18,6 +19,7 @@ typedef struct {
     uint32_t **map; // array of pointers to pixmaps
 } AnimSprite;
 
-create_animSprite(uint8_t no_pic, uint32_t *pic1[], ...);
+AnimSprite *create_animSprite(uint8_t no_pic, xpm_map_t pic1, ...);
 int animate_animSprite(AnimSprite *sp,uint32_t* base);
 void destroy_animSprite(AnimSprite *sp);
+int draw_sprite(Sprite* sprite, uint16_t x, uint16_t y);
