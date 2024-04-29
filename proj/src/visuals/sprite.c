@@ -79,8 +79,7 @@ void destroy_animSprite(AnimSprite *asp){
 int draw_sprite(Sprite* sprite, uint16_t x, uint16_t y){
     for(uint16_t i = 0; i < sprite->height; i++){
         for(uint16_t j = 0; j < sprite->width; j++){
-            printf("%x\n",*((uint32_t*)sprite->map));
-            if((*(sprite->map)) == 0x000001){
+            if((*(sprite->map)) == 1){
                 sprite->map++;
                 continue;
             }

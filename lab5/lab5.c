@@ -89,10 +89,11 @@ int(video_test_pattern)(uint16_t mode, uint8_t no_rectangles, uint32_t first, ui
   }
   if (wait_esc_key() != 0)
     return 1;
-  if (vg_exit() != 0)
+  if (set_graphic_mode(0) != 0)
     return 1;
   return 0;
 }
+
 
 int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
   map_phys_virt(0x105);
@@ -106,6 +107,7 @@ int(video_test_xpm)(xpm_map_t xpm, uint16_t x, uint16_t y) {
     return 1;
   return 0;
 }
+
 
 int(video_test_move)(xpm_map_t xpm, uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf,
                      int16_t speed, uint8_t fr_rate) {
