@@ -1,10 +1,12 @@
 {
   "files.associations": {
+    "*.embeddedhtml": "html",
     "lcf.h": "c",
     "lab3.h": "c",
     "i8254.h": "c",
     "timer.h": "c",
     "stdint.h": "c",
-    "stdarg.h": "c"
+    "stdarg.h": "c",
+    "*.xpm": "c"
   }
 }
