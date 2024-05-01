@@ -1,6 +1,16 @@
 #include <lcom/lcf.h>
 #include <stdarg.h> // va_* macros are defined here
 #include "sprite.h"
+
+
+uint16_t get_posx(Sprite* sprite) {
+    return sprite->x;
+}
+
+uint16_t get_posy(Sprite* sprite) {
+    return sprite->y;
+}
+
 Sprite *create_sprite(xpm_map_t map, uint16_t x, uint16_t y,int16_t xpeed, int16_t yspeed){
     xpm_image_t img;
     Sprite *sp = (Sprite *) malloc(sizeof(Sprite));
@@ -76,16 +86,4 @@ void destroy_animSprite(AnimSprite *asp){
     return;
 }
 
-int draw_sprite(Sprite* sprite, uint16_t x, uint16_t y){
-    for(uint16_t i = 0; i < sprite->height; i++){
-        for(uint16_t j = 0; j < sprite->width; j++){
-            if((*(sprite->map)) == 1){
-                sprite->map++;
-                continue;
-            }
-            if(vg_draw_pixel(x+j, y+i, *(sprite->map)) != 0) return 1;
-            sprite->map++;
-        }
-    }
-    return 0;
-}
+

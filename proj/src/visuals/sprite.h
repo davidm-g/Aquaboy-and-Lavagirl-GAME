@@ -1,5 +1,5 @@
 #include <lcom/lcf.h>
-#include "../devices/graphics/vbe.h"
+
 typedef struct {
     uint16_t x,y;
     uint16_t width,height;
@@ -22,4 +22,7 @@ typedef struct {
 AnimSprite *create_animSprite(uint8_t no_pic, xpm_map_t pic1, ...);
 int animate_animSprite(AnimSprite *sp,uint32_t* base);
 void destroy_animSprite(AnimSprite *sp);
-int draw_sprite(Sprite* sprite, uint16_t x, uint16_t y);
+
+uint16_t get_posx(Sprite* sprite);
+uint16_t get_posy(Sprite* sprite);
+

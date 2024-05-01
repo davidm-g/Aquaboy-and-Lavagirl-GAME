@@ -1,12 +1,10 @@
 #include <lcom/lcf.h>
-#include <lcom/timer.h>
+#include "timer.h"
 
 #include <stdint.h>
 
 #include "i8254.h"
 
-
-int global_counter = 0;
 int hook_id= 0;
 
 int (timer_set_frequency)(uint8_t timer, uint32_t freq) {
@@ -53,9 +51,7 @@ int (timer_unsubscribe_int)() {
   return sys_irqrmpolicy(&hook_id);
 }
 
-void (timer_int_handler)() {    
-  global_counter++;
-}
+
 
 int (timer_get_conf)(uint8_t timer, uint8_t *st) {
   if(st == NULL)

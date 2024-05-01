@@ -4,9 +4,12 @@
 #include "vbe.h"
 static uint16_t hres;
 static uint16_t vres;
-static void *video_mem;
+static uint8_t *video_mem;
+static uint8_t *double_buffer;
 static uint8_t bits_per_pixel;
+static uint8_t bytes_per_pixel;
 static uint32_t *map;
+static uint32_t vram_size;
 vbe_mode_info_t vmi_p;
 
 uint16_t get_hres(){
@@ -21,14 +24,14 @@ void map_phys_virt(uint16_t mode){
   hres = vmi_p.XResolution;
   vres = vmi_p.YResolution;
   bits_per_pixel = vmi_p.BitsPerPixel;
-  
+  bytes_per_pixel = ((bits_per_pixel+7)/8);
   struct minix_mem_range mr;
   unsigned int vram_base = vmi_p.PhysBasePtr; 
-  unsigned int vram_size = hres * vres * ((bits_per_pixel+7)/8); //we were putting bits instead of bytes
+  vram_size = hres * vres * ((bits_per_pixel+7)/8); //we were putting bits instead of bytes
   int r;
   mr.mr_base = (phys_bytes) vram_base;	
   mr.mr_limit = mr.mr_base + vram_size; 
-  
+  double_buffer = (uint8_t*) malloc(vram_size);
   if ((r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)) != OK)
     panic("sys_privctl (ADD_MEM) failed: %d\n", r);
   
@@ -38,10 +41,8 @@ void map_phys_virt(uint16_t mode){
 }
 
 int vg_draw_pixel(uint16_t x, uint16_t y, uint32_t color) {
-    size_t n = (size_t) ((bits_per_pixel+7)/8); //number of bytes per pixel
-    uint32_t pos= ((hres*y + x)*n);
-    uint8_t *ptr =video_mem;
-    if(memcpy(ptr+pos, &color, n)==NULL) return 1;
+    uint32_t pos= ((hres*y + x)*bytes_per_pixel);
+    if(memcpy(double_buffer+pos, &color, (size_t) bytes_per_pixel)==NULL) return 1;
     return 0;
 }
 
@@ -103,4 +104,8 @@ int print_xpm(xpm_map_t xpm, uint16_t x, uint16_t y){
     }
   }
   return 0;
+}
+
+void buffer_copy(){
+  memcpy(video_mem, double_buffer, vram_size);
 }

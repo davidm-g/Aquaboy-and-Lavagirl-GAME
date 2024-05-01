@@ -16,4 +16,6 @@ uint32_t red_value(uint32_t first_red, uint16_t col_num, uint8_t step);
 uint32_t green_value(uint32_t first_green, uint16_t row_num, uint8_t step);
 uint32_t blue_value(uint32_t first_blue, uint16_t row_num, uint16_t col_num, uint8_t step);
 int print_xpm(xpm_map_t xpm, uint16_t x, uint16_t y);
+void buffer_copy();
+
 
