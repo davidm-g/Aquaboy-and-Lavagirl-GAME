@@ -108,6 +108,7 @@ int print_xpm(xpm_map_t xpm, uint16_t x, uint16_t y) {
   return 0;
 }
 
+
 void buffer_copy() {
   memcpy(video_mem, double_buffer, vram_size);
 }
