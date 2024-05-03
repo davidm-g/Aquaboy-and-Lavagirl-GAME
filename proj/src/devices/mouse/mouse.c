@@ -7,6 +7,8 @@ struct packet packet;
 int mouse_hook_id = 2;
 uint8_t kbd_outbuf;
 int byte_counter=0;
+int16_t mouse_x = 0;
+int16_t mouse_y = 0;
 int(mouse_subscribe_int)(uint8_t *bit_no) {
   if (bit_no == NULL)
     return 1;
@@ -118,8 +120,8 @@ void packet_parse(){ //see documentation of struct packet
     packet.lb= (packet_assemble[0]& LB); //simple masks, see mouse data packet byte 1
     packet.rb= (packet_assemble[0] & RB);
     packet.mb = (packet_assemble[0] & MB);
-    packet.x_ov = (packet_assemble[0] & X_OV);
-    packet.y_ov = (packet_assemble[0] & Y_OV);
+    if(packet_assemble[0] & X_OV) return;
+    if(packet_assemble[0] & Y_OV) return;
     if(packet_assemble[0] & X_MSB){ //if x_delta MSB is 1
       packet.delta_x = (0xFF00 | packet_assemble[1]); //we need to span the msb through the rest of the delta x bits, since it has 16 bits 
     }
@@ -132,6 +134,12 @@ void packet_parse(){ //see documentation of struct packet
     else{
       packet.delta_y = packet_assemble[2]; //by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
     }
+    mouse_x += packet.delta_x;
+    mouse_y -= packet.delta_y;
+    if(mouse_x<0) mouse_x=0;
+    else if(mouse_x+16>=get_hres()) mouse_x=get_hres()-16;
+    if(mouse_y<0) mouse_y=0;
+    else if(mouse_y+14>=get_vres()) mouse_y=get_vres()-14;
 
 }
 

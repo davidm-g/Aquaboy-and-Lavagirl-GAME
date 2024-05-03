@@ -14,7 +14,9 @@
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t* background_map;
-
+extern int16_t mouse_x;
+extern int16_t mouse_y;
+extern int byte_counter;
 extern Sprite *lavaboy;
 extern Sprite *cursor;
 extern Sprite *wall;
@@ -67,7 +69,7 @@ int(proj_main_loop)(int argc, char **argv) {
   if (draw_sprite(wall2, get_posx(wall2), get_posy(wall2)) != 0)
     return 1;
   printf("reaches\n");
-  // timer_set_frequency(0, 60);
+  timer_set_frequency(0, 60);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00,mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
@@ -131,7 +133,16 @@ int(proj_main_loop)(int argc, char **argv) {
             }
           }
           if(msg.m_notify.interrupts & mouse_bit_no){
-
+              mouse_ih();
+              bytes_to_packet();
+              if(byte_counter==3){
+                change = true;
+                packet_parse();
+                byte_counter=0;
+                if (draw_sprite(cursor, mouse_x, mouse_y) != 0)
+                  return 1;
+                
+              }
           }
           break;
         default:

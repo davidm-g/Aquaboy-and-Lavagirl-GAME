@@ -20,8 +20,10 @@ void load_sprites() {
 }
 
 int draw_sprite(Sprite *sprite, uint16_t x, uint16_t y) {
+  /*
   if (x < 0 || y < 0 || x + sprite->width > get_hres() || y + sprite->height > get_vres() || checkCollision(sprite, x, y) != 0)
     return 1;
+    */
   sprite->x = x;
   sprite->y = y;
   uint32_t *original_map = sprite->map;
