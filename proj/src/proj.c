@@ -17,8 +17,7 @@ extern uint32_t* background_map;
 
 extern Sprite *lavaboy;
 extern Sprite *cursor;
-extern Sprite *wall;
-extern Sprite *wall2;
+extern Sprite *walls [2];
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -53,27 +52,22 @@ int(proj_main_loop)(int argc, char **argv) {
   load_sprites();
   // if(vg_draw_rectangle(0, 0, get_hres(), get_vres(), 0x00ff00)!=0) return 1;
   if (lavaboy == NULL){
-    printf("lavaboy is null\n");
-     if (vg_exit() != 0)
-      return 1;
     return 1;
   }
-  printf("before draw\n");
   if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
     return 1;
-
-  if (draw_sprite(wall, get_posx(wall), get_posy(wall)) != 0)
+  if (draw_sprite(cursor, get_posx(cursor), get_posy(cursor)) != 0)
     return 1;
-  if (draw_sprite(wall2, get_posx(wall2), get_posy(wall2)) != 0)
-    return 1;
-  printf("reaches\n");
+  for(int i = 0; i < 2; i++) {
+    if (draw_sprite(walls[i], get_posx(walls[i]), get_posy(walls[i])) != 0)
+      return 1;
+  }
   // timer_set_frequency(0, 60);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00,mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
   bool change = false;
   buffer_copy();
-  printf("here\n");
 
   if (timer_subscribe_int(&timer_bit_no) != 0)
     return 1;

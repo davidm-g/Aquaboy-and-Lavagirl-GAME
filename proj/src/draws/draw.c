@@ -9,14 +9,13 @@
 static uint32_t* background_map= NULL;
 Sprite *lavaboy;
 Sprite *cursor;
-Sprite *wall;
-Sprite *wall2;
+Sprite *walls[2];
 
 void load_sprites() {
     lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
     cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
-    wall = create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0);
-    wall2 = create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0);
+    walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
+    walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
 }
 
 int draw_sprite(Sprite *sprite, uint16_t x, uint16_t y) {
@@ -62,14 +61,17 @@ int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
 }
 
 int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
-    if(x > (wall->x + wall->width) || // boneco à direita da parede
-      (y + sp->height) < wall->y || // boneco por cima da parede
-      (x + sp->width) < wall->x || // boneco à esquerda da parede
-      y > (wall->y + wall->height)) // boneco por baixo da parede 
-      return 0;
-    else { 
-      return 1;
+    for(int i = 0; i < 2; i++)
+      if(sp == walls[i]) return 0;
+    for(int i = 0; i < 2; i++){
+      if(!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
+        (y + sp->height) <= walls[i]->y || // boneco por cima da parede
+        (x + sp->width) <= walls[i]->x || // boneco à esquerda da parede
+        y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
+        return 1;
     }
+    return 0;
+    
 }
 
 int print_background (xpm_map_t xpm){
