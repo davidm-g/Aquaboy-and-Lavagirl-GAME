@@ -7,13 +7,13 @@
 #include "devices/utils.h"
 #include <lcom/lcf.h>
 // #include "devices/graphics/vbe.h"
+#include "defines.h"
 #include "draws/draw.h"
 #include "visuals/model.h"
 #include "visuals/xpms/background.xpm"
-#include "defines.h"
 extern int global_counter;
 extern uint8_t kbd_outbuf;
-extern uint32_t* background_map;
+extern uint32_t *background_map;
 
 extern Sprite *lavaboy;
 extern Sprite *cursor;
@@ -52,28 +52,27 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
   load_sprites();
   // if(vg_draw_rectangle(0, 0, get_hres(), get_vres(), 0x00ff00)!=0) return 1;
-  if (lavaboy == NULL){
+  if (lavaboy == NULL) {
     printf("lavaboy is null\n");
-     if (vg_exit() != 0)
+    if (vg_exit() != 0)
       return 1;
     return 1;
   }
-  printf("before draw\n");
-  if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
-    return 1;
-
   if (draw_sprite(wall, get_posx(wall), get_posy(wall)) != 0)
     return 1;
   if (draw_sprite(wall2, get_posx(wall2), get_posy(wall2)) != 0)
     return 1;
-  printf("reaches\n");
+
+  if (checkCollision(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) == 0)
+    if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
+      return 1;
+
   // timer_set_frequency(0, 60);
-  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00,mouse_bit_no = 0x02;
+  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
   bool change = false;
-  buffer_copy();
-  printf("here\n");
+  flip_screen();
 
   if (timer_subscribe_int(&timer_bit_no) != 0)
     return 1;
@@ -95,7 +94,7 @@ int(proj_main_loop)(int argc, char **argv) {
           if (msg.m_notify.interrupts & timer_bit_no) {
             timer_int_handler();
             if (change) {
-              buffer_copy();
+              flip_screen();
               change = false;
             }
           }
@@ -130,8 +129,7 @@ int(proj_main_loop)(int argc, char **argv) {
                 draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
             }
           }
-          if(msg.m_notify.interrupts & mouse_bit_no){
-
+          if (msg.m_notify.interrupts & mouse_bit_no) {
           }
           break;
         default:
@@ -147,7 +145,7 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
   if (keyboard_unsubscribe_int())
     return 1;
-  if(mouse_unsubscribe_int())
+  if (mouse_unsubscribe_int())
     return 1;
   send_cmd_mouse(DISABLE_DATA);
   destroy_sprite(lavaboy);
