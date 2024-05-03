@@ -31,7 +31,7 @@
 #define KEYBOARD_IRQ 1
 #define ENABLE_DATA 0XF4
 #define DISABLE_DATA 0XF5
-
+#define SET_STREAM_MODE 0XEA
 #define W_KEY 0x91
 #define A_KEY 0x9E
 #define S_KEY 0x9F

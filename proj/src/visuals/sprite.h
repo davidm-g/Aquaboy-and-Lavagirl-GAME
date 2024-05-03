@@ -25,4 +25,3 @@ void destroy_animSprite(AnimSprite *sp);
 
 uint16_t get_posx(Sprite* sprite);
 uint16_t get_posy(Sprite* sprite);
-

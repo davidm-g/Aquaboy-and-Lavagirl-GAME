@@ -1,10 +1,26 @@
 #include "draw.h"
 #include <lcom/lcf.h>
-uint32_t* background_map= NULL;
+#include "visuals/xpms/LAVABOY.xpm"
+#include "visuals/xpms/LAVABOY2.xpm"
+#include "visuals/xpms/hand.xpm"
+#include "visuals/xpms/wall.xpm"
+#include "visuals/xpms/wall2.xpm"
 
+static uint32_t* background_map= NULL;
+Sprite *lavaboy;
+Sprite *cursor;
+Sprite *wall;
+Sprite *wall2;
+
+void load_sprites() {
+    lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
+    cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
+    wall = create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0);
+    wall2 = create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0);
+}
 
 int draw_sprite(Sprite *sprite, uint16_t x, uint16_t y) {
-  if (x < 0 || y < 0 || x + sprite->width > get_hres() || y + sprite->height > get_vres())
+  if (x < 0 || y < 0 || x + sprite->width > get_hres() || y + sprite->height > get_vres() || checkCollision(sprite, x, y) != 0)
     return 1;
   sprite->x = x;
   sprite->y = y;
@@ -30,8 +46,8 @@ int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
     map = background_map;
   }
   else{
-  xpm_image_t background_img;
-  map = (uint32_t *) xpm_load(xpm, XPM_8_8_8_8, &background_img);
+    xpm_image_t background_img;
+    map = (uint32_t *) xpm_load(xpm, XPM_8_8_8_8, &background_img);
   }
   map += sprite->y * get_hres() + sprite->x;
   for (uint16_t i = 0; i < sprite->height; i++) {
@@ -45,13 +61,22 @@ int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
   return 0;
 }
 
+int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
+    if(x > (wall->x + wall->width) || // boneco à direita da parede
+      (y + sp->height) < wall->y || // boneco por cima da parede
+      (x + sp->width) < wall->x || // boneco à esquerda da parede
+      y > (wall->y + wall->height)) // boneco por baixo da parede 
+      return 0;
+    else { 
+      return 1;
+    }
+}
+
 int print_background (xpm_map_t xpm){
   xpm_image_t background_img;
-  if(background_map == NULL){
     background_map = (uint32_t *) xpm_load(xpm, XPM_8_8_8_8, &background_img);
     if(background_map == NULL)
       return 1;
-  }
   uint32_t *original_map = background_map;
   for (uint16_t i = 0; i < background_img.height; i++) {
     for (uint16_t j = 0; j < background_img.width; j++) {

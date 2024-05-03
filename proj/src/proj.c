@@ -9,14 +9,16 @@
 // #include "devices/graphics/vbe.h"
 #include "draws/draw.h"
 #include "visuals/model.h"
-#include "visuals/xpms/LAVABOY.xpm"
-#include "visuals/xpms/LAVABOY2.xpm"
 #include "visuals/xpms/background.xpm"
-#include "visuals/xpms/hand.xpm"
-
+#include "defines.h"
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t* background_map;
+
+extern Sprite *lavaboy;
+extern Sprite *cursor;
+extern Sprite *wall;
+extern Sprite *wall2;
 
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -43,32 +45,44 @@ int main(int argc, char *argv[]) {
 }
 
 int(proj_main_loop)(int argc, char **argv) {
-  map_phys_virt(0x115);
-  if (set_graphic_mode(0x115) != 0)
+  map_phys_virt(VIDEO_MODE);
+  if (set_graphic_mode(VIDEO_MODE) != 0)
     return 1;
   if (print_background((xpm_map_t) background_xpm) != 0)
     return 1;
+  load_sprites();
   // if(vg_draw_rectangle(0, 0, get_hres(), get_vres(), 0x00ff00)!=0) return 1;
-  Sprite *lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
-  Sprite *cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
-  if (lavaboy == NULL)
+  if (lavaboy == NULL){
+    printf("lavaboy is null\n");
+     if (vg_exit() != 0)
+      return 1;
     return 1;
+  }
+  printf("before draw\n");
   if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
     return 1;
-  if (draw_sprite(cursor, 100, 100) != 0)
-    return 1;
 
+  if (draw_sprite(wall, get_posx(wall), get_posy(wall)) != 0)
+    return 1;
+  if (draw_sprite(wall2, get_posx(wall2), get_posy(wall2)) != 0)
+    return 1;
+  printf("reaches\n");
   // timer_set_frequency(0, 60);
-  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00;
+  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00,mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
   bool change = false;
   buffer_copy();
+  printf("here\n");
+
   if (timer_subscribe_int(&timer_bit_no) != 0)
     return 1;
   if ((keyboard_subscribe_int(&kbd_bit_no)) != 0)
     return 1;
-
+  if (mouse_subscribe_int(&mouse_bit_no) != 0)
+    return 1;
+  send_cmd_mouse(SET_STREAM_MODE);
+  send_cmd_mouse(ENABLE_DATA);
   while (kbd_outbuf != ESC_BREAK) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
@@ -91,7 +105,7 @@ int(proj_main_loop)(int argc, char **argv) {
               change = true;
               if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
                 return 1;
-              if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy) - 10) != 0)
+              if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy) - 10))
                 draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
             }
             else if (kbd_outbuf == A_KEY) {
@@ -116,6 +130,9 @@ int(proj_main_loop)(int argc, char **argv) {
                 draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
             }
           }
+          if(msg.m_notify.interrupts & mouse_bit_no){
+
+          }
           break;
         default:
           break;
@@ -130,7 +147,9 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
   if (keyboard_unsubscribe_int())
     return 1;
-
+  if(mouse_unsubscribe_int())
+    return 1;
+  send_cmd_mouse(DISABLE_DATA);
   destroy_sprite(lavaboy);
   destroy_sprite(cursor);
   if (vg_exit() != 0)

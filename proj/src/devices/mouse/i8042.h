@@ -31,4 +31,5 @@
 #define KEYBOARD_IRQ 1
 #define ENABLE_DATA 0XF4
 #define DISABLE_DATA 0XF5
+#define SET_STREAM_MODE 0XEA
 #endif /* _LCOM_I8042_H_ */

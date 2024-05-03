@@ -85,5 +85,3 @@ void destroy_animSprite(AnimSprite *asp){
     asp=NULL;
     return;
 }
-
-

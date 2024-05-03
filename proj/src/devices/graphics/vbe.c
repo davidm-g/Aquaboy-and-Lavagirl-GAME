@@ -3,6 +3,8 @@
 static uint16_t hres;
 static uint16_t vres;
 static uint8_t *video_mem;
+static uint8_t *video_mem2;
+//static uint8_t *second_screen = &video_mem2;
 static uint8_t *double_buffer;
 static uint8_t bits_per_pixel;
 static uint8_t bytes_per_pixel;
@@ -29,13 +31,16 @@ void map_phys_virt(uint16_t mode) {
   vram_size = hres * vres * ((bits_per_pixel + 7) / 8); // we were putting bits instead of bytes
   int r;
   mr.mr_base = (phys_bytes) vram_base;
-  mr.mr_limit = mr.mr_base + vram_size;
+  mr.mr_limit = mr.mr_base + 2*vram_size;
   double_buffer = (uint8_t *) malloc(vram_size);
   if ((r = sys_privctl(SELF, SYS_PRIV_ADD_MEM, &mr)) != OK)
     panic("sys_privctl (ADD_MEM) failed: %d\n", r);
 
   video_mem = vm_map_phys(SELF, (void *) mr.mr_base, vram_size);
   if (video_mem == MAP_FAILED)
+    panic("couldn't map video memory");
+  video_mem2 = vm_map_phys(SELF, (void *) (mr.mr_base + vram_size), vram_size);
+  if (video_mem2 == MAP_FAILED)
     panic("couldn't map video memory");
 }
 
@@ -108,7 +113,12 @@ int print_xpm(xpm_map_t xpm, uint16_t x, uint16_t y) {
   return 0;
 }
 
-
 void buffer_copy() {
   memcpy(video_mem, double_buffer, vram_size);
 }
+
+/*
+void flip_screen() {
+  buffer_copy
+}
+*/
