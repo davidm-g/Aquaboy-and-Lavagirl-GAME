@@ -22,7 +22,7 @@ void load_sprites() {
 }
 
 int draw_sprite(Sprite *sprite, uint16_t x, uint16_t y) {
-  if (x < 0 || y < 0 || x + sprite->width > get_hres() || y + sprite->height > get_vres())
+  if (x < 0 || y < 0 || x + sprite->width > get_hres() || y + sprite->height > get_vres() || checkCollision(sprite, x, y) != 0)
     return 1;
   sprite->x = x;
   sprite->y = y;
@@ -72,31 +72,15 @@ int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
 }
 
 int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
-  // Broad Phase
-  for (int i = 0; i < 2; i++) {
-    if (x > (walls[i]->x + walls[i]->width) || // boneco à direita da parede
-        (y + sp->height) < walls[i]->y ||      // boneco por cima da parede
-        (x + sp->width) < walls[i]->x ||       // boneco à esquerda da parede
-        y > (walls[i]->y + walls[i]->height))  // boneco por baixo da parede
-      return 0;
-
-    // Calculate intersecting rectangle
-    uint16_t left = max(x, walls[i]->x);
-    uint16_t right = min(x + sp->width, walls[i]->x + walls[i]->width);
-    uint16_t top = max(y, walls[i]->y);
-    uint16_t bottom = min(y + sp->height, walls[i]->y + walls[i]->height);
-
-    // Narrow Phase
-    for (uint16_t i = top; i < bottom; i++) {
-      for (uint16_t j = left; j < right; j++) {
-        uint16_t color1 = *(sp->map + (i - y) * sp->width + (j - x));
-        uint16_t color2 = *(walls[i]->map + (i - walls[i]->y) * walls[i]->width + (j - walls[i]->x));
-        if (color1 != 1 && color2 != 1) {
-          return 1;
-        }
-      }
+  for(int i = 0; i < 2; i++)
+      if(sp == walls[i]) return 0;
+    for(int i = 0; i < 2; i++){
+      if(!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
+        (y + sp->height) <= walls[i]->y || // boneco por cima da parede
+        (x + sp->width) <= walls[i]->x || // boneco à esquerda da parede
+        y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
+        return 1;
     }
-  }
   return 0;
 }
 

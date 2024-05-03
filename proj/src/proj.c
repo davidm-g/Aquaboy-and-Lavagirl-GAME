@@ -54,8 +54,7 @@ int(proj_main_loop)(int argc, char **argv) {
   if (lavaboy == NULL) {
     return 1;
   }
-  if (checkCollision(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) == 0)
-    if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
+  if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
       return 1;
   if (draw_sprite(cursor, get_posx(cursor), get_posy(cursor)) != 0)
     return 1;
