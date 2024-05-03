@@ -12,14 +12,13 @@
 static uint32_t *background_map = NULL;
 Sprite *lavaboy;
 Sprite *cursor;
-Sprite *wall;
-Sprite *wall2;
+Sprite *walls[2];
 
 void load_sprites() {
   lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
-  wall = create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0);
-  wall2 = create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0);
+  walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
+  walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
 }
 
 int draw_sprite(Sprite *sprite, uint16_t x, uint16_t y) {
@@ -74,25 +73,27 @@ int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
 
 int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
   // Broad Phase
-  if (x > (wall->x + wall->width) || // boneco à direita da parede
-      (y + sp->height) < wall->y ||  // boneco por cima da parede
-      (x + sp->width) < wall->x ||   // boneco à esquerda da parede
-      y > (wall->y + wall->height))  // boneco por baixo da parede
-    return 0;
+  for (int i = 0; i < 2; i++) {
+    if (x > (wall[i]->x + wall[i]->width) || // boneco à direita da parede
+        (y + sp->height) < wall[i]->y ||     // boneco por cima da parede
+        (x + sp->width) < wall[i]->x ||      // boneco à esquerda da parede
+        y > (wall[i]->y + wall[i]->height))  // boneco por baixo da parede
+      return 0;
 
-  // Calculate intersecting rectangle
-  uint16_t left = max(x, wall->x);
-  uint16_t right = min(x + sp->width, wall->x + wall->width);
-  uint16_t top = max(y, wall->y);
-  uint16_t bottom = min(y + sp->height, wall->y + wall->height);
+    // Calculate intersecting rectangle
+    uint16_t left = max(x, wall[i]->x);
+    uint16_t right = min(x + sp->width, wall[i]->x + wall[i]->width);
+    uint16_t top = max(y, wall[i]->y);
+    uint16_t bottom = min(y + sp->height, wall[i]->y + wall[i]->height);
 
-  // Narrow Phase
-  for (uint16_t i = top; i < bottom; i++) {
-    for (uint16_t j = left; j < right; j++) {
-      uint16_t color1 = *(sp->map + (i - y) * sp->width + (j - x));
-      uint16_t color2 = *(wall->map + (i - wall->y) * wall->width + (j - wall->x));
-      if (color1 != 1 && color2 != 1) {
-        return 1;
+    // Narrow Phase
+    for (uint16_t i = top; i < bottom; i++) {
+      for (uint16_t j = left; j < right; j++) {
+        uint16_t color1 = *(sp->map + (i - y) * sp->width + (j - x));
+        uint16_t color2 = *(wall[i]->map + (i - wall[i]->y) * wall[i]->width + (j - wall[i]->x));
+        if (color1 != 1 && color2 != 1) {
+          return 1;
+        }
       }
     }
   }
