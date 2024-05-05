@@ -4,7 +4,6 @@
 #include "../devices/graphics/vbe.h"
 #include "../draws/draw.h"
 #include "visuals/xpms/LAVABOY.xpm"
-#include "visuals/xpms/background.xpm"
 #include "visuals/xpms/LAVABOY2.xpm"
 #include "visuals/xpms/hand.xpm"
 #include "visuals/xpms/wall.xpm"

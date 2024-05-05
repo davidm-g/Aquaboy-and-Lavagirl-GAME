@@ -11,6 +11,14 @@ uint16_t get_posy(Sprite* sprite) {
     return sprite->y;
 }
 
+void set_posx(Sprite* sprite, uint16_t x) {
+    sprite->x = x;
+}
+
+void set_posy(Sprite* sprite, uint16_t y) {
+    sprite->y = y;
+}
+
 Sprite *create_sprite(xpm_map_t map, uint16_t x, uint16_t y,int16_t xpeed, int16_t yspeed){
     xpm_image_t img;
     Sprite *sp = (Sprite *) malloc(sizeof(Sprite));

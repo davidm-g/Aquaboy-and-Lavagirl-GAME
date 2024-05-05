@@ -49,49 +49,54 @@ void update_timer(){
 
 void update_keyboard(){
   kbc_ih();
+  int16_t new_x, new_y;
   if(kbd_outbuf == ESC_BREAK){
     systemState = EXIT;
   }
   else if (kbd_outbuf == W_KEY) {
-    change = true;
-    if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-      return ;
-    if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy) - 10))
-      draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
+    new_x = get_posx(lavaboy);
+    new_y = get_posy(lavaboy) - 10;
+    if (checkCollision(lavaboy, new_x, new_y) == 0 && (new_y >= 0)) {
+      set_posy(lavaboy, new_y);
+      change = true;
+    }
+    
   }
   else if (kbd_outbuf == A_KEY) {
-    change = true;
-    if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-      return ;
-    if (draw_sprite(lavaboy, get_posx(lavaboy) - 10, get_posy(lavaboy)) != 0)
-      draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
+    new_x = get_posx(lavaboy) - 10;
+    new_y = get_posy(lavaboy);
+    if (checkCollision(lavaboy, new_x, new_y) == 0 && (new_x >= 0)) {
+      set_posx(lavaboy, new_x);
+      change = true;
+    }
   }
   else if (kbd_outbuf == S_KEY) {
-    change = true;
-    if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-      return ;
-    if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy) + 10) != 0)
-      draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
+    new_x = get_posx(lavaboy);
+    new_y = get_posy(lavaboy) + 10;
+    if (checkCollision(lavaboy, new_x, new_y) == 0 && ((new_y + lavaboy->height) <= get_vres())) {
+      set_posy(lavaboy, new_y);
+      change = true;
+    }
   }
   else if (kbd_outbuf == D_KEY) {
-    change = true;
-    if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-      return ;
-    if (draw_sprite(lavaboy, get_posx(lavaboy) + 10, get_posy(lavaboy)) != 0)
-      draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
+    new_x = get_posx(lavaboy) + 10;
+    new_y = get_posy(lavaboy);
+    if (checkCollision(lavaboy, new_x, new_y) == 0 && ((new_x + lavaboy->width) <= get_hres())) {
+      set_posx(lavaboy, new_x);
+      change = true;
+    }
   }
+  draw_frame();
 }
 
 void update_mouse(){
   mouse_ih();
   bytes_to_packet();
   if(byte_counter==3){
-    change = true;
     packet_parse();
     byte_counter=0;
-    if (draw_sprite(cursor, mouse_x, mouse_y) != 0)
-      return ;
+    change=true;
+    draw_frame();
   }
-
 }
 

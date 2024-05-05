@@ -14,6 +14,7 @@
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t *background_map;
+extern xpm_image_t background_img;
 extern SystemState systemState;
 extern Sprite *lavaboy;
 extern Sprite *cursor;
@@ -47,22 +48,10 @@ int(proj_main_loop)(int argc, char **argv) {
   map_phys_virt(VIDEO_MODE);
   if (set_graphic_mode(VIDEO_MODE) != 0)
     return 1;
-  if (print_background((xpm_map_t) background_xpm) != 0)
-    return 1;
+  
   load_sprites();
-  // if(vg_draw_rectangle(0, 0, get_hres(), get_vres(), 0x00ff00)!=0) return 1;
-  if (lavaboy == NULL) {
-    return 1;
-  }
-  if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy)) != 0)
-      return 1;
-  if (draw_sprite(cursor, get_posx(cursor), get_posy(cursor)) != 0)
-    return 1;
-  for (int i = 0; i < 2; i++) {
-    if (draw_sprite(walls[i], get_posx(walls[i]), get_posy(walls[i])) != 0)
-      return 1;
-  }
-  // timer_set_frequency(0, 60);
+  draw_frame();
+  timer_set_frequency(0, 60);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
