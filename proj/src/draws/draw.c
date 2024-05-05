@@ -1,25 +1,8 @@
 #include "draw.h"
-#include "visuals/xpms/LAVABOY.xpm"
-#include "visuals/xpms/LAVABOY2.xpm"
-#include "visuals/xpms/hand.xpm"
-#include "visuals/xpms/wall.xpm"
-#include "visuals/xpms/wall2.xpm"
-#include <lcom/lcf.h>
-
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
 static uint32_t *background_map = NULL;
-Sprite *lavaboy;
-Sprite *cursor;
-Sprite *walls[2];
-
-void load_sprites() {
-  lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
-  cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
-  walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
-  walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
-}
 
 int draw_sprite(Sprite *sprite, uint16_t x, uint16_t y) {
   if (x < 0 || y < 0 || x + sprite->width > get_hres() || y + sprite->height > get_vres() || checkCollision(sprite, x, y) != 0)
@@ -68,19 +51,6 @@ int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
     map += get_hres() - sprite->width;
   }
   sprite->map = original_map;
-  return 0;
-}
-
-int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
-  for(int i = 0; i < 2; i++)
-      if(sp == walls[i]) return 0;
-    for(int i = 0; i < 2; i++){
-      if(!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
-        (y + sp->height) <= walls[i]->y || // boneco por cima da parede
-        (x + sp->width) <= walls[i]->x || // boneco à esquerda da parede
-        y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
-        return 1;
-    }
   return 0;
 }
 

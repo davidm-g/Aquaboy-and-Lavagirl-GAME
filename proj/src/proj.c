@@ -10,15 +10,15 @@
 #include "defines.h"
 #include "draws/draw.h"
 #include "visuals/model.h"
-#include "visuals/xpms/background.xpm"
+
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t *background_map;
-
+extern SystemState systemState;
 extern Sprite *lavaboy;
 extern Sprite *cursor;
 extern Sprite *walls[2];
-
+extern bool change;
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -66,7 +66,6 @@ int(proj_main_loop)(int argc, char **argv) {
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
-  bool change = false;
   flip_screen();
 
   if (timer_subscribe_int(&timer_bit_no) != 0)
@@ -77,7 +76,7 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
-  while (kbd_outbuf != ESC_BREAK) {
+  while (systemState == RUNNING) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -87,44 +86,13 @@ int(proj_main_loop)(int argc, char **argv) {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:
           if (msg.m_notify.interrupts & timer_bit_no) {
-            timer_int_handler();
-            if (change) {
-              flip_screen();
-              change = false;
-            }
+            update_timer();
           }
           if (msg.m_notify.interrupts & kbd_bit_no) {
-            kbc_ih();
-            if (kbd_outbuf == W_KEY) {
-              change = true;
-              if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-                return 1;
-              if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy) - 10))
-                draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
-            }
-            else if (kbd_outbuf == A_KEY) {
-              change = true;
-              if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-                return 1;
-              if (draw_sprite(lavaboy, get_posx(lavaboy) - 10, get_posy(lavaboy)) != 0)
-                draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
-            }
-            else if (kbd_outbuf == S_KEY) {
-              change = true;
-              if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-                return 1;
-              if (draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy) + 10) != 0)
-                draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
-            }
-            else if (kbd_outbuf == D_KEY) {
-              change = true;
-              if (erase_sprite(lavaboy, (xpm_map_t) background_xpm) != 0)
-                return 1;
-              if (draw_sprite(lavaboy, get_posx(lavaboy) + 10, get_posy(lavaboy)) != 0)
-                draw_sprite(lavaboy, get_posx(lavaboy), get_posy(lavaboy));
-            }
+            update_keyboard();
           }
           if (msg.m_notify.interrupts & mouse_bit_no) {
+            
           }
           break;
         default:
@@ -143,8 +111,7 @@ int(proj_main_loop)(int argc, char **argv) {
   if (mouse_unsubscribe_int())
     return 1;
   send_cmd_mouse(DISABLE_DATA);
-  destroy_sprite(lavaboy);
-  destroy_sprite(cursor);
+  destroy_sprites();
   if (vg_exit() != 0)
     return 1;
 

@@ -1,5 +1,7 @@
-#include <lcom/lcf.h>
 
+#ifndef SPRITE_H
+#define SPRITE_H
+#include <lcom/lcf.h>
 typedef struct {
     uint16_t x,y;
     uint16_t width,height;
@@ -25,3 +27,5 @@ void destroy_animSprite(AnimSprite *sp);
 
 uint16_t get_posx(Sprite* sprite);
 uint16_t get_posy(Sprite* sprite);
+#endif 
+
