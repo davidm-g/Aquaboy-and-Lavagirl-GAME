@@ -6,6 +6,9 @@ Sprite *lavaboy;
 Sprite *cursor;
 Sprite *walls[2];
 SystemState systemState = RUNNING;
+extern int16_t mouse_x;
+extern int16_t mouse_y;
+extern int byte_counter;
 void(timer_int_handler)() {
   global_counter++;
 }
@@ -80,6 +83,15 @@ void update_keyboard(){
 }
 
 void update_mouse(){
-  
+  mouse_ih();
+  bytes_to_packet();
+  if(byte_counter==3){
+    change = true;
+    packet_parse();
+    byte_counter=0;
+    if (draw_sprite(cursor, mouse_x, mouse_y) != 0)
+      return ;
+  }
+
 }
 

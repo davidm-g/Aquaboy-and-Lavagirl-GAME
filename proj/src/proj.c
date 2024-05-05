@@ -92,7 +92,7 @@ int(proj_main_loop)(int argc, char **argv) {
             update_keyboard();
           }
           if (msg.m_notify.interrupts & mouse_bit_no) {
-            
+            update_mouse();
           }
           break;
         default:
