@@ -42,6 +42,7 @@ int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 void update_timer(){
   timer_int_handler();
   if (change) {
+    draw_frame();
     flip_screen();
     change = false;
   }
@@ -86,7 +87,7 @@ void update_keyboard(){
       change = true;
     }
   }
-  draw_frame();
+  
 }
 
 void update_mouse(){
@@ -96,7 +97,6 @@ void update_mouse(){
     packet_parse();
     byte_counter=0;
     change=true;
-    draw_frame();
   }
 }
 
