@@ -1,14 +1,9 @@
 #include "mouse.h"
-#include "i8042.h"
-#include <lcom/lcf.h>
-#include <stdint.h>
-uint8_t packet_assemble[3];
+
 struct packet packet;
 int mouse_hook_id = 2;
 uint8_t kbd_outbuf;
-int byte_counter=0;
-int16_t mouse_x=0;
-int16_t mouse_y=0;
+int byte_counter = 0;
 
 int(mouse_subscribe_int)(uint8_t *bit_no) {
   if (bit_no == NULL)
@@ -59,16 +54,11 @@ int can_read_outbuf_mouse() {
     return 1;
   }
   // empty out_buf
-  if ((st & OBF) == 0){
+  if ((st & OBF) == 0) {
     return 1;
   }
-  // timeout error
-  if ((st & TIM_ERR) != 0) {
-    util_sys_inb(OUT_BUF, &kbd_outbuf);
-    return 1;
-  }
-  // parity error
-  if ((st & PAR_ERR) != 0) {
+  // timeout or parity error
+  if ((st & (TIM_ERR | PAR_ERR)) != 0) {
     util_sys_inb(OUT_BUF, &kbd_outbuf);
     return 1;
   }
@@ -77,20 +67,24 @@ int can_read_outbuf_mouse() {
     util_sys_inb(OUT_BUF, &kbd_outbuf);
     return 1;
   }
-  
+
   return 0;
 }
-int send_cmd_mouse(uint8_t cmd){ //function to send commands to mouse
-    uint8_t response =0X00;
-    int attempts=10;
-    while(attempts>0){
-      if(write_to_kbc_mouse(KBC_CMD_REG,REQUEST_MOUSE)) return 1; //write 0xD4 to port 0x64
-      if(write_to_kbc_mouse(WRITE_CMD_BYTE,cmd)) return 1; //	write the code for the command to port 0x60 
-      if(read_value_data_from_kbc_mouse(OUT_BUF,&response)) return 1; //read the acknowledgement byte 
-      if(response==ACK) return 0; // when ack, ggwp
-        attempts--;
-    }
-    return 1;
+int send_cmd_mouse(uint8_t cmd) { // function to send commands to mouse
+  uint8_t response = 0X00;
+  int attempts = 10;
+  while (attempts > 0) {
+    if (write_to_kbc_mouse(KBC_CMD_REG, REQUEST_MOUSE))
+      return 1; // write 0xD4 to port 0x64
+    if (write_to_kbc_mouse(WRITE_CMD_BYTE, cmd))
+      return 1; //	write the code for the command to port 0x60
+    if (read_value_data_from_kbc_mouse(OUT_BUF, &response))
+      return 1; // read the acknowledgement byte
+    if (response == ACK)
+      return 0; // when ack, ggwp
+    attempts--;
+  }
+  return 1;
 }
 void(mouse_ih)() {
   int attempts = 10;
@@ -104,42 +98,37 @@ void(mouse_ih)() {
   }
 }
 
-void bytes_to_packet(){
-  if(byte_counter==0 && (kbd_outbuf & FIRST_BYTE)){ //if its the first byte the BIT(3) must be 1, but we need
-      packet_assemble[byte_counter]=kbd_outbuf;     //byte_counter==0 to be sure of it
-      byte_counter++;
-    }
-  else if(byte_counter==1 || byte_counter==2){ 
-      packet_assemble[byte_counter]=kbd_outbuf;
-      byte_counter++;
+void bytes_to_packet() {
+  if (byte_counter == 0 && (kbd_outbuf & FIRST_BYTE)) { // if its the first byte the BIT(3) must be 1, but we need
+    packet.bytes[byte_counter] = kbd_outbuf;            // byte_counter==0 to be sure of it
+    byte_counter++;
+  }
+  else if (byte_counter == 1 || byte_counter == 2) {
+    packet.bytes[byte_counter] = kbd_outbuf;
+    byte_counter++;
   }
 }
-void packet_parse(){ //see documentation of struct packet
-    for(int i=0;i<3;i++){
-      packet.bytes[i]=packet_assemble[i]; //pôr o mouse packet raw byte
-    }
-    packet.lb= (packet_assemble[0]& LB); //simple masks, see mouse data packet byte 1
-    packet.rb= (packet_assemble[0] & RB);
-    packet.mb = (packet_assemble[0] & MB);
-    if(packet_assemble[0] & X_OV) return;
-    if(packet_assemble[0] & Y_OV) return;
-    if(packet_assemble[0] & X_MSB){ //if x_delta MSB is 1
-      packet.delta_x = (0xFF00 | packet_assemble[1]); //we need to span the msb through the rest of the delta x bits, since it has 16 bits 
-    }
-    else{
-      packet.delta_x = packet_assemble[1]; //by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
-    }
-    if(packet_assemble[0] & Y_MSB){ //if y_delta MSB is 1
-      packet.delta_y = (0xFF00 | packet_assemble[2]); //we need to span the msb through the rest of the delta y bits, since it has 16 bits. 
-    }
-    else{
-      packet.delta_y = packet_assemble[2]; //by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
-    }
-    mouse_x += packet.delta_x;
-    mouse_y -= packet.delta_y;
-    if(mouse_x<0) mouse_x=0;
-    else if(mouse_x+16>=get_hres()) mouse_x=get_hres()-16;
-    if(mouse_y<0) mouse_y=0;
-    else if(mouse_y+14>=get_vres()) mouse_y=get_vres()-14;
-}
+void packet_parse() { // see documentation of struct packet
 
+  if (packet.bytes[0] & X_OV)
+    return;
+  if (packet.bytes[0] & Y_OV)
+    return;
+  packet.lb = (packet.bytes[0] & LB); // simple masks, see mouse data packet byte 1
+  packet.rb = (packet.bytes[0] & RB);
+  packet.mb = (packet.bytes[0] & MB);
+  if (packet.bytes[0] & X_MSB) {                 // if x_delta MSB is 1
+    packet.delta_x = (0xFF00 | packet.bytes[1]); // we need to span the msb through the rest of the delta x bits, since it has 16 bits
+  }
+  else {
+    packet.delta_x = packet.bytes[1]; // by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
+  }
+  if (packet.bytes[0] & Y_MSB) {                 // if y_delta MSB is 1
+    packet.delta_y = (0xFF00 | packet.bytes[2]); // we need to span the msb through the rest of the delta y bits, since it has 16 bits.
+  }
+  else {
+    packet.delta_y = packet.bytes[2]; // by default, zeroes are used to fill the rest of the bits, so we dont need to do anything
+  }
+  packet.y_ov = (packet.bytes[0] & Y_OV);
+  packet.x_ov = (packet.bytes[0] & X_OV);
+}

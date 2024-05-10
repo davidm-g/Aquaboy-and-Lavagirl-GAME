@@ -7,6 +7,9 @@
     "timer.h": "c",
     "stdint.h": "c",
     "stdarg.h": "c",
-    "*.xpm": "c"
+    "*.xpm": "c",
+    "vbe.h": "c",
+    "keyboard.h": "c",
+    "utils.h": "c"
   }
 }

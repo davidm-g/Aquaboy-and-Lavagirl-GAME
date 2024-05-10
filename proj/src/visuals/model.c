@@ -6,8 +6,7 @@ Sprite *lavaboy;
 Sprite *cursor;
 Sprite *walls[2];
 SystemState systemState = RUNNING;
-extern int16_t mouse_x;
-extern int16_t mouse_y;
+extern struct packet packet;
 extern int byte_counter;
 void(timer_int_handler)() {
   global_counter++;
@@ -20,26 +19,24 @@ void load_sprites() {
   walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
 }
 
-void destroy_sprites(){
+void destroy_sprites() {
   destroy_sprite(lavaboy);
   destroy_sprite(cursor);
-  for(int i = 0; i < 2; i++) {
+  for (int i = 0; i < 2; i++) {
     destroy_sprite(walls[i]);
   }
 }
 int checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
-  for(int i = 0; i < 2; i++)
-      if(sp == walls[i]) return 0;
-    for(int i = 0; i < 2; i++){
-      if(!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
-        (y + sp->height) <= walls[i]->y || // boneco por cima da parede
-        (x + sp->width) <= walls[i]->x || // boneco à esquerda da parede
-        y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
-        return 1;
-    }
+  for (int i = 0; i < 2; i++) {
+    if (!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
+          (y + sp->height) <= walls[i]->y ||      // boneco por cima da parede
+          (x + sp->width) <= walls[i]->x ||       // boneco à esquerda da parede
+          y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
+      return 1;
+  }
   return 0;
 }
-void update_timer(){
+void update_timer() {
   timer_int_handler();
   if (change) {
     draw_frame();
@@ -48,55 +45,68 @@ void update_timer(){
   }
 }
 
-void update_keyboard(){
+void update_keyboard() {
   kbc_ih();
-  int16_t new_x, new_y;
-  if(kbd_outbuf == ESC_BREAK){
+  if (kbd_outbuf == ESC_BREAK)
     systemState = EXIT;
+  if (move(lavaboy) == 0)
+    change = true;
+}
+
+void update_mouse() {
+  mouse_ih();
+  bytes_to_packet();
+  if (byte_counter == 3) {
+    packet_parse();
+    byte_counter = 0;
+    change = true;
+    move_cursor(&packet);
   }
-  else if (kbd_outbuf == W_KEY) {
-    new_x = get_posx(lavaboy);
-    new_y = get_posy(lavaboy) - 10;
-    if (checkCollision(lavaboy, new_x, new_y) == 0 && (new_y >= 0)) {
-      set_posy(lavaboy, new_y);
-      change = true;
-    }
-    
-  }
-  else if (kbd_outbuf == A_KEY) {
-    new_x = get_posx(lavaboy) - 10;
-    new_y = get_posy(lavaboy);
-    if (checkCollision(lavaboy, new_x, new_y) == 0 && (new_x >= 0)) {
-      set_posx(lavaboy, new_x);
-      change = true;
+}
+
+int move(Sprite *sp) {
+  uint16_t x = sp->x;
+  uint16_t y = sp->y;
+
+  if (kbd_outbuf == W_KEY) {
+    if (y > 10) {
+      y -= 10;
     }
   }
   else if (kbd_outbuf == S_KEY) {
-    new_x = get_posx(lavaboy);
-    new_y = get_posy(lavaboy) + 10;
-    if (checkCollision(lavaboy, new_x, new_y) == 0 && ((new_y + lavaboy->height) <= get_vres())) {
-      set_posy(lavaboy, new_y);
-      change = true;
+    if (y + sp->height + 10 < get_vres()) {
+      y += 10;
+    }
+  }
+  else if (kbd_outbuf == A_KEY) {
+    if (x > 10) {
+      x -= 10;
     }
   }
   else if (kbd_outbuf == D_KEY) {
-    new_x = get_posx(lavaboy) + 10;
-    new_y = get_posy(lavaboy);
-    if (checkCollision(lavaboy, new_x, new_y) == 0 && ((new_x + lavaboy->width) <= get_hres())) {
-      set_posx(lavaboy, new_x);
-      change = true;
+    if (x + sp->width + 10 < get_hres()) {
+      x += 10;
     }
   }
-  
-}
-
-void update_mouse(){
-  mouse_ih();
-  bytes_to_packet();
-  if(byte_counter==3){
-    packet_parse();
-    byte_counter=0;
-    change=true;
+  if (checkCollision(sp, x, y) == 0) {
+    sp->x = x;
+    sp->y = y;
+    return 0;
   }
+  return 1;
 }
 
+void move_cursor(struct packet *pp) {
+  int16_t x = cursor->x + pp->delta_x;
+  int16_t y = cursor->y - pp->delta_y;
+  if (x < 0)
+    x = 0;
+  else if (x > CURSOR_MAX_X)
+    x = CURSOR_MAX_X;
+  if (y < 0)
+    y = 0;
+  else if (y > CURSOR_MAX_Y)
+    y = CURSOR_MAX_Y;
+  cursor->x = x;
+  cursor->y = y;
+}

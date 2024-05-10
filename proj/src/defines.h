@@ -1,1 +1,3 @@
 #define VIDEO_MODE 0x115
+#define CURSOR_MAX_X 784
+#define CURSOR_MAX_Y 576

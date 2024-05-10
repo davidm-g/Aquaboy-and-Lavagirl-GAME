@@ -48,10 +48,10 @@ int(proj_main_loop)(int argc, char **argv) {
   map_phys_virt(VIDEO_MODE);
   if (set_graphic_mode(VIDEO_MODE) != 0)
     return 1;
-  
+
   load_sprites();
   draw_frame();
-  //timer_set_frequency(0, 60);
+  // timer_set_frequency(0, 60);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;
@@ -74,14 +74,14 @@ int(proj_main_loop)(int argc, char **argv) {
     if (is_ipc_notify(ipc_status)) {
       switch (_ENDPOINT_P(msg.m_source)) {
         case HARDWARE:
-          if (msg.m_notify.interrupts & timer_bit_no) {
-            update_timer();
+          if (msg.m_notify.interrupts & mouse_bit_no) {
+            update_mouse();
           }
           if (msg.m_notify.interrupts & kbd_bit_no) {
             update_keyboard();
           }
-          if (msg.m_notify.interrupts & mouse_bit_no) {
-            update_mouse();
+          if (msg.m_notify.interrupts & timer_bit_no) {
+            update_timer();
           }
           break;
         default:

@@ -1,8 +1,4 @@
 #include "keyboard.h"
-#include "i8042.h"
-#include "../utils.h"
-#include <lcom/lcf.h>
-#include <stdint.h>
 
 int kbd_hook_id = 1;
 uint8_t kbd_outbuf;
@@ -22,10 +18,10 @@ int wait_esc_key() {
   int ipc_status;
   message msg;
   uint8_t r;
-  uint8_t bit_no=0x00;
-    if (keyboard_subscribe_int(&bit_no) != 0) {
-        return 1;
-    }
+  uint8_t bit_no = 0x00;
+  if (keyboard_subscribe_int(&bit_no) != 0) {
+    return 1;
+  }
   while (kbd_outbuf != ESC_BREAK) {
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
       printf("driver_receive failed with: %d", r);
@@ -43,9 +39,9 @@ int wait_esc_key() {
       }
     }
   }
-    if (keyboard_unsubscribe_int() != 0) {
-        return 1;
-    }
+  if (keyboard_unsubscribe_int() != 0) {
+    return 1;
+  }
   return 0;
 }
 int(keyboard_subscribe_int)(uint8_t *bit_no) {
