@@ -51,7 +51,7 @@ int(proj_main_loop)(int argc, char **argv) {
 
   load_sprites();
   draw_frame();
-  // timer_set_frequency(0, 60);
+  timer_set_frequency(0, 20);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;
   int ipc_status, r;
   message msg;

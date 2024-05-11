@@ -68,8 +68,18 @@ int print_background(xpm_map_t xpm) {
   background_map = original_map;
   return 0;
 }
-
+void draw_temp_background(){
+  for (uint16_t i = 0; i < get_vres(); i++) {
+    for (uint16_t j = 0; j < get_hres(); j++) {
+      if (vg_draw_pixel(j, i, 0x5e2d18) != 0) {
+        printf("Error drawing pixel\n");
+        return ;
+      }
+    }
+  }
+}
 void draw_frame() {
+  //draw_temp_background();
   print_background((xpm_map_t) background_xpm);
   draw_sprite(lavaboy);
   for (int i = 0; i < 2; i++) {
