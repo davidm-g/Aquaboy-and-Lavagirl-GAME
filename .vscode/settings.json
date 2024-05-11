@@ -10,6 +10,7 @@
     "*.xpm": "c",
     "vbe.h": "c",
     "keyboard.h": "c",
-    "utils.h": "c"
+    "utils.h": "c",
+    "defines.h": "c"
   }
 }

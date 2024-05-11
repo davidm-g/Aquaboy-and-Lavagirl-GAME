@@ -38,7 +38,3 @@ int(util_get_MSB)(uint16_t val, uint8_t *msb);
  * @return Return 0 upon success and non-zero otherwise
  */
 int(util_sys_inb)(int port, uint8_t *value);
-
-bool (getSpeedDir)(uint16_t xi, uint16_t yi, uint16_t xf, uint16_t yf,
-                 int16_t speed, int16_t *displacement);
-

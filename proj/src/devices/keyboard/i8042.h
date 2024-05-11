@@ -32,8 +32,12 @@
 #define ENABLE_DATA 0XF4
 #define DISABLE_DATA 0XF5
 #define SET_STREAM_MODE 0XEA
-#define W_KEY 0x91
-#define A_KEY 0x9E
-#define S_KEY 0x9F
-#define D_KEY 0xA0
+#define W_MAKE 0x11
+#define A_MAKE 0x1E
+#define S_MAKE 0x1F
+#define D_MAKE 0x20
+#define W_BREAK 0x91
+#define A_BREAK 0x9E
+#define S_BREAK 0x9F
+#define D_BREAK 0xA0
 #endif /* _LCOM_I8042_H_ */

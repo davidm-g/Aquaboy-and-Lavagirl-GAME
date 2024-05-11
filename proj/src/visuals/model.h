@@ -24,11 +24,22 @@ typedef enum {
 
 void(timer_int_handler)();
 void load_sprites();
-int checkCollision(Sprite *sp, uint16_t x, uint16_t y);
+Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y);
+uint8_t getSideCollision(Sprite *sp, Sprite *wall);
 void update_timer();
 void update_keyboard();
 void update_mouse();
 void destroy_sprites();
-int move(Sprite *sp);
 void move_cursor(struct packet *pp);
+void action_handler(Sprite *sp);
+int update(Sprite *sp);
+void updateSpeed(Sprite *sp);
+int updatePosition(Sprite *sp);
+int move_x(Sprite *sp);
+int move_y(Sprite *sp);
+void set_ground(Sprite *sp);
+void jump(Sprite *sp);
+void gravity(Sprite *sp);
+void left(Sprite *sp);
+void right(Sprite *sp);
 #endif
