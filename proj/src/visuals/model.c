@@ -5,7 +5,10 @@ bool change = false;
 Sprite *lavaboy;
 Sprite *cursor;
 Sprite *walls[2];
+Sprite *start;
+Sprite *exit_button;
 SystemState systemState = RUNNING;
+MenuState menuState = START;
 extern struct packet packet;
 extern int byte_counter;
 void(timer_int_handler)() {
@@ -13,10 +16,12 @@ void(timer_int_handler)() {
 }
 
 void load_sprites() {
+  start= create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
   lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
   walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
+  exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 250, 0, 0);
 }
 
 void destroy_sprites() {
@@ -50,9 +55,22 @@ void update_timer() {
 
 void update_keyboard() {
   kbc_ih();
-  if (kbd_outbuf == ESC_BREAK)
-    systemState = EXIT;
-  action_handler(lavaboy);
+  switch (menuState)
+  {
+  case GAME:
+    if (kbd_outbuf == ESC_BREAK)
+    menuState = START;
+      action_handler(lavaboy);
+    break;
+  case START:
+    if(kbd_outbuf == ESC_BREAK){
+      systemState = EXIT;
+    }
+    break;
+  default:
+    break;
+  }
+  
 }
 
 void update_mouse() {
@@ -63,6 +81,7 @@ void update_mouse() {
     byte_counter = 0;
     change = true;
     move_cursor(&packet);
+    check_mouse_click(packet);
   }
 }
 
@@ -262,4 +281,23 @@ void left(Sprite *sp) {
 
 void gravity(Sprite *sp) {
   sp->yspeed++;
+}
+
+void check_mouse_click(struct packet pp){
+  switch (menuState)
+  {
+  case START:
+    if(pp.lb){
+        if(cursor->x>=start->x && cursor->x<=start->x+start->width && cursor->y>=start->y && cursor->y<=start->y+start->height){
+          menuState = GAME;
+        }
+        if(cursor->x>=exit_button->x && cursor->x<=exit_button->x+exit_button->width && cursor->y>=exit_button->y && cursor->y<=exit_button->y+exit_button->height){
+          systemState = EXIT;
+        }
+    }
+    break;
+  
+  default:
+    break;
+  }
 }

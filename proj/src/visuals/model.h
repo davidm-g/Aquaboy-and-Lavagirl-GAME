@@ -16,11 +16,19 @@
 #include "visuals/xpms/hand.xpm"
 #include "visuals/xpms/wall.xpm"
 #include "visuals/xpms/wall2.xpm"
+#include "visuals/xpms/start.xpm"
+#include "visuals/xpms/exit_button.xpm"
 #include <lcom/lcf.h>
 typedef enum {
   RUNNING,
   EXIT
 } SystemState;
+
+typedef enum {
+    START,
+    GAME,
+    END
+} MenuState;
 
 void(timer_int_handler)();
 void load_sprites();
@@ -42,4 +50,5 @@ void jump(Sprite *sp);
 void gravity(Sprite *sp);
 void left(Sprite *sp);
 void right(Sprite *sp);
+void check_mouse_click(struct packet pp);
 #endif

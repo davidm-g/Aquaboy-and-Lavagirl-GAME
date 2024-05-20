@@ -15,10 +15,13 @@ extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t *background_map;
 extern xpm_image_t background_img;
+extern uint32_t *background_map_menu;
+extern xpm_image_t background_img_menu;
 extern SystemState systemState;
 extern Sprite *lavaboy;
 extern Sprite *cursor;
 extern Sprite *walls[2];
+extern Sprite *start;
 extern bool change;
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)

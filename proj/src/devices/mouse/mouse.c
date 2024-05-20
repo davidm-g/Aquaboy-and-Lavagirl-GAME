@@ -4,7 +4,6 @@ struct packet packet;
 int mouse_hook_id = 2;
 uint8_t kbd_outbuf;
 int byte_counter = 0;
-
 int(mouse_subscribe_int)(uint8_t *bit_no) {
   if (bit_no == NULL)
     return 1;
@@ -132,3 +131,5 @@ void packet_parse() { // see documentation of struct packet
   packet.y_ov = (packet.bytes[0] & Y_OV);
   packet.x_ov = (packet.bytes[0] & X_OV);
 }
+
+
