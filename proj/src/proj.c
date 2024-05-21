@@ -24,7 +24,7 @@ extern Sprite *walls[2];
 extern Sprite *start;
 extern bool change;
 
-extern Sprite *wall20_20;
+extern Sprite *walls20[1200];
 extern LevelState levelState;
 extern int *levelArray;
 
@@ -57,10 +57,10 @@ int(proj_main_loop)(int argc, char **argv) {
   if (set_graphic_mode(VIDEO_MODE) != 0)
     return 1;
 
-  load_sprites();
-
   levelArray = malloc(40 * 30 * sizeof(int));
-  updateArrayWithLevel(1);
+  updateArrayWithLevel(3);
+
+  load_sprites();
 
   draw_frame();
   timer_set_frequency(0, 20);

@@ -1,7 +1,7 @@
 /* XPM */
 static char * exit_button_xpm[] = {
 "400 146 2525 2",
-"  	c None",
+"  	c #000001",
 ". 	c #DE8C90",
 "+ 	c #DB8186",
 "@ 	c #DA7C81",

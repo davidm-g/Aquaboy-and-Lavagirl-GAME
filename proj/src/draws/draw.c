@@ -15,8 +15,19 @@ extern Sprite *start;
 extern Sprite *exit_button;
 extern Sprite *doorblue;
 extern Sprite *doorred;
+extern Sprite *greenleverright;
+extern Sprite *redleverleft;
+extern Sprite *rightToxic;
+extern Sprite *centerToxic;
+extern Sprite *leftToxic;
+extern Sprite *leftFire;
+extern Sprite *centerFire;
+extern Sprite *rightFire;
+extern Sprite *leftWater;
+extern Sprite *centerWater;
+extern Sprite *rightWater;
 
-extern Sprite *wall20_20;
+extern Sprite *walls20[1200];
 extern int *levelArray;
 
 extern int16_t mouse_x;
@@ -162,22 +173,60 @@ void draw_frame() {
     break;
   case GAME:
     print_background_game((xpm_map_t) background_xpm);
-    draw_sprite(lavaboy);
+    
     int i, x, y;
-
+    /*
     for (int i = 0; i < 2; i++) {
       draw_sprite(walls[i]);
     }
-
+    */
     for (i = 0; i < 1200; i++) {
       x = (i % 40) * 20;
       y = (i / 40) * 20;
-      if (levelArray[i] != 0) {
-          draw_sprite_pos(wall20_20, x, y);
+      if (levelArray[i] == 1) {
+        draw_sprite(walls20[i]);
+      }
+      else if (levelArray[i] == 2) {
+        draw_sprite_pos(greenleverright, x, y);
+      }
+      else if (levelArray[i] == 3) {
+        draw_sprite_pos(doorblue, x, y);
+      }
+      else if (levelArray[i] == 4) {
+        draw_sprite_pos(doorred, x, y);
+      }
+      else if (levelArray[i] == 5) {
+        draw_sprite_pos(redleverleft, x, y);
+      }
+      else if (levelArray[i] == 6) {
+        draw_sprite_pos(leftToxic, x, y);
+      }
+      else if (levelArray[i] == 7) {
+        draw_sprite_pos(centerToxic, x, y);
+      }
+      else if (levelArray[i] == 8) {
+        draw_sprite_pos(rightToxic, x, y);
+      }
+      else if (levelArray[i] == 9) {
+        draw_sprite_pos(leftFire, x, y);
+      }
+      else if (levelArray[i] == 10) {
+        draw_sprite_pos(centerFire, x, y);
+      }
+      else if (levelArray[i] == 11) {
+        draw_sprite_pos(rightFire, x, y);
+      }
+      else if (levelArray[i] == 12) {
+        draw_sprite_pos(leftWater, x, y);
+      }
+      else if (levelArray[i] == 13) {
+        draw_sprite_pos(centerWater, x, y);
+      }
+      else if (levelArray[i] == 14) {
+        draw_sprite_pos(rightWater, x, y);
       }
     }
-    draw_sprite(doorblue);
-    draw_sprite(doorred);
+    draw_sprite(lavaboy);
     break;
   default:
     break;

@@ -11,7 +11,18 @@ SystemState systemState = RUNNING;
 MenuState menuState = START;
 Sprite *doorblue;
 Sprite *doorred;
-Sprite *wall20_20;
+Sprite *walls20[1200];
+Sprite *greenleverright;
+Sprite *redleverleft;
+Sprite *rightToxic;
+Sprite *leftToxic;
+Sprite *leftFire;
+Sprite *rightFire;
+Sprite *leftWater;
+Sprite *rightWater;
+Sprite *centerToxic;
+Sprite *centerFire;
+Sprite *centerWater;
 int *levelArray;
 LevelState levelState = LEVEL_1;
 extern struct packet packet;
@@ -22,14 +33,37 @@ void(timer_int_handler)() {
 
 void load_sprites() {
   start= create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
-  lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 300, 300, 0, 0);
+  lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 20, 530, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
+  /*
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
   walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
+  */
   exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 250, 0, 0);
   doorblue = create_sprite((xpm_map_t) doorblue_xpm, 500, 100, 0, 0);
   doorred = create_sprite((xpm_map_t) doorred_xpm, 600, 100, 0, 0);
-  wall20_20 = create_sprite((xpm_map_t) wall20_20_xpm, 100, 100, 0, 0);
+  greenleverright = create_sprite((xpm_map_t) greenleverright_xpm, 100, 100, 0, 0);
+  redleverleft = create_sprite((xpm_map_t) redleverleft_xpm, 100, 100, 0, 0);
+  rightToxic = create_sprite((xpm_map_t) rightToxic_xpm, 100, 100, 0, 0);
+  leftToxic = create_sprite((xpm_map_t) leftToxic_xpm, 100, 100, 0, 0);
+  leftFire = create_sprite((xpm_map_t) leftFire_xpm, 100, 100, 0, 0);
+  rightFire = create_sprite((xpm_map_t) rightFire_xpm, 100, 100, 0, 0);
+  leftWater = create_sprite((xpm_map_t) leftWater_xpm, 100, 100, 0, 0);
+  rightWater = create_sprite((xpm_map_t) rightWater_xpm, 100, 100, 0, 0);
+  centerToxic = create_sprite((xpm_map_t) centerToxic_xpm, 100, 100, 0, 0);
+  centerFire = create_sprite((xpm_map_t) centerFire_xpm, 100, 100, 0, 0);
+  centerWater = create_sprite((xpm_map_t) centerWater_xpm, 100, 100, 0, 0);
+  int i, x, y;
+  for (i = 0; i < 1200; i++) {
+      x = (i % 40) * 20;
+      y = (i / 40) * 20;
+      if (levelArray[i] == 1) {
+        walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+      }
+      else {
+        walls20[i] = NULL;
+      }
+  }
 }
 
 void destroy_sprites() {
@@ -58,12 +92,23 @@ void updateArrayWithLevel(int level) {
 }
 
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
+  /*
   for (int i = 0; i < 2; i++) {
     if (!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
           (y + sp->height) <= walls[i]->y ||      // boneco por cima da parede
           (x + sp->width) <= walls[i]->x ||       // boneco à esquerda da parede
           y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
       return walls[i];
+  }
+  */
+
+  for (int j = 0; j < 1200; j++) {
+    if (levelArray[j] == 1)
+      if (!(x >= (walls20[j]->x + walls20[j]->width) || // boneco à direita da parede
+            (y + sp->height) <= walls20[j]->y ||      // boneco por cima da parede
+            (x + sp->width) <= walls20[j]->x ||       // boneco à esquerda da parede
+            y >= (walls20[j]->y + walls20[j]->height))) // boneco por baixo da parede
+        return walls20[j];
   }
   return NULL;
 }
@@ -172,8 +217,8 @@ int move_x(Sprite *sp) {
 
   if (sp->xspeed > 0) { // moving right
     x += sp->xspeed;
-    if (x > get_hres() - sp->width)
-      x = get_hres() - sp->width;
+    if (x > get_hres() - sp->width - 20)
+      x = get_hres() - sp->width - 20;
     Sprite *wall = checkCollision(sp, x, sp->y);
     if (wall == NULL) {
       if (sp->x != x) {
@@ -197,8 +242,8 @@ int move_x(Sprite *sp) {
   }
   else if (sp->xspeed < 0) { // moving left
     x += sp->xspeed;
-    if (x < 0)
-      x = 0;
+    if (x < 20)
+      x = 20;
     Sprite *wall = checkCollision(sp, x, sp->y);
     if (wall == NULL) {
       if (sp->x != x) {
@@ -228,13 +273,13 @@ int move_y(Sprite *sp) {
 
   if (sp->yspeed > 0) { // moving down
     y += sp->yspeed;
-    if (y > get_vres() - sp->height)
-      y = get_vres() - sp->height;
+    if (y > get_vres() - sp->height - 20)
+      y = get_vres() - sp->height - 20;
     Sprite *wall = checkCollision(sp, sp->x, sp->y);
     if (wall == NULL) {
       if (sp->y != y) {
         sp->y = y;
-        if (y == get_vres() - sp->height) {
+        if (y == get_vres() - sp->height - 20) {
           set_ground(sp);
         }
         return 1;
@@ -262,8 +307,8 @@ int move_y(Sprite *sp) {
   }
   else if (sp->yspeed < 0) { // moving up
     y += sp->yspeed;
-    if (y < 0)
-      y = 0;
+    if (y < 20)
+      y = 20;
     Sprite *wall = checkCollision(sp, sp->x, y);
     if (wall == NULL) {
       if (sp->y != y) {

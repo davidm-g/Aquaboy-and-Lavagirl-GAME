@@ -20,6 +20,17 @@
 #include "visuals/xpms/exit_button.xpm"
 #include "visuals/xpms/doorblue.xpm"
 #include "visuals/xpms/doorred.xpm"
+#include "visuals/xpms/greenleverright.xpm"
+#include "visuals/xpms/redleverleft.xpm"
+#include "visuals/xpms/rightToxic.xpm"
+#include "visuals/xpms/leftToxic.xpm"
+#include "visuals/xpms/leftFire.xpm"
+#include "visuals/xpms/rightFire.xpm"
+#include "visuals/xpms/leftWater.xpm"
+#include "visuals/xpms/rightWater.xpm"
+#include "visuals/xpms/centerToxic.xpm"
+#include "visuals/xpms/centerFire.xpm"
+#include "visuals/xpms/centerWater.xpm"
 
 #include "visuals/xpms/wall20_20.xpm"
 
