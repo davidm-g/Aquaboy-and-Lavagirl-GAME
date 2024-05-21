@@ -23,6 +23,11 @@ extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
 extern bool change;
+
+extern Sprite *wall20_20;
+extern LevelState levelState;
+extern int *levelArray;
+
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -53,6 +58,10 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
 
   load_sprites();
+
+  levelArray = malloc(40 * 30 * sizeof(int));
+  updateArrayWithLevel(1);
+
   draw_frame();
   timer_set_frequency(0, 20);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;

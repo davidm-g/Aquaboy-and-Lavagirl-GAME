@@ -9,6 +9,11 @@ Sprite *start;
 Sprite *exit_button;
 SystemState systemState = RUNNING;
 MenuState menuState = START;
+Sprite *doorblue;
+Sprite *doorred;
+Sprite *wall20_20;
+int *levelArray;
+LevelState levelState = LEVEL_1;
 extern struct packet packet;
 extern int byte_counter;
 void(timer_int_handler)() {
@@ -22,6 +27,9 @@ void load_sprites() {
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
   walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
   exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 250, 0, 0);
+  doorblue = create_sprite((xpm_map_t) doorblue_xpm, 500, 100, 0, 0);
+  doorred = create_sprite((xpm_map_t) doorred_xpm, 600, 100, 0, 0);
+  wall20_20 = create_sprite((xpm_map_t) wall20_20_xpm, 100, 100, 0, 0);
 }
 
 void destroy_sprites() {
@@ -30,6 +38,23 @@ void destroy_sprites() {
   for (int i = 0; i < 2; i++) {
     destroy_sprite(walls[i]);
   }
+}
+
+void updateArrayWithLevel(int level) {
+    char filename[50];
+    levelArray[0] = 5;
+    sprintf(filename, "/home/lcom/labs/proj/src/visuals/levels/level%d.txt", level);
+    FILE *fp = fopen(filename, "r");
+    if (fp == NULL) {
+        printf("Error opening file\n");
+        return;
+    }
+    int i = 0;
+    while (!feof(fp) && i < (40 * 30)) {
+        fscanf(fp, "%d", &levelArray[i]);
+        i++;
+    }
+    fclose(fp);
 }
 
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {

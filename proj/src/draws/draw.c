@@ -13,6 +13,12 @@ extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
 extern Sprite *exit_button;
+extern Sprite *doorblue;
+extern Sprite *doorred;
+
+extern Sprite *wall20_20;
+extern int *levelArray;
+
 extern int16_t mouse_x;
 extern int16_t mouse_y;
 extern MenuState menuState;
@@ -32,6 +38,24 @@ int draw_sprite(Sprite *sprite) {
   sprite->map = original_map;
   return 0;
 }
+
+int draw_sprite_pos(Sprite *sprite, int x, int y) {
+  uint32_t *original_map = sprite->map;
+  for (uint16_t i = 0; i < sprite->height; i++) {
+    for (uint16_t j = 0; j < sprite->width; j++) {
+      if ((*(sprite->map)) == 1) {
+        sprite->map++;
+        continue;
+      }
+      if (vg_draw_pixel(x + j, y + i, *(sprite->map)) != 0)
+        return 1;
+      sprite->map++;
+    }
+  }
+  sprite->map = original_map;
+  return 0;
+}
+
 /*
 int erase_sprite(Sprite *sprite, xpm_map_t xpm) {
   static uint32_t *map;
@@ -137,12 +161,23 @@ void draw_frame() {
     draw_sprite(exit_button);
     break;
   case GAME:
-      print_background_game((xpm_map_t) background_xpm);
+    print_background_game((xpm_map_t) background_xpm);
     draw_sprite(lavaboy);
+    int i, x, y;
+
     for (int i = 0; i < 2; i++) {
       draw_sprite(walls[i]);
     }
-    
+
+    for (i = 0; i < 1200; i++) {
+      x = (i % 40) * 20;
+      y = (i / 40) * 20;
+      if (levelArray[i] != 0) {
+          draw_sprite_pos(wall20_20, x, y);
+      }
+    }
+    draw_sprite(doorblue);
+    draw_sprite(doorred);
     break;
   default:
     break;
