@@ -24,6 +24,11 @@ extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
 extern bool change;
+
+extern Sprite *walls20[1200];
+extern LevelState levelState;
+extern int *levelArray;
+
 extern bool is_binary;
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
@@ -54,7 +59,11 @@ int(proj_main_loop)(int argc, char **argv) {
   if (set_graphic_mode(VIDEO_MODE) != 0)
     return 1;
 
+  levelArray = malloc(40 * 30 * sizeof(int));
+  updateArrayWithLevel(3);
+
   load_sprites();
+
   draw_frame();
   timer_set_frequency(0, 20);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02,rtc_bit_no = 0x03;

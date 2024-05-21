@@ -19,6 +19,22 @@
 #include "visuals/xpms/wall2.xpm"
 #include "visuals/xpms/start.xpm"
 #include "visuals/xpms/exit_button.xpm"
+#include "visuals/xpms/doorblue.xpm"
+#include "visuals/xpms/doorred.xpm"
+#include "visuals/xpms/greenleverright.xpm"
+#include "visuals/xpms/redleverleft.xpm"
+#include "visuals/xpms/rightToxic.xpm"
+#include "visuals/xpms/leftToxic.xpm"
+#include "visuals/xpms/leftFire.xpm"
+#include "visuals/xpms/rightFire.xpm"
+#include "visuals/xpms/leftWater.xpm"
+#include "visuals/xpms/rightWater.xpm"
+#include "visuals/xpms/centerToxic.xpm"
+#include "visuals/xpms/centerFire.xpm"
+#include "visuals/xpms/centerWater.xpm"
+
+#include "visuals/xpms/wall20_20.xpm"
+
 #include <lcom/lcf.h>
 typedef enum {
   RUNNING,
@@ -31,8 +47,17 @@ typedef enum {
     END
 } MenuState;
 
+typedef enum {
+    LEVEL_1,
+    LEVEL_2,
+    LEVEL_3
+} LevelState;
+
 void(timer_int_handler)();
 void load_sprites();
+
+void updateArrayWithLevel(int level);
+
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y);
 uint8_t getSideCollision(Sprite *sp, Sprite *wall);
 void update_timer();
