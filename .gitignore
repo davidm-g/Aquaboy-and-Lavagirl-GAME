@@ -3,7 +3,8 @@
 /.gitignore
 *.o
 *.d
-*.txt
+trace.txt
+output.txt
 *.gdbinit
 lab2/lab2
 lab3/lab3
