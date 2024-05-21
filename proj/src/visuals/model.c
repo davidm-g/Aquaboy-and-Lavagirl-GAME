@@ -84,7 +84,11 @@ void update_mouse() {
     check_mouse_click(packet);
   }
 }
-
+void update_rtc(){
+  if(global_counter%20==0)
+  rtc_update_values();
+  
+}
 void move_cursor(struct packet *pp) {
   int16_t x = cursor->x + pp->delta_x;
   int16_t y = cursor->y - pp->delta_y;
@@ -301,3 +305,4 @@ void check_mouse_click(struct packet pp){
     break;
   }
 }
+

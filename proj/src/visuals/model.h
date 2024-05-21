@@ -6,6 +6,7 @@
 #include "devices/graphics/video.h"
 #include "devices/keyboard/i8042.h"
 #include "devices/keyboard/keyboard.h"
+#include "devices/rtc/rtc.h"  
 #include "devices/mouse/mouse.h"
 #include "devices/timer/i8254.h"
 #include "devices/timer/timer.h"
@@ -51,4 +52,5 @@ void gravity(Sprite *sp);
 void left(Sprite *sp);
 void right(Sprite *sp);
 void check_mouse_click(struct packet pp);
+void update_rtc();
 #endif

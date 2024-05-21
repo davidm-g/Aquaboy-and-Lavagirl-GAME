@@ -1,4 +1,5 @@
 #include "devices/graphics/video.h"
+#include "devices/rtc/rtc.h"
 #include "devices/keyboard/i8042.h"
 #include "devices/keyboard/keyboard.h"
 #include "devices/mouse/mouse.h"
@@ -10,7 +11,7 @@
 #include "defines.h"
 #include "draws/draw.h"
 #include "visuals/model.h"
-
+extern struct rtc_values rtc;
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t *background_map;
@@ -23,6 +24,7 @@ extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
 extern bool change;
+extern bool is_binary;
 int main(int argc, char *argv[]) {
   // sets the language of LCF messages (can be either EN-US or PT-PT)
   lcf_set_language("EN-US");
@@ -55,7 +57,7 @@ int(proj_main_loop)(int argc, char **argv) {
   load_sprites();
   draw_frame();
   timer_set_frequency(0, 20);
-  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02;
+  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02,rtc_bit_no = 0x03;
   int ipc_status, r;
   message msg;
   flip_screen();
@@ -66,6 +68,9 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
   if (mouse_subscribe_int(&mouse_bit_no) != 0)
     return 1;
+  if (rtc_subscribe_int(&rtc_bit_no) != 0)
+    return 1;
+  start_rtc();
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
   while (systemState == RUNNING) {
@@ -86,6 +91,9 @@ int(proj_main_loop)(int argc, char **argv) {
           if (msg.m_notify.interrupts & timer_bit_no) {
             update_timer();
           }
+          if(msg.m_notify.interrupts & rtc_bit_no){
+            update_rtc();
+          }
           break;
         default:
           break;
@@ -101,6 +109,8 @@ int(proj_main_loop)(int argc, char **argv) {
   if (keyboard_unsubscribe_int())
     return 1;
   if (mouse_unsubscribe_int())
+    return 1;
+  if (rtc_unsubscribe_int())
     return 1;
   send_cmd_mouse(DISABLE_DATA);
   destroy_sprites();
