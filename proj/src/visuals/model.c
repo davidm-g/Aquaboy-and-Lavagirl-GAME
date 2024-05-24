@@ -114,8 +114,10 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 }
 void update_timer() {
   timer_int_handler();
+  if(menuState == GAME){
   if (update(lavaboy) != 0)
     change = true;
+  }
   if (change) {
     draw_frame();
     flip_screen();
@@ -155,7 +157,7 @@ void update_mouse() {
   }
 }
 void update_rtc(){
-  if(global_counter%20==0)
+  if(global_counter%FRAME_RATE==0)
   rtc_update_values();
   
 }

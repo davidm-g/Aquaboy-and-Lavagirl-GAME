@@ -6,3 +6,4 @@
 #define BOTTOM 3
 #define LEFT 4
 #define MAX_SPEED 7
+#define FRAME_RATE 20
