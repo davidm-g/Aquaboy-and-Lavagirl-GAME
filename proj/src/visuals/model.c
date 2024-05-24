@@ -2,7 +2,7 @@
 int global_counter = 0;
 uint8_t kbd_outbuf;
 bool change = false;
-Sprite *lavaboy;
+Sprite *boy;
 Sprite *cursor;
 Sprite *walls[2];
 Sprite *start;
@@ -23,6 +23,7 @@ Sprite *rightWater;
 Sprite *centerToxic;
 Sprite *centerFire;
 Sprite *centerWater;
+Sprite *opendoor;
 int *levelArray;
 LevelState levelState = LEVEL_1;
 extern struct packet packet;
@@ -33,13 +34,14 @@ void(timer_int_handler)() {
 
 void load_sprites() {
   start= create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
-  lavaboy = create_sprite((xpm_map_t) LAVABOY_xpm, 20, 530, 0, 0);
+  boy = create_sprite((xpm_map_t) boy_xpm, 20, 530, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
   /*
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
   walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
   */
   exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 250, 0, 0);
+  opendoor = create_sprite((xpm_map_t) opendoor_xpm, 100, 100, 0, 0);
   doorblue = create_sprite((xpm_map_t) doorblue_xpm, 500, 100, 0, 0);
   doorred = create_sprite((xpm_map_t) doorred_xpm, 600, 100, 0, 0);
   greenleverright = create_sprite((xpm_map_t) greenleverright_xpm, 100, 100, 0, 0);
@@ -67,7 +69,7 @@ void load_sprites() {
 }
 
 void destroy_sprites() {
-  destroy_sprite(lavaboy);
+  destroy_sprite(boy);
   destroy_sprite(cursor);
   for (int i = 0; i < 2; i++) {
     destroy_sprite(walls[i]);
@@ -115,7 +117,7 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 void update_timer() {
   timer_int_handler();
   if(menuState == GAME){
-  if (update(lavaboy) != 0)
+  if (update(boy) != 0)
     change = true;
   }
   if (change) {
@@ -130,9 +132,11 @@ void update_keyboard() {
   switch (menuState)
   {
   case GAME:
-    if (kbd_outbuf == ESC_BREAK)
+    if (kbd_outbuf == ESC_BREAK){
     menuState = START;
-      action_handler(lavaboy);
+    change = true;
+    }
+      action_handler(boy);
     break;
   case START:
     if(kbd_outbuf == ESC_BREAK){
@@ -281,7 +285,7 @@ int move_y(Sprite *sp) {
     y += sp->yspeed;
     if (y > get_vres() - sp->height - 20)
       y = get_vres() - sp->height - 20;
-    Sprite *wall = checkCollision(sp, sp->x, sp->y);
+    Sprite *wall = checkCollision(sp, sp->x, y);
     if (wall == NULL) {
       if (sp->y != y) {
         sp->y = y;
@@ -292,7 +296,7 @@ int move_y(Sprite *sp) {
       }
       set_ground(sp);
     }
-    else if (wall->x - (sp->x + sp->width) < -2 || wall->x + wall->width - sp->x > 2) {
+    else if (wall->x - (sp->x + sp->width) < 0 || wall->x + wall->width - sp->x > 0) { //hits wall from above
       if (!sp->isOnGround) {
         y = wall->y - sp->height;
         if (sp->y != y) {
@@ -325,8 +329,7 @@ int move_y(Sprite *sp) {
     else {
       y = wall->y + wall->height;
       sp->y = y;
-      if (sp->yspeed < -12)
-        set_ground(sp);
+      sp->yspeed = 0;
       return 1;
     }
   }

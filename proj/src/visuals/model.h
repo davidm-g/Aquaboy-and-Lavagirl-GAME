@@ -12,8 +12,7 @@
 #include "devices/timer/timer.h"
 #include "devices/utils.h"
 #include "sprite.h"
-#include "visuals/xpms/LAVABOY.xpm"
-#include "visuals/xpms/LAVABOY2.xpm"
+#include "visuals/xpms/boy.xpm"
 #include "visuals/xpms/hand.xpm"
 #include "visuals/xpms/wall.xpm"
 #include "visuals/xpms/wall2.xpm"
@@ -32,7 +31,7 @@
 #include "visuals/xpms/centerToxic.xpm"
 #include "visuals/xpms/centerFire.xpm"
 #include "visuals/xpms/centerWater.xpm"
-
+#include "visuals/xpms/opendoor.xpm"
 #include "visuals/xpms/wall20_20.xpm"
 
 #include <lcom/lcf.h>

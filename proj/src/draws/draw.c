@@ -8,7 +8,7 @@ uint32_t *background_map_menu = NULL;
 xpm_image_t background_img_menu;
 uint32_t *background_map_leaderboard = NULL;
 xpm_image_t background_img_leaderboard;
-extern Sprite *lavaboy;
+extern Sprite *boy;
 extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
@@ -26,7 +26,7 @@ extern Sprite *rightFire;
 extern Sprite *leftWater;
 extern Sprite *centerWater;
 extern Sprite *rightWater;
-
+extern Sprite *opendoor;
 extern Sprite *walls20[1200];
 extern int *levelArray;
 
@@ -190,10 +190,20 @@ void draw_frame() {
         draw_sprite_pos(greenleverright, x, y);
       }
       else if (levelArray[i] == 3) {
-        draw_sprite_pos(doorblue, x, y);
+        if ((boy->x >= x && boy->x <= x + doorblue->width) && 
+          (boy->y >= y && boy->y <= y + doorblue->height)) {
+          draw_sprite_pos(opendoor, x, y);
+        }
+        else
+          draw_sprite_pos(doorblue, x, y);
       }
       else if (levelArray[i] == 4) {
-        draw_sprite_pos(doorred, x, y);
+        if ((boy->x >= x && boy->x <= x + doorred->width) && 
+          (boy->y >= y && boy->y <= y + doorred->height)) {
+          draw_sprite_pos(opendoor, x, y);
+        }
+        else
+          draw_sprite_pos(doorred, x, y);
       }
       else if (levelArray[i] == 5) {
         draw_sprite_pos(redleverleft, x, y);
@@ -226,7 +236,7 @@ void draw_frame() {
         draw_sprite_pos(rightWater, x, y);
       }
     }
-    draw_sprite(lavaboy);
+    draw_sprite(boy);
     break;
   default:
     break;
