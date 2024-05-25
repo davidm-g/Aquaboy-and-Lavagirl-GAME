@@ -44,6 +44,17 @@
 #include "visuals/xpms/centerWater.xpm"
 #include "visuals/xpms/opendoor.xpm"
 #include "visuals/xpms/wall20_20.xpm"
+#include "visuals/xpms/leaderboard_button.xpm"
+#include "visuals/xpms/num_0.xpm"
+#include "visuals/xpms/num_1.xpm"
+#include "visuals/xpms/num_2.xpm"
+#include "visuals/xpms/num_3.xpm"
+#include "visuals/xpms/num_4.xpm"
+#include "visuals/xpms/num_5.xpm"
+#include "visuals/xpms/num_6.xpm"
+#include "visuals/xpms/num_7.xpm"
+#include "visuals/xpms/num_8.xpm"
+#include "visuals/xpms/num_9.xpm"
 
 #include <lcom/lcf.h>
 typedef enum {
@@ -61,6 +72,7 @@ typedef enum {
 typedef enum {
     START,
     GAME,
+    LEADERBOARD,
     END
 } MenuState;
 

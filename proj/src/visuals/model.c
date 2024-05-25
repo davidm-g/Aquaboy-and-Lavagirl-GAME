@@ -1,5 +1,6 @@
 #include "model.h"
 int global_counter = 0;
+int level_time = 0;
 int changesprite = 0;
 int spriteindex = 0;
 uint8_t kbd_outbuf;
@@ -29,6 +30,8 @@ Sprite *centerToxic;
 Sprite *centerFire;
 Sprite *centerWater;
 Sprite *opendoor;
+Sprite *leaderboard_button;
+Sprite *num[10];
 int *levelArray;
 LevelState levelState = LEVEL_1;
 extern struct packet packet;
@@ -38,7 +41,7 @@ void(timer_int_handler)() {
 }
 
 void load_sprites() {
-  start = create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
+  start = create_sprite((xpm_map_t) start_xpm, 200, 250, 0, 0);
   boys[0] = create_sprite((xpm_map_t) boy_xpm, 20, 520, 0, 0);
   boys[1] = create_sprite((xpm_map_t) boywalk1_xpm, 20, 520, 0, 0);
   boys[2] = create_sprite((xpm_map_t) boywalk1reverse_xpm, 20, 520, 0, 0);
@@ -56,7 +59,8 @@ void load_sprites() {
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
   walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
   */
-  exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 250, 0, 0);
+  exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 450, 0, 0);
+  leaderboard_button = create_sprite((xpm_map_t) leaderboard_button_xpm, 200, 350, 0, 0);
   opendoor = create_sprite((xpm_map_t) opendoor_xpm, 100, 100, 0, 0);
   doorblue = create_sprite((xpm_map_t) doorblue_xpm, 500, 100, 0, 0);
   doorred = create_sprite((xpm_map_t) doorred_xpm, 600, 100, 0, 0);
@@ -71,6 +75,17 @@ void load_sprites() {
   centerToxic = create_sprite((xpm_map_t) centerToxic_xpm, 100, 100, 0, 0);
   centerFire = create_sprite((xpm_map_t) centerFire_xpm, 100, 100, 0, 0);
   centerWater = create_sprite((xpm_map_t) centerWater_xpm, 100, 100, 0, 0);
+  num[0] = create_sprite((xpm_map_t) num_0_xpm, 100, 100, 0, 0);
+  num[1] = create_sprite((xpm_map_t) num_1_xpm, 100, 100, 0, 0);
+  num[2] = create_sprite((xpm_map_t) num_2_xpm, 100, 100, 0, 0);
+  num[3] = create_sprite((xpm_map_t) num_3_xpm, 100, 100, 0, 0);
+  num[4] = create_sprite((xpm_map_t) num_4_xpm, 100, 100, 0, 0);
+  num[5] = create_sprite((xpm_map_t) num_5_xpm, 100, 100, 0, 0);
+  num[6] = create_sprite((xpm_map_t) num_6_xpm, 100, 100, 0, 0);
+  num[7] = create_sprite((xpm_map_t) num_7_xpm, 100, 100, 0, 0);
+  num[8] = create_sprite((xpm_map_t) num_8_xpm, 100, 100, 0, 0);
+  num[9] = create_sprite((xpm_map_t) num_9_xpm, 100, 100, 0, 0);
+
   int i, x, y;
   for (i = 0; i < 1200; i++) {
       x = (i % 40) * 20;
@@ -132,6 +147,8 @@ void update_timer() {
       if (update(boys[i]) != 0)
         change = true;
     */
+   if(global_counter % FRAME_RATE == 0)
+   level_time++;
     if (update(boys[0]) != 0)
       change = true;
     if (update(girls[0]) != 0)
@@ -169,6 +186,12 @@ void update_keyboard() {
   case START:
     if(kbd_outbuf == ESC_BREAK){
       systemState = EXIT;
+    }
+    break;
+    case LEADERBOARD:
+    if(kbd_outbuf == ESC_BREAK){
+      menuState = START;
+      change = true;
     }
     break;
   default:
@@ -425,6 +448,9 @@ void check_mouse_click(struct packet pp){
         }
         if(cursor->x>=exit_button->x && cursor->x<=exit_button->x+exit_button->width && cursor->y>=exit_button->y && cursor->y<=exit_button->y+exit_button->height){
           systemState = EXIT;
+        }
+        if(cursor->x>=leaderboard_button->x && cursor->x<=leaderboard_button->x+leaderboard_button->width && cursor->y>=leaderboard_button->y && cursor->y<=leaderboard_button->y+leaderboard_button->height){
+          menuState = LEADERBOARD;
         }
     }
     break;

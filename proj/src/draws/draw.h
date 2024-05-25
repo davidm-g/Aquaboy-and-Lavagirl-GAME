@@ -5,6 +5,7 @@
 #include "../visuals/sprite.h"
 #include "visuals/xpms/background.xpm"
 #include "visuals/xpms/menu.xpm"
+#include  "visuals/xpms/leaderboard.xpm"
 #include <lcom/lcf.h>
  
 int draw_sprite(Sprite *sprite);

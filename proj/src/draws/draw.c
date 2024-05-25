@@ -1,7 +1,7 @@
 #include "draw.h"
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
-
+extern int level_time;
 extern int global_counter;
 extern int changesprite;
 extern int spriteindex;
@@ -19,6 +19,7 @@ extern Sprite *girls[6];
 extern Sprite *cursor;
 extern Sprite *start;
 extern Sprite *exit_button;
+extern Sprite *leaderboard_button;
 extern Sprite *doorblue;
 extern Sprite *doorred;
 extern Sprite *greenleverright;
@@ -34,6 +35,7 @@ extern Sprite *centerWater;
 extern Sprite *rightWater;
 extern Sprite *opendoor;
 extern Sprite *walls20[1200];
+extern Sprite *num[10];
 extern int *levelArray;
 
 extern int16_t mouse_x;
@@ -168,14 +170,32 @@ void draw_temp_background(){
     }
   }
 }
+void draw_time(){
+  int time = level_time;
+  int offset = 50;
+  int num_digits = 0;
+  if(time==0){
+    return;
+  }
+  for(int t = time; t > 0; t /= 10){
+    num_digits++;
+  }
+  for (int i = 0; i < num_digits; i++) {
+        int digit = time % 10;
+        draw_sprite_pos(num[digit], 680 + (num_digits - i - 1) * offset, 20);
+        time /= 10;
+    }
+}
 void draw_frame() {
   //draw_temp_background();
   switch (menuState)
   {
   case START:
+  level_time = 0;
     print_background_menu((xpm_map_t) Menu_xpm);
     draw_sprite(start);
     draw_sprite(exit_button);
+    draw_sprite(leaderboard_button);
     break;
   case GAME:
     print_background_game((xpm_map_t) background_xpm);
@@ -276,6 +296,10 @@ void draw_frame() {
       else if (boyState == WINNING)
         draw_sprite_pos(boys[5], boys[0]->x, boys[0]->y);
     }
+    draw_time();
+    break;
+  case LEADERBOARD:
+    print_background_leaderboard((xpm_map_t) leaderboard_xpm);
     break;
   default:
     break;

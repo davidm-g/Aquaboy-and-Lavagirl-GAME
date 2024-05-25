@@ -11,13 +11,15 @@
 #include "defines.h"
 #include "draws/draw.h"
 #include "visuals/model.h"
-extern struct rtc_values rtc;
+extern  rtc_values rtc;
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t *background_map;
 extern xpm_image_t background_img;
 extern uint32_t *background_map_menu;
 extern xpm_image_t background_img_menu;
+extern uint32_t *background_map_leaderboard;
+extern xpm_image_t background_img_leaderboard;
 extern SystemState systemState;
 extern SpriteState boyState;
 extern Sprite *boys[6];
@@ -66,7 +68,7 @@ int(proj_main_loop)(int argc, char **argv) {
   load_sprites();
 
   draw_frame();
-  //timer_set_frequency(0, FRAME_RATE);
+  timer_set_frequency(0, FRAME_RATE);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02,rtc_bit_no = 0x03;
   int ipc_status, r;
   message msg;
@@ -81,6 +83,13 @@ int(proj_main_loop)(int argc, char **argv) {
   if (rtc_subscribe_int(&rtc_bit_no) != 0)
     return 1;
   start_rtc();
+  printf("current year is: %d\n",rtc.year);
+  printf("current month is: %d\n",rtc.month);
+  printf("current day is: %d\n",rtc.day);
+  printf("current hour is: %d\n",rtc.hour);
+  printf("current minute is: %d\n",rtc.minute);
+  printf("current second is: %d\n",rtc.second);
+
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
   while (systemState == RUNNING) {
