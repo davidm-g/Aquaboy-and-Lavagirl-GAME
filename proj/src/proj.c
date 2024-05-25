@@ -19,7 +19,16 @@ extern xpm_image_t background_img;
 extern uint32_t *background_map_menu;
 extern xpm_image_t background_img_menu;
 extern SystemState systemState;
+extern BoyState boyState;
 extern Sprite *boy;
+extern Sprite *boys[6];
+/*
+extern Sprite *boywalk1;
+extern Sprite *boywalk1reverse;
+extern Sprite *boywalk2;
+extern Sprite *boywalk2reverse;
+extern Sprite *boywin;
+*/
 extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
@@ -60,8 +69,7 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
 
   levelArray = malloc(40 * 30 * sizeof(int));
-  updateArrayWithLevel(3);
-
+  updateArrayWithLevel(1);
   load_sprites();
 
   draw_frame();

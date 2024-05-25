@@ -2,6 +2,9 @@
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
+extern int global_counter;
+extern int changesprite;
+extern int spriteindex;
 uint32_t *background_map_game = NULL;
 xpm_image_t background_img;
 uint32_t *background_map_menu = NULL;
@@ -9,6 +12,17 @@ xpm_image_t background_img_menu;
 uint32_t *background_map_leaderboard = NULL;
 xpm_image_t background_img_leaderboard;
 extern Sprite *boy;
+extern BoyState boyState;
+extern Sprite *boys[8];
+/*
+extern Sprite *boyfall;
+extern Sprite *boyjump;
+extern Sprite *boywalk1;
+extern Sprite *boywalk1reverse;
+extern Sprite *boywalk2;
+extern Sprite *boywalk2reverse;
+extern Sprite *boywin;
+*/
 extern Sprite *cursor;
 extern Sprite *walls[2];
 extern Sprite *start;
@@ -190,16 +204,18 @@ void draw_frame() {
         draw_sprite_pos(greenleverright, x, y);
       }
       else if (levelArray[i] == 3) {
-        if ((boy->x >= x && boy->x <= x + doorblue->width) && 
-          (boy->y >= y && boy->y <= y + doorblue->height)) {
+        if ((boys[0]->x >= x && boys[0]->x <= x + doorblue->width) && 
+          (boys[0]->y >= y && boys[0]->y <= y + doorblue->height)) {
+          boyState = WINNING;
           draw_sprite_pos(opendoor, x, y);
         }
         else
           draw_sprite_pos(doorblue, x, y);
       }
       else if (levelArray[i] == 4) {
-        if ((boy->x >= x && boy->x <= x + doorred->width) && 
-          (boy->y >= y && boy->y <= y + doorred->height)) {
+        if ((boys[0]->x >= x && boys[0]->x <= x + doorred->width) && 
+          (boys[0]->y >= y && boys[0]->y <= y + doorred->height)) {
+          boyState = WINNING;
           draw_sprite_pos(opendoor, x, y);
         }
         else
@@ -236,11 +252,24 @@ void draw_frame() {
         draw_sprite_pos(rightWater, x, y);
       }
     }
-    draw_sprite(boy);
+    if (boyState == NORMAL)
+      draw_sprite(boys[0]);
+    else {
+      if (global_counter - changesprite >= 10) {
+        changesprite = global_counter;
+        if (spriteindex == 0) spriteindex = 2;
+        else spriteindex = 0;
+      }
+      if (boyState == WALKRIGHT)
+        draw_sprite_pos(boys[1 + spriteindex], boys[0]->x, boys[0]->y);
+      else if (boyState == WALKLEFT)
+        draw_sprite_pos(boys[2 + spriteindex], boys[0]->x, boys[0]->y);
+      else if (boyState == WINNING)
+        draw_sprite_pos(boys[5], boys[0]->x, boys[0]->y);
+    }
     break;
   default:
     break;
   }
   draw_sprite(cursor);
 }
-

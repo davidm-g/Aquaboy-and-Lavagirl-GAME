@@ -1,8 +1,19 @@
 #include "model.h"
 int global_counter = 0;
+int changesprite = 0;
+int spriteindex = 0;
 uint8_t kbd_outbuf;
 bool change = false;
 Sprite *boy;
+BoyState boyState = NORMAL;
+Sprite *boys[6];
+/*
+Sprite *boywalk1;
+Sprite *boywalk1reverse;
+Sprite *boywalk2;
+Sprite *boywalk2reverse;
+Sprite *boywin;
+*/
 Sprite *cursor;
 Sprite *walls[2];
 Sprite *start;
@@ -33,8 +44,13 @@ void(timer_int_handler)() {
 }
 
 void load_sprites() {
-  start= create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
-  boy = create_sprite((xpm_map_t) boy_xpm, 20, 530, 0, 0);
+  start = create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
+  boys[0] = create_sprite((xpm_map_t) boy_xpm, 20, 530, 0, 0);
+  boys[1] = create_sprite((xpm_map_t) boywalk1_xpm, 20, 530, 0, 0);
+  boys[2] = create_sprite((xpm_map_t) boywalk1reverse_xpm, 20, 530, 0, 0);
+  boys[3] = create_sprite((xpm_map_t) boywalk2_xpm, 20, 530, 0, 0);
+  boys[4] = create_sprite((xpm_map_t) boywalk2reverse_xpm, 20, 530, 0, 0);
+  boys[5] = create_sprite((xpm_map_t) boywin_xpm, 20, 530, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
   /*
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
@@ -69,11 +85,14 @@ void load_sprites() {
 }
 
 void destroy_sprites() {
-  destroy_sprite(boy);
+  /*
+  for (int i = 0; i < 6; i++)
+    destroy_sprite(boys[i]);
+  */
+  destroy_sprite(boys[0]);
   destroy_sprite(cursor);
-  for (int i = 0; i < 2; i++) {
-    destroy_sprite(walls[i]);
-  }
+  for (int i = 0; i < 1200; i++)
+    destroy_sprite(walls20[i]);
 }
 
 void updateArrayWithLevel(int level) {
@@ -117,13 +136,23 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 void update_timer() {
   timer_int_handler();
   if(menuState == GAME){
-  if (update(boy) != 0)
-    change = true;
+    /*
+    for (int i = 0; i < 6; i++)
+      if (update(boys[i]) != 0)
+        change = true;
+    */
+    if (update(boys[0]) != 0)
+      change = true;
   }
   if (change) {
     draw_frame();
     flip_screen();
     change = false;
+  }
+  else if(change == false && menuState == GAME){
+    boyState = NORMAL;
+    draw_frame();
+    flip_screen();
   }
 }
 
@@ -136,7 +165,11 @@ void update_keyboard() {
     menuState = START;
     change = true;
     }
-      action_handler(boy);
+    /*
+    for(int i = 0; i < 6; i++)
+      action_handler(boys[i]);
+    */
+    action_handler(boys[0]);
     break;
   case START:
     if(kbd_outbuf == ESC_BREAK){
@@ -161,7 +194,7 @@ void update_mouse() {
   }
 }
 void update_rtc(){
-  if(global_counter%FRAME_RATE==0)
+  if(global_counter % FRAME_RATE==0)
   rtc_update_values();
   
 }
@@ -226,6 +259,7 @@ int move_x(Sprite *sp) {
   int x = sp->x;
 
   if (sp->xspeed > 0) { // moving right
+    boyState = WALKRIGHT;
     x += sp->xspeed;
     if (x > get_hres() - sp->width - 20)
       x = get_hres() - sp->width - 20;
@@ -251,6 +285,7 @@ int move_x(Sprite *sp) {
     }
   }
   else if (sp->xspeed < 0) { // moving left
+    boyState = WALKLEFT;
     x += sp->xspeed;
     if (x < 20)
       x = 20;
@@ -275,6 +310,8 @@ int move_x(Sprite *sp) {
       }
     }
   }
+  else 
+    boyState = NORMAL;
   return 0;
 }
 
