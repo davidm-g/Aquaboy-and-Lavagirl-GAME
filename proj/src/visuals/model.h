@@ -13,13 +13,17 @@
 #include "devices/utils.h"
 #include "sprite.h"
 #include "visuals/xpms/boy.xpm"
-#include "visuals/xpms/boyfall.xpm"
-#include "visuals/xpms/boyjump.xpm"
 #include "visuals/xpms/boywalk1.xpm"
 #include "visuals/xpms/boywalk1reverse.xpm"
 #include "visuals/xpms/boywalk2.xpm"
 #include "visuals/xpms/boywalk2reverse.xpm"
 #include "visuals/xpms/boywin.xpm"
+#include "visuals/xpms/girl.xpm"
+#include "visuals/xpms/girlwalk1.xpm"
+#include "visuals/xpms/girlwalk1reverse.xpm"
+#include "visuals/xpms/girlwalk2.xpm"
+#include "visuals/xpms/girlwalk2reverse.xpm"
+#include "visuals/xpms/girlwin.xpm"
 #include "visuals/xpms/hand.xpm"
 #include "visuals/xpms/wall.xpm"
 #include "visuals/xpms/wall2.xpm"
@@ -47,7 +51,7 @@ typedef enum {
   WALKLEFT,
   WALKRIGHT,
   WINNING
-} BoyState;
+} SpriteState;
 
 typedef enum {
   RUNNING,

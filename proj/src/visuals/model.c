@@ -5,17 +5,11 @@ int spriteindex = 0;
 uint8_t kbd_outbuf;
 bool change = false;
 Sprite *boy;
-BoyState boyState = NORMAL;
+SpriteState boyState = NORMAL;
 Sprite *boys[6];
-/*
-Sprite *boywalk1;
-Sprite *boywalk1reverse;
-Sprite *boywalk2;
-Sprite *boywalk2reverse;
-Sprite *boywin;
-*/
+SpriteState girlState = NORMAL;
+Sprite *girls[6];
 Sprite *cursor;
-Sprite *walls[2];
 Sprite *start;
 Sprite *exit_button;
 SystemState systemState = RUNNING;
@@ -45,12 +39,18 @@ void(timer_int_handler)() {
 
 void load_sprites() {
   start = create_sprite((xpm_map_t) start_xpm, 200, 100, 0, 0);
-  boys[0] = create_sprite((xpm_map_t) boy_xpm, 20, 530, 0, 0);
-  boys[1] = create_sprite((xpm_map_t) boywalk1_xpm, 20, 530, 0, 0);
-  boys[2] = create_sprite((xpm_map_t) boywalk1reverse_xpm, 20, 530, 0, 0);
-  boys[3] = create_sprite((xpm_map_t) boywalk2_xpm, 20, 530, 0, 0);
-  boys[4] = create_sprite((xpm_map_t) boywalk2reverse_xpm, 20, 530, 0, 0);
-  boys[5] = create_sprite((xpm_map_t) boywin_xpm, 20, 530, 0, 0);
+  boys[0] = create_sprite((xpm_map_t) boy_xpm, 20, 520, 0, 0);
+  boys[1] = create_sprite((xpm_map_t) boywalk1_xpm, 20, 520, 0, 0);
+  boys[2] = create_sprite((xpm_map_t) boywalk1reverse_xpm, 20, 520, 0, 0);
+  boys[3] = create_sprite((xpm_map_t) boywalk2_xpm, 20, 520, 0, 0);
+  boys[4] = create_sprite((xpm_map_t) boywalk2reverse_xpm, 20, 520, 0, 0);
+  boys[5] = create_sprite((xpm_map_t) boywin_xpm, 20, 520, 0, 0);
+  girls[0] = create_sprite((xpm_map_t) girl_xpm, 738, 520, 0, 0);
+  girls[1] = create_sprite((xpm_map_t) girlwalk1_xpm, 738, 520, 0, 0);
+  girls[2] = create_sprite((xpm_map_t) girlwalk1reverse_xpm, 738, 520, 0, 0);
+  girls[3] = create_sprite((xpm_map_t) girlwalk2_xpm, 738, 520, 0, 0);
+  girls[4] = create_sprite((xpm_map_t) girlwalk2reverse_xpm, 738, 520, 0, 0);
+  girls[5] = create_sprite((xpm_map_t) girlwin_xpm, 738, 520, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
   /*
   walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
@@ -90,6 +90,7 @@ void destroy_sprites() {
     destroy_sprite(boys[i]);
   */
   destroy_sprite(boys[0]);
+  destroy_sprite(girls[0]);
   destroy_sprite(cursor);
   for (int i = 0; i < 1200; i++)
     destroy_sprite(walls20[i]);
@@ -113,16 +114,6 @@ void updateArrayWithLevel(int level) {
 }
 
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
-  /*
-  for (int i = 0; i < 2; i++) {
-    if (!(x >= (walls[i]->x + walls[i]->width) || // boneco à direita da parede
-          (y + sp->height) <= walls[i]->y ||      // boneco por cima da parede
-          (x + sp->width) <= walls[i]->x ||       // boneco à esquerda da parede
-          y >= (walls[i]->y + walls[i]->height))) // boneco por baixo da parede
-      return walls[i];
-  }
-  */
-
   for (int j = 0; j < 1200; j++) {
     if (levelArray[j] == 1)
       if (!(x >= (walls20[j]->x + walls20[j]->width) || // boneco à direita da parede
@@ -143,6 +134,8 @@ void update_timer() {
     */
     if (update(boys[0]) != 0)
       change = true;
+    if (update(girls[0]) != 0)
+      change = true;
   }
   if (change) {
     draw_frame();
@@ -151,6 +144,7 @@ void update_timer() {
   }
   else if(change == false && menuState == GAME){
     boyState = NORMAL;
+    girlState = NORMAL;
     draw_frame();
     flip_screen();
   }
@@ -170,6 +164,7 @@ void update_keyboard() {
       action_handler(boys[i]);
     */
     action_handler(boys[0]);
+    action_handler(girls[0]);
     break;
   case START:
     if(kbd_outbuf == ESC_BREAK){
@@ -214,12 +209,23 @@ void move_cursor(struct packet *pp) {
 }
 
 void action_handler(Sprite *sp) {
-  if (kbd_outbuf == W_MAKE)
-    jump(sp);
-  else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
-    left(sp);
-  else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
-    right(sp);
+  if(sp->width == 35) {
+    if (kbd_outbuf == W_MAKE)
+      jump(sp);
+    else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
+      left(sp);
+    else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
+      right(sp);
+  }
+  else if(sp->width == 42) {
+    if (kbd_outbuf == UP_MAKE)
+      jump(sp);
+    else if (kbd_outbuf == LEFT_MAKE || kbd_outbuf == RIGHT_BREAK)
+      left(sp);
+    else if (kbd_outbuf == RIGHT_MAKE || kbd_outbuf == LEFT_BREAK)
+      right(sp);
+  
+  }
 }
 
 int update(Sprite *sp) {
@@ -259,7 +265,10 @@ int move_x(Sprite *sp) {
   int x = sp->x;
 
   if (sp->xspeed > 0) { // moving right
-    boyState = WALKRIGHT;
+    if(sp->width == 35)
+      boyState = WALKRIGHT;
+    else if(sp->width == 42)
+      girlState = WALKRIGHT;
     x += sp->xspeed;
     if (x > get_hres() - sp->width - 20)
       x = get_hres() - sp->width - 20;
@@ -285,7 +294,10 @@ int move_x(Sprite *sp) {
     }
   }
   else if (sp->xspeed < 0) { // moving left
-    boyState = WALKLEFT;
+    if(sp->width == 35)
+      boyState = WALKLEFT;
+    else if(sp->width == 42)
+      girlState = WALKLEFT;
     x += sp->xspeed;
     if (x < 20)
       x = 20;
@@ -310,8 +322,12 @@ int move_x(Sprite *sp) {
       }
     }
   }
-  else 
-    boyState = NORMAL;
+  else {
+    if(sp->width == 35)
+      boyState = NORMAL;
+    else if(sp->width == 42)
+      girlState = NORMAL; 
+  }
   return 0;
 }
 

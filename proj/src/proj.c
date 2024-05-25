@@ -19,18 +19,11 @@ extern xpm_image_t background_img;
 extern uint32_t *background_map_menu;
 extern xpm_image_t background_img_menu;
 extern SystemState systemState;
-extern BoyState boyState;
-extern Sprite *boy;
+extern SpriteState boyState;
 extern Sprite *boys[6];
-/*
-extern Sprite *boywalk1;
-extern Sprite *boywalk1reverse;
-extern Sprite *boywalk2;
-extern Sprite *boywalk2reverse;
-extern Sprite *boywin;
-*/
+extern SpriteState girlState;
+extern Sprite *girls[6];
 extern Sprite *cursor;
-extern Sprite *walls[2];
 extern Sprite *start;
 extern bool change;
 extern Sprite *opendoor;

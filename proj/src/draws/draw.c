@@ -12,19 +12,11 @@ xpm_image_t background_img_menu;
 uint32_t *background_map_leaderboard = NULL;
 xpm_image_t background_img_leaderboard;
 extern Sprite *boy;
-extern BoyState boyState;
-extern Sprite *boys[8];
-/*
-extern Sprite *boyfall;
-extern Sprite *boyjump;
-extern Sprite *boywalk1;
-extern Sprite *boywalk1reverse;
-extern Sprite *boywalk2;
-extern Sprite *boywalk2reverse;
-extern Sprite *boywin;
-*/
+extern SpriteState boyState;
+extern Sprite *boys[6];
+extern SpriteState girlState;
+extern Sprite *girls[6];
 extern Sprite *cursor;
-extern Sprite *walls[2];
 extern Sprite *start;
 extern Sprite *exit_button;
 extern Sprite *doorblue;
@@ -213,9 +205,9 @@ void draw_frame() {
           draw_sprite_pos(doorblue, x, y);
       }
       else if (levelArray[i] == 4) {
-        if ((boys[0]->x >= x && boys[0]->x <= x + doorred->width) && 
-          (boys[0]->y >= y && boys[0]->y <= y + doorred->height)) {
-          boyState = WINNING;
+        if ((girls[0]->x >= x && girls[0]->x <= x + doorred->width) && 
+          (girls[0]->y >= y && girls[0]->y <= y + doorred->height)) {
+          girlState = WINNING;
           draw_sprite_pos(opendoor, x, y);
         }
         else
@@ -252,6 +244,23 @@ void draw_frame() {
         draw_sprite_pos(rightWater, x, y);
       }
     }
+    // Girl Draw Section
+    if (girlState == NORMAL)
+      draw_sprite(girls[0]);
+    else {
+      if (global_counter - changesprite >= 10) {
+        changesprite = global_counter;
+        if (spriteindex == 0) spriteindex = 2;
+        else spriteindex = 0;
+      }
+      if (girlState == WALKRIGHT)
+        draw_sprite_pos(girls[1 + spriteindex], girls[0]->x, girls[0]->y);
+      else if (girlState == WALKLEFT)
+        draw_sprite_pos(girls[2 + spriteindex], girls[0]->x, girls[0]->y);
+      else if (girlState == WINNING)
+        draw_sprite_pos(girls[5], girls[0]->x, girls[0]->y);
+    }
+    // Boy Draw Section
     if (boyState == NORMAL)
       draw_sprite(boys[0]);
     else {

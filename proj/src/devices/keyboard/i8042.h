@@ -32,6 +32,7 @@
 #define ENABLE_DATA 0XF4
 #define DISABLE_DATA 0XF5
 #define SET_STREAM_MODE 0XEA
+// BOY KEYS
 #define W_MAKE 0x11
 #define A_MAKE 0x1E
 #define S_MAKE 0x1F
@@ -40,4 +41,13 @@
 #define A_BREAK 0x9E
 #define S_BREAK 0x9F
 #define D_BREAK 0xA0
+// GIRL KEYS
+#define UP_MAKE 0x48
+#define LEFT_MAKE 0x4B
+#define DOWN_MAKE 0x50
+#define RIGHT_MAKE 0x4D
+#define UP_BREAK 0xC8
+#define LEFT_BREAK 0xCB
+#define DOWN_BREAK 0xD0
+#define RIGHT_BREAK 0xCD
 #endif /* _LCOM_I8042_H_ */
