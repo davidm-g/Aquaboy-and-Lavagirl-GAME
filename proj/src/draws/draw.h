@@ -13,4 +13,6 @@ int draw_sprite_pos(Sprite *sprite, int x, int y);
 int print_background_game(xpm_map_t xpm);
 int erase_sprite(Sprite *sprite, xpm_map_t xpm);
 void draw_frame();
+int draw_digits(int number, int x_pos, int y_pos, int offset);
+void draw_leaderboard();
 #endif

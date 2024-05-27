@@ -55,7 +55,8 @@
 #include "visuals/xpms/num_7.xpm"
 #include "visuals/xpms/num_8.xpm"
 #include "visuals/xpms/num_9.xpm"
-
+#include "visuals/xpms/dots.xpm"
+#include "visuals/xpms/bar.xpm"
 #include <lcom/lcf.h>
 typedef enum {
   NORMAL,
@@ -83,6 +84,15 @@ typedef enum {
     FINISHED
 } LevelState;
 
+typedef struct {
+  uint8_t year;
+  uint8_t month;
+  uint8_t day;
+  uint8_t hour;
+  uint8_t minute;
+  int score;
+} LeaderboardEntry;
+
 void(timer_int_handler)();
 void load_sprites();
 
@@ -109,4 +119,6 @@ void right(Sprite *sp);
 void check_mouse_click(struct packet pp);
 void update_rtc();
 void reset_states();
+void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score);
+void initialize_leaderboard();
 #endif

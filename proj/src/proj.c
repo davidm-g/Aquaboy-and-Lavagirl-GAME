@@ -34,6 +34,7 @@ extern LevelState levelState;
 extern int *levelArray;
 extern bool completed;
 extern int level;
+extern LeaderboardEntry leaderboard[LEADERBOARD_SIZE];
 
 extern bool is_binary;
 int main(int argc, char *argv[]) {
@@ -68,7 +69,7 @@ int(proj_main_loop)(int argc, char **argv) {
   levelArray = malloc(40 * 30 * sizeof(int));
   updateArrayWithLevel(1);
   load_sprites();
-
+  initialize_leaderboard();
   draw_frame();
   timer_set_frequency(0, FRAME_RATE);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02,rtc_bit_no = 0x03;

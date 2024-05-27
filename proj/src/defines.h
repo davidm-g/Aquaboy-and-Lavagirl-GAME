@@ -7,3 +7,4 @@
 #define LEFT 4
 #define MAX_SPEED 7
 #define FRAME_RATE 30
+#define LEADERBOARD_SIZE 5

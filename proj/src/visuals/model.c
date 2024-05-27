@@ -32,13 +32,14 @@ Sprite *centerFire;
 Sprite *centerWater;
 Sprite *opendoor;
 Sprite *leaderboard_button;
-Sprite *num[10];
+Sprite *num[12];
 int *levelArray;
 LevelState levelState = LEVEL_1;
 int level=1;
 extern struct packet packet;
 extern int byte_counter;
 extern rtc_values rtc;
+LeaderboardEntry leaderboard[LEADERBOARD_SIZE];
 void(timer_int_handler)() {
   global_counter++;
 }
@@ -88,7 +89,8 @@ void load_sprites() {
   num[7] = create_sprite((xpm_map_t) num_7_xpm, 100, 100, 0, 0);
   num[8] = create_sprite((xpm_map_t) num_8_xpm, 100, 100, 0, 0);
   num[9] = create_sprite((xpm_map_t) num_9_xpm, 100, 100, 0, 0);
-
+  num[10] = create_sprite((xpm_map_t) bar_xpm, 100, 100, 0, 0);
+  num[11] = create_sprite((xpm_map_t) dots_xpm, 100, 100, 0, 0);
   int i, x, y;
   for (i = 0; i < 1200; i++) {
       x = (i % 40) * 20;
@@ -112,6 +114,12 @@ void destroy_sprites() {
   destroy_sprite(cursor);
   for (int i = 0; i < 1200; i++)
     destroy_sprite(walls20[i]);
+}
+
+void initialize_leaderboard() {
+    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+        leaderboard[i].score = INT_MAX;
+    }
 }
 
 void updateArrayWithLevel(int level) {
@@ -174,8 +182,7 @@ void update_timer() {
   if(menuState==START && completed){
     rtc_update_values();
     completed = false;
-    printf("Completed\n");
-    printf("time: %d\n", level_time);
+    add_to_leaderboard(rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, level_time);
     level_time = 0;
     reset_states();
   }
@@ -202,7 +209,6 @@ void update_keyboard() {
     change = true;
     level_time = 0;
     reset_states();
-    
     }
     /*
     for(int i = 0; i < 6; i++)
@@ -511,4 +517,27 @@ void reset_states(){
         walls20[i] = NULL;
       }
   }
+}
+
+void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score){
+    int insert=-1;
+    for(int i=0; i<LEADERBOARD_SIZE;i++){
+      if(score<leaderboard[i].score){
+        insert = i;
+        break;
+      }
+    }
+
+    if(insert>=0){
+      for(int j=LEADERBOARD_SIZE-1; j>insert;j--){ 
+        leaderboard[j] = leaderboard[j-1];
+      }
+      leaderboard[insert].year = year;
+      leaderboard[insert].month = month;
+      leaderboard[insert].day = day;
+      leaderboard[insert].hour = hour;
+      leaderboard[insert].minute = minute;
+      leaderboard[insert].score = score;
+    }
+     
 }

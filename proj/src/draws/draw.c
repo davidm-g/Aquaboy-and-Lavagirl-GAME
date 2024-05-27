@@ -35,13 +35,13 @@ extern Sprite *centerWater;
 extern Sprite *rightWater;
 extern Sprite *opendoor;
 extern Sprite *walls20[1200];
-extern Sprite *num[10];
+extern Sprite *num[12];
 extern int *levelArray;
 extern LevelState levelState;
 extern int16_t mouse_x;
 extern int16_t mouse_y;
 extern MenuState menuState;
-
+extern LeaderboardEntry leaderboard[LEADERBOARD_SIZE];
 int draw_sprite(Sprite *sprite) {
   uint32_t *original_map = sprite->map;
   for (uint16_t i = 0; i < sprite->height; i++) {
@@ -173,20 +173,63 @@ void draw_temp_background(){
 }
 void draw_time(){
   int time = level_time;
-  int offset = 50;
-  int num_digits = 0;
+  int offset = 47;
+  int x_pos = 650;
+  int y_pos = 20;
   if(time==0){
     return;
   }
-  for(int t = time; t > 0; t /= 10){
-    num_digits++;
-  }
-  for (int i = 0; i < num_digits; i++) {
-        int digit = time % 10;
-        draw_sprite_pos(num[digit], 680 + (num_digits - i - 1) * offset, 20);
-        time /= 10;
+  draw_digits(time, x_pos, y_pos, offset);
+}
+int draw_digits(int number, int x_pos, int y_pos, int offset) {
+    int num_digits = 0;
+    for(int t = number; t > 0; t /= 10){
+        num_digits++;
+    }
+    for (int i = 0; i < num_digits; i++) {
+        int digit = number % 10;
+        draw_sprite_pos(num[digit], x_pos + (num_digits - i - 1) * offset, y_pos);
+        number /= 10;
+    }
+    return x_pos + num_digits * offset;
+}
+
+void draw_leaderboard() {
+    int y_offset = 200; 
+    int line_height = 60; 
+    int offset = 47; 
+
+    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+        LeaderboardEntry entry = leaderboard[i];
+        if(entry.year==0)
+            break;
+        int x_pos = 20; 
+        x_pos = draw_digits(entry.year, x_pos, y_offset + i * line_height, offset);
+        draw_sprite_pos(num[10], x_pos, y_offset + i * line_height); 
+        x_pos += offset;
+        x_pos = draw_digits(entry.month, x_pos, y_offset + i * line_height, offset);
+        draw_sprite_pos(num[10], x_pos, y_offset + i * line_height); 
+        x_pos += offset;
+        x_pos = draw_digits(entry.day, x_pos, y_offset + i * line_height, offset);
+        x_pos += offset;
+        if (entry.hour < 10) {
+        draw_sprite_pos(num[0], x_pos, y_offset + i * line_height);
+        x_pos += offset;
+    }
+        x_pos = draw_digits(entry.hour, x_pos, y_offset + i * line_height, offset);
+        x_pos += 20;
+        draw_sprite_pos(num[11], x_pos, y_offset + i * line_height); 
+        x_pos += 20;
+        if (entry.minute < 10) {
+        draw_sprite_pos(num[0], x_pos, y_offset + i * line_height);
+        x_pos += offset;
+        }
+        x_pos = draw_digits(entry.minute, x_pos, y_offset + i * line_height, offset);
+        x_pos += offset;
+        draw_digits(entry.score, x_pos, y_offset + i * line_height, offset);
     }
 }
+
 void draw_frame() {
   //draw_temp_background();
   switch (menuState)
@@ -301,6 +344,7 @@ void draw_frame() {
     break;
   case LEADERBOARD:
     print_background_leaderboard((xpm_map_t) leaderboard_xpm);
+    draw_leaderboard();
     break;
   default:
     break;
