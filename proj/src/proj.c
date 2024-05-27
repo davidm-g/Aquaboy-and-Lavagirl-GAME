@@ -92,6 +92,7 @@ int(proj_main_loop)(int argc, char **argv) {
 
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
+  change_sample_rate(40);
   while (systemState == RUNNING) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {

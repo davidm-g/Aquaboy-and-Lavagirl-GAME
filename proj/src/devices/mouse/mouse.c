@@ -85,6 +85,32 @@ int send_cmd_mouse(uint8_t cmd) { // function to send commands to mouse
   }
   return 1;
 }
+
+int change_sample_rate(uint8_t rate) {
+  uint8_t response = 0X00;
+  int attempts = 10;
+  while (attempts > 0) {
+    if (write_to_kbc_mouse(KBC_CMD_REG, REQUEST_MOUSE))
+      return 1; // write 0xD4 to port 0x64
+    if (write_to_kbc_mouse(WRITE_CMD_BYTE, 0xF3))
+      return 1; //	write the code for the command to port 0x60
+    if (read_value_data_from_kbc_mouse(OUT_BUF, &response))
+      return 1; // read the acknowledgement byte
+    if (response == ACK){
+      if (write_to_kbc_mouse(KBC_CMD_REG, REQUEST_MOUSE))
+      return 1;
+      if (write_to_kbc_mouse(WRITE_CMD_BYTE, rate))
+      return 1;
+      if (read_value_data_from_kbc_mouse(OUT_BUF, &response))
+      return 1;
+      if(response == ACK)
+      return 0;
+    }
+      return 0; // when ack, ggwp
+    attempts--;
+  }
+  return 1;
+}
 void(mouse_ih)() {
   int attempts = 10;
   while (attempts > 0) {

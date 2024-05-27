@@ -12,3 +12,5 @@ void bytes_to_packet();
 void packet_parse();
 void(mouse_ih)();
 int can_read_outbuf_mouse();
+int change_sample_rate(uint8_t rate);
+
