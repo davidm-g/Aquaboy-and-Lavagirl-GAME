@@ -37,10 +37,11 @@ extern Sprite *opendoor;
 extern Sprite *walls20[1200];
 extern Sprite *num[10];
 extern int *levelArray;
-
+extern LevelState levelState;
 extern int16_t mouse_x;
 extern int16_t mouse_y;
 extern MenuState menuState;
+
 int draw_sprite(Sprite *sprite) {
   uint32_t *original_map = sprite->map;
   for (uint16_t i = 0; i < sprite->height; i++) {
@@ -191,7 +192,6 @@ void draw_frame() {
   switch (menuState)
   {
   case START:
-  level_time = 0;
     print_background_menu((xpm_map_t) Menu_xpm);
     draw_sprite(start);
     draw_sprite(exit_button);
@@ -296,6 +296,7 @@ void draw_frame() {
       else if (boyState == WINNING)
         draw_sprite_pos(boys[5], boys[0]->x, boys[0]->y);
     }
+    
     draw_time();
     break;
   case LEADERBOARD:

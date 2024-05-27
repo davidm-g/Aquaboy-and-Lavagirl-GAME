@@ -5,6 +5,7 @@ int changesprite = 0;
 int spriteindex = 0;
 uint8_t kbd_outbuf;
 bool change = false;
+bool completed = false;
 Sprite *boy;
 SpriteState boyState = NORMAL;
 Sprite *boys[6];
@@ -34,8 +35,10 @@ Sprite *leaderboard_button;
 Sprite *num[10];
 int *levelArray;
 LevelState levelState = LEVEL_1;
+int level=1;
 extern struct packet packet;
 extern int byte_counter;
+extern rtc_values rtc;
 void(timer_int_handler)() {
   global_counter++;
 }
@@ -93,7 +96,7 @@ void load_sprites() {
       if (levelArray[i] == 1) {
         walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
       }
-      else {
+      else  {
         walls20[i] = NULL;
       }
   }
@@ -142,6 +145,19 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 void update_timer() {
   timer_int_handler();
   if(menuState == GAME){
+    if(boyState ==WINNING && girlState == WINNING){
+        change = true;
+        if(level == 3){
+          level=1;
+          completed = true;
+          menuState = START;
+        }
+        else{
+          level++;
+        } 
+        reset_states();
+    }
+    
     /*
     for (int i = 0; i < 6; i++)
       if (update(boys[i]) != 0)
@@ -153,6 +169,15 @@ void update_timer() {
       change = true;
     if (update(girls[0]) != 0)
       change = true;
+      
+  }
+  if(menuState==START && completed){
+    rtc_update_values();
+    completed = false;
+    printf("Completed\n");
+    printf("time: %d\n", level_time);
+    level_time = 0;
+    reset_states();
   }
   if (change) {
     draw_frame();
@@ -175,6 +200,9 @@ void update_keyboard() {
     if (kbd_outbuf == ESC_BREAK){
     menuState = START;
     change = true;
+    level_time = 0;
+    reset_states();
+    
     }
     /*
     for(int i = 0; i < 6; i++)
@@ -460,3 +488,27 @@ void check_mouse_click(struct packet pp){
   }
 }
 
+void reset_states(){
+  changesprite = 0;
+  spriteindex = 0;
+  boyState = NORMAL;
+  girlState = NORMAL;
+  for(int i = 0; i<6; i++){
+    boys[i]->x =20;
+    boys[i]->y =520;
+    girls[i]->x =738;
+    girls[i]->y =520;
+  }
+  updateArrayWithLevel(level);
+  int i, x, y;
+  for (i = 0; i < 1200; i++) {
+      x = (i % 40) * 20;
+      y = (i / 40) * 20;
+      if (levelArray[i] == 1) {
+        walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+      }
+      else  {
+        walls20[i] = NULL;
+      }
+  }
+}

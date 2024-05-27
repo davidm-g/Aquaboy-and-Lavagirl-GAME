@@ -79,7 +79,8 @@ typedef enum {
 typedef enum {
     LEVEL_1,
     LEVEL_2,
-    LEVEL_3
+    LEVEL_3,
+    FINISHED
 } LevelState;
 
 void(timer_int_handler)();
@@ -107,4 +108,5 @@ void left(Sprite *sp);
 void right(Sprite *sp);
 void check_mouse_click(struct packet pp);
 void update_rtc();
+void reset_states();
 #endif

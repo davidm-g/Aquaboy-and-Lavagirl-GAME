@@ -32,6 +32,8 @@ extern Sprite *opendoor;
 extern Sprite *walls20[1200];
 extern LevelState levelState;
 extern int *levelArray;
+extern bool completed;
+extern int level;
 
 extern bool is_binary;
 int main(int argc, char *argv[]) {
@@ -92,7 +94,7 @@ int(proj_main_loop)(int argc, char **argv) {
 
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
-  change_sample_rate(40);
+  change_sample_rate(20);
   while (systemState == RUNNING) {
     /* Get a request message. */
     if ((r = driver_receive(ANY, &msg, &ipc_status)) != 0) {
