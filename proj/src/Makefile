@@ -12,7 +12,7 @@ PROG=proj
 .PATH: ${.CURDIR}/visuals/
 .PATH: ${.CURDIR}/draws/
 # source code files to be compiled
-SRCS = proj.c utils.c rtc.c serialport.c timer.c vbe.c keyboard.c mouse.c video.c sprite.c draw.c model.c
+SRCS = proj.c utils.c rtc.c serialport.c queue.c timer.c vbe.c keyboard.c mouse.c video.c sprite.c draw.c model.c
 
 # additional compilation flags
 # "-Wall -Wextra -Werror -I . -std=c11 -Wno-unused-parameter" are already set
