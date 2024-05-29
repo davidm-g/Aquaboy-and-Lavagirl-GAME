@@ -103,10 +103,9 @@ int change_sample_rate(uint8_t rate) {
       return 1;
       if (read_value_data_from_kbc_mouse(OUT_BUF, &response))
       return 1;
-      if(response == ACK)
+      if(response == ACK)// when ack, ggwp
       return 0;
     }
-      return 0; // when ack, ggwp
     attempts--;
   }
   return 1;

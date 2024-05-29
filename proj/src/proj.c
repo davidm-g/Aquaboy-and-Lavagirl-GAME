@@ -69,7 +69,7 @@ int(proj_main_loop)(int argc, char **argv) {
   levelArray = malloc(40 * 30 * sizeof(int));
   updateArrayWithLevel(1);
   load_sprites();
-  initialize_leaderboard();
+  read_leaderboard_data();
   draw_frame();
   timer_set_frequency(0, FRAME_RATE);
   uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02,rtc_bit_no = 0x03;
@@ -126,7 +126,7 @@ int(proj_main_loop)(int argc, char **argv) {
       /* no standard messages expected: do nothing */
     }
   }
-
+  write_leaderboard_data();
   if (timer_unsubscribe_int() != 0)
     return 1;
   if (keyboard_unsubscribe_int())

@@ -121,4 +121,6 @@ void update_rtc();
 void reset_states();
 void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score);
 void initialize_leaderboard();
+void write_leaderboard_data();
+void read_leaderboard_data();
 #endif

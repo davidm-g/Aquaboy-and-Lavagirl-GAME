@@ -155,6 +155,7 @@ void update_timer() {
   if(menuState == GAME){
     if(boyState ==WINNING && girlState == WINNING){
         change = true;
+
         if(level == 3){
           level=1;
           completed = true;
@@ -163,6 +164,7 @@ void update_timer() {
         else{
           level++;
         } 
+        kbc_ih();
         reset_states();
     }
     
@@ -522,7 +524,7 @@ void reset_states(){
 void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score){
     int insert=-1;
     for(int i=0; i<LEADERBOARD_SIZE;i++){
-      if(score<leaderboard[i].score){
+      if(score<leaderboard[i].score || leaderboard[i].year == 0){
         insert = i;
         break;
       }
@@ -540,4 +542,32 @@ void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, 
       leaderboard[insert].score = score;
     }
      
+}
+
+void write_leaderboard_data(){
+    FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "w");
+    if (file == NULL) {
+        printf("error writing leaderboard data\n");
+        return;
+    }
+
+    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+        fprintf(file, "%hhu %hhu %hhu %hhu %hhu %d\n", leaderboard[i].year, leaderboard[i].month, leaderboard[i].day, leaderboard[i].hour, leaderboard[i].minute, leaderboard[i].score);
+    }
+
+    fclose(file);
+}
+
+void read_leaderboard_data(){
+    FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "r");
+    if (file == NULL) {
+        printf("error reading leaderboard data!\n");
+        return;
+    }
+
+    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+        fscanf(file, "%hhu %hhu %hhu %hhu %hhu %d", &leaderboard[i].year, &leaderboard[i].month, &leaderboard[i].day, &leaderboard[i].hour, &leaderboard[i].minute, &leaderboard[i].score);
+    }
+
+    fclose(file);
 }

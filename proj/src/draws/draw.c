@@ -182,6 +182,10 @@ void draw_time(){
   draw_digits(time, x_pos, y_pos, offset);
 }
 int draw_digits(int number, int x_pos, int y_pos, int offset) {
+    if (number == 0) {
+        draw_sprite_pos(num[0], x_pos, y_pos);
+        return x_pos + offset;
+    }
     int num_digits = 0;
     for(int t = number; t > 0; t /= 10){
         num_digits++;
@@ -195,7 +199,7 @@ int draw_digits(int number, int x_pos, int y_pos, int offset) {
 }
 
 void draw_leaderboard() {
-    int y_offset = 200; 
+    int y_offset = 250; 
     int line_height = 60; 
     int offset = 47; 
 
@@ -205,11 +209,11 @@ void draw_leaderboard() {
             break;
         int x_pos = 20; 
         x_pos = draw_digits(entry.year, x_pos, y_offset + i * line_height, offset);
-        draw_sprite_pos(num[10], x_pos, y_offset + i * line_height); 
-        x_pos += offset;
+        draw_sprite_pos(num[10], x_pos+5, y_offset + i * line_height+14); 
+        x_pos += (offset-15);
         x_pos = draw_digits(entry.month, x_pos, y_offset + i * line_height, offset);
-        draw_sprite_pos(num[10], x_pos, y_offset + i * line_height); 
-        x_pos += offset;
+        draw_sprite_pos(num[10], x_pos+5, y_offset + i * line_height+14); 
+        x_pos += (offset-15);
         x_pos = draw_digits(entry.day, x_pos, y_offset + i * line_height, offset);
         x_pos += offset;
         if (entry.hour < 10) {
@@ -217,9 +221,9 @@ void draw_leaderboard() {
         x_pos += offset;
     }
         x_pos = draw_digits(entry.hour, x_pos, y_offset + i * line_height, offset);
-        x_pos += 20;
-        draw_sprite_pos(num[11], x_pos, y_offset + i * line_height); 
-        x_pos += 20;
+        x_pos += 8;
+        draw_sprite_pos(num[11], x_pos, y_offset + i * line_height+15); 
+        x_pos += 8;
         if (entry.minute < 10) {
         draw_sprite_pos(num[0], x_pos, y_offset + i * line_height);
         x_pos += offset;
