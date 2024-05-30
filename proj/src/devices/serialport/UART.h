@@ -3,7 +3,6 @@
 
 #define COM1 0x3F8
 #define COM1_IRQ 4
-#define COM1_IRQ_MASK BIT(COM1_IRQ)
 
 /* REGISTERS */
 
@@ -23,11 +22,12 @@
 #define SER_NO_INT_PEND BIT(0)
 #define INT_ID (BIT(1) | BIT(2) | BIT(3))
 #define SER_RX_ERR (BIT(1) | BIT(2) | BIT(3))
-#define SER_FIFO_INT (BIT(2) | BIT(3))
+#define SER_RX_INT BIT(2)
+#define SER_TX_INT BIT(1)
+#define SER_ERROR_INT (BIT(1) | BIT(2))
 
 #define RECEIVE_DATA_INT BIT(0)
 #define SEND_DATA_INT BIT(1)
-
-#define SERIAL_CLEAR 255
+#define ERROR_INT BIT(2)
 
 #endif

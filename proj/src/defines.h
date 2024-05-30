@@ -8,3 +8,30 @@
 #define MAX_SPEED 7
 #define FRAME_RATE 30
 #define LEADERBOARD_SIZE 5
+
+/*     SERIALPORT     */
+#define SER_START 0x01
+#define SER_END 0x02
+#define SER_COMPLETE 0x03
+
+// KEYS
+#define SER_ESC_BREAK 0X80
+
+// WASD KEYS
+#define SER_W_MAKE 0X81
+#define SER_A_MAKE 0X82
+#define SER_S_MAKE 0X83
+#define SER_D_MAKE 0X84
+#define SER_A_BREAK 0X85
+#define SER_D_BREAK 0X86
+
+// ARROW KEYS
+#define SER_UP_MAKE 0X87
+#define SER_LEFT_MAKE 0X88
+#define SER_DOWN_MAKE 0X89
+#define SER_RIGHT_MAKE 0X8A
+#define SER_LEFT_BREAK 0X8B
+#define SER_RIGHT_BREAK 0X8C
+
+// MOUSE
+#define SER_MOUSE 0x70

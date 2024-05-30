@@ -12,6 +12,7 @@ Sprite *boys[6];
 SpriteState girlState = NORMAL;
 Sprite *girls[6];
 Sprite *cursor;
+Sprite *ser_cursor;
 Sprite *start;
 Sprite *exit_button;
 SystemState systemState = RUNNING;
@@ -35,10 +36,27 @@ Sprite *leaderboard_button;
 Sprite *num[12];
 int *levelArray;
 LevelState levelState = LEVEL_1;
-int level=1;
+int level = 1;
 extern struct packet packet;
 extern int byte_counter;
 extern rtc_values rtc;
+extern uint8_t ser_data;
+uint8_t valid_kbd_values[] = {W_MAKE, A_MAKE, S_MAKE, D_MAKE, A_BREAK, D_BREAK, UP_MAKE, LEFT_MAKE, DOWN_MAKE, RIGHT_MAKE, LEFT_BREAK, RIGHT_BREAK};
+uint8_t ser_keys[] = {SER_W_MAKE, SER_A_MAKE, SER_S_MAKE, SER_D_MAKE, SER_A_BREAK, SER_D_BREAK, SER_UP_MAKE, SER_LEFT_MAKE, SER_DOWN_MAKE, SER_RIGHT_MAKE, SER_LEFT_BREAK, SER_RIGHT_BREAK};
+TransmitterState transmitterState = T_START;
+ReceiverState receiverState = R_START;
+static Queue *mouseQueue;
+static Queue *kbdQueue;
+uint8_t sendMouseData[3];
+struct packet ser_packet;
+uint8_t keyboardData = 0;
+bool error = 0;
+uint8_t errorTries = 0;
+bool isSecondPlayer = false;
+extern bool readyToSend;
+bool multiplayer = false;
+bool ser_show_cursor = false;
+
 LeaderboardEntry leaderboard[LEADERBOARD_SIZE];
 void(timer_int_handler)() {
   global_counter++;
@@ -59,10 +77,7 @@ void load_sprites() {
   girls[4] = create_sprite((xpm_map_t) girlwalk2reverse_xpm, 738, 520, 0, 0);
   girls[5] = create_sprite((xpm_map_t) girlwin_xpm, 738, 520, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
-  /*
-  walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
-  walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
-  */
+  ser_cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
   exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 450, 0, 0);
   leaderboard_button = create_sprite((xpm_map_t) leaderboard_button_xpm, 200, 350, 0, 0);
   opendoor = create_sprite((xpm_map_t) opendoor_xpm, 100, 100, 0, 0);
@@ -93,95 +108,87 @@ void load_sprites() {
   num[11] = create_sprite((xpm_map_t) dots_xpm, 100, 100, 0, 0);
   int i, x, y;
   for (i = 0; i < 1200; i++) {
-      x = (i % 40) * 20;
-      y = (i / 40) * 20;
-      if (levelArray[i] == 1) {
-        walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
-      }
-      else  {
-        walls20[i] = NULL;
-      }
+    x = (i % 40) * 20;
+    y = (i / 40) * 20;
+    if (levelArray[i] == 1) {
+      walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+    }
+    else {
+      walls20[i] = NULL;
+    }
   }
 }
 
 void destroy_sprites() {
-  /*
-  for (int i = 0; i < 6; i++)
-    destroy_sprite(boys[i]);
-  */
   destroy_sprite(boys[0]);
   destroy_sprite(girls[0]);
   destroy_sprite(cursor);
+  destroy_sprite(ser_cursor);
   for (int i = 0; i < 1200; i++)
     destroy_sprite(walls20[i]);
 }
 
 void initialize_leaderboard() {
-    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
-        leaderboard[i].score = INT_MAX;
-    }
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    leaderboard[i].score = INT_MAX;
+  }
 }
 
 void updateArrayWithLevel(int level) {
-    char filename[50];
-    levelArray[0] = 5;
-    sprintf(filename, "/home/lcom/labs/proj/src/visuals/levels/level%d.txt", level);
-    FILE *fp = fopen(filename, "r");
-    if (fp == NULL) {
-        printf("Error opening file\n");
-        return;
-    }
-    int i = 0;
-    while (!feof(fp) && i < (40 * 30)) {
-        fscanf(fp, "%d", &levelArray[i]);
-        i++;
-    }
-    fclose(fp);
+  char filename[50];
+  levelArray[0] = 5;
+  sprintf(filename, "/home/lcom/labs/proj/src/visuals/levels/level%d.txt", level);
+  FILE *fp = fopen(filename, "r");
+  if (fp == NULL) {
+    printf("Error opening file\n");
+    return;
+  }
+  int i = 0;
+  while (!feof(fp) && i < (40 * 30)) {
+    fscanf(fp, "%d", &levelArray[i]);
+    i++;
+  }
+  fclose(fp);
 }
 
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
   for (int j = 0; j < 1200; j++) {
     if (levelArray[j] == 1)
       if (!(x >= (walls20[j]->x + walls20[j]->width) || // boneco à direita da parede
-            (y + sp->height) <= walls20[j]->y ||      // boneco por cima da parede
-            (x + sp->width) <= walls20[j]->x ||       // boneco à esquerda da parede
+            (y + sp->height) <= walls20[j]->y ||        // boneco por cima da parede
+            (x + sp->width) <= walls20[j]->x ||         // boneco à esquerda da parede
             y >= (walls20[j]->y + walls20[j]->height))) // boneco por baixo da parede
         return walls20[j];
   }
   return NULL;
 }
+
 void update_timer() {
   timer_int_handler();
-  if(menuState == GAME){
-    if(boyState ==WINNING && girlState == WINNING){
-        change = true;
+  if (menuState == GAME) {
+    if (boyState == WINNING && girlState == WINNING) {
+      change = true;
 
-        if(level == 3){
-          level=1;
-          completed = true;
-          menuState = START;
-        }
-        else{
-          level++;
-        } 
-        kbc_ih();
-        reset_states();
+      if (level == 3) {
+        level = 1;
+        completed = true;
+        menuState = START;
+      }
+      else {
+        level++;
+      }
+      kbc_ih();
+      reset_states();
     }
-    
-    /*
-    for (int i = 0; i < 6; i++)
-      if (update(boys[i]) != 0)
-        change = true;
-    */
-   if(global_counter % FRAME_RATE == 0)
-   level_time++;
+
+    if (global_counter % FRAME_RATE == 0)
+      level_time++;
     if (update(boys[0]) != 0)
       change = true;
     if (update(girls[0]) != 0)
       change = true;
-      
   }
-  if(menuState==START && completed){
+  if (menuState == START && completed) {
     rtc_update_values();
     completed = false;
     add_to_leaderboard(rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, level_time);
@@ -193,7 +200,7 @@ void update_timer() {
     flip_screen();
     change = false;
   }
-  else if(change == false && menuState == GAME){
+  else if (change == false && menuState == GAME) {
     boyState = NORMAL;
     girlState = NORMAL;
     draw_frame();
@@ -203,37 +210,33 @@ void update_timer() {
 
 void update_keyboard() {
   kbc_ih();
-  switch (menuState)
-  {
-  case GAME:
-    if (kbd_outbuf == ESC_BREAK){
-    menuState = START;
-    change = true;
-    level_time = 0;
-    reset_states();
-    }
-    /*
-    for(int i = 0; i < 6; i++)
-      action_handler(boys[i]);
-    */
-    action_handler(boys[0]);
-    action_handler(girls[0]);
-    break;
-  case START:
-    if(kbd_outbuf == ESC_BREAK){
-      systemState = EXIT;
-    }
-    break;
+  switch (menuState) {
+    case GAME:
+      if (kbd_outbuf == ESC_BREAK) {
+        menuState = START;
+        change = true;
+        level_time = 0;
+        reset_states();
+      }
+      else
+        action_handler();
+      break;
+    case START:
+      if (kbd_outbuf == ESC_BREAK) {
+        systemState = EXIT;
+      }
+      break;
     case LEADERBOARD:
-    if(kbd_outbuf == ESC_BREAK){
-      menuState = START;
-      change = true;
-    }
-    break;
-  default:
-    break;
+      if (kbd_outbuf == ESC_BREAK) {
+        menuState = START;
+        change = true;
+      }
+      break;
+    default:
+      break;
   }
-  
+  if (multiplayer)
+    send_keyboard_packet();
 }
 
 void update_mouse() {
@@ -243,16 +246,363 @@ void update_mouse() {
     packet_parse();
     byte_counter = 0;
     change = true;
-    move_cursor(&packet);
-    check_mouse_click(packet);
+    move_cursor(&packet, cursor);
+    check_mouse_click(packet, cursor);
+    if (multiplayer)
+      send_mouse_packet();
   }
 }
-void update_rtc(){
-  if(global_counter % FRAME_RATE==0)
-  rtc_update_values();
-  
+
+void update_rtc() {
+  if (global_counter % FRAME_RATE == 0)
+    rtc_update_values();
 }
-void move_cursor(struct packet *pp) {
+
+void update_ser() {
+  switch (ser_ih()) {
+    case -1:
+      panic("Error dealing with serial port");
+      break;
+    case 0:
+      dealWithReceiving();
+      break;
+    case 1:
+      // dealWithSending();
+      break;
+    case 2:
+      ser_send_byte(NACK); // prob never used
+      break;
+
+    default:
+      break;
+  }
+}
+
+void start_ser() {
+  mouseQueue = createQueue();
+  kbdQueue = createQueue();
+}
+
+void dealWithSending() {
+  switch (transmitterState) {
+    case T_MOUSE:
+      ser_send_byte(sendMouseData[0]);
+      transmitterState = T_M_BYTE1;
+      break;
+    case T_M_BYTE1:
+      ser_send_byte(sendMouseData[1]);
+      transmitterState = T_M_BYTE2;
+      break;
+    case T_M_BYTE2:
+      ser_send_byte(sendMouseData[2]);
+      transmitterState = T_M_BYTE3;
+      break;
+    case T_M_BYTE3:
+      ser_send_byte(SER_COMPLETE);
+      transmitterState = T_GAME;
+      if (!isEmpty(mouseQueue)) {
+        sendMouseData[0] = pop(mouseQueue);
+        sendMouseData[1] = pop(mouseQueue);
+        sendMouseData[2] = pop(mouseQueue);
+      }
+      break;
+    case T_KEYBOARD:
+      ser_send_byte(SER_COMPLETE);
+      if (!isEmpty(kbdQueue))
+        keyboardData = pop(kbdQueue);
+      transmitterState = T_GAME;
+
+    default:
+      break;
+  }
+}
+
+void dealWithReceiving() {
+  switch (receiverState) {
+    case R_START:
+      if (ser_data == SER_START) {
+        receiverState = R_GAME;
+        transmitterState = T_GAME;
+        multiplayer = true;
+        isSecondPlayer = true;
+        menuState = GAME;
+        ser_send_byte(ACK);
+      }
+      break;
+    case R_GAME:
+      if (dealWithAcknolegments() != 0) {
+        if (ser_data == SER_MOUSE) {
+          ser_send_byte(ACK);
+          receiverState = R_MOUSE;
+        }
+        else
+          dealWithReceivingKeyboard();
+      }
+      break;
+    case R_MOUSE:
+      if (dealWithAcknolegments() != 0) {
+        ser_packet.bytes[0] = ser_data;
+        ser_send_byte(ACK);
+        receiverState = R_M_BYTE1;
+      }
+      break;
+    case R_M_BYTE1:
+      if (dealWithAcknolegments() != 0) {
+        ser_packet.bytes[1] = ser_data;
+        ser_send_byte(ACK);
+        receiverState = R_M_BYTE2;
+      }
+      break;
+    case R_M_BYTE2:
+      if (dealWithAcknolegments() != 0) {
+        ser_packet.bytes[2] = ser_data;
+        ser_send_byte(ACK);
+        receiverState = R_M_BYTE3;
+        ser_update_mouse();
+      }
+      break;
+    case R_M_BYTE3:
+      if (dealWithAcknolegments() != 0) {
+        if (ser_data == SER_COMPLETE)
+          receiverState = R_GAME;
+        else
+          ser_send_byte(ACK);
+      }
+      break;
+    case R_KEYBOARD:
+      if (dealWithAcknolegments() != 0) {
+        if (ser_data == SER_COMPLETE)
+          receiverState = R_GAME;
+        else
+          ser_send_byte(ACK);
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+void ser_update_mouse() {
+  ser_packet_parse();
+  change = true;
+  move_cursor(&ser_packet, ser_cursor);
+  check_mouse_click(ser_packet, ser_cursor);
+}
+
+void ser_packet_parse() {
+  if (ser_packet.bytes[0] & X_OV)
+    return;
+  if (ser_packet.bytes[0] & Y_OV)
+    return;
+  ser_packet.lb = (ser_packet.bytes[0] & LB);
+  ser_packet.rb = (ser_packet.bytes[0] & RB);
+  ser_packet.mb = (ser_packet.bytes[0] & MB);
+  if (ser_packet.bytes[0] & X_MSB) {
+    ser_packet.delta_x = (0xFF00 | ser_packet.bytes[1]);
+  }
+  else {
+    ser_packet.delta_x = ser_packet.bytes[1];
+  }
+  if (ser_packet.bytes[0] & Y_MSB) {
+    ser_packet.delta_y = (0xFF00 | ser_packet.bytes[2]);
+  }
+  else {
+    ser_packet.delta_y = ser_packet.bytes[2];
+  }
+  ser_packet.y_ov = (ser_packet.bytes[0] & Y_OV);
+  ser_packet.x_ov = (ser_packet.bytes[0] & X_OV);
+}
+
+int dealWithAcknolegments() {
+  if (ser_data == ACK) {
+    nextState();
+    return 0;
+  }
+  else if (ser_data == NACK) {
+    resendByte();
+    return 0;
+  }
+  else if (ser_data == ERROR) {
+    resendFullPacket();
+    return 0;
+  }
+  else if (ser_data == SER_COMPLETE) {
+    receiverState = R_GAME;
+  }
+  return 1;
+}
+
+void nextState() {
+  switch (transmitterState) {
+    case T_WAITING || GAME:
+      transmitterState = T_GAME;
+      break;
+    case T_MOUSE:
+      ser_send_byte(sendMouseData[0]);
+      transmitterState = T_M_BYTE1;
+      break;
+    case T_M_BYTE1:
+      ser_send_byte(sendMouseData[1]);
+      transmitterState = T_M_BYTE2;
+      break;
+    case T_M_BYTE2:
+      ser_send_byte(sendMouseData[2]);
+      transmitterState = T_M_BYTE3;
+      break;
+    case T_M_BYTE3:
+      errorTries = 0;
+      if (!isEmpty(mouseQueue)) {
+        sendMouseData[0] = pop(mouseQueue);
+        sendMouseData[1] = pop(mouseQueue);
+        sendMouseData[2] = pop(mouseQueue);
+      }
+      ser_send_byte(SER_COMPLETE);
+      transmitterState = T_GAME;
+      break;
+    case T_KEYBOARD:
+      errorTries = 0;
+      if (!isEmpty(kbdQueue))
+        keyboardData = pop(kbdQueue);
+      ser_send_byte(SER_COMPLETE);
+      transmitterState = T_GAME;
+    default:
+      break;
+  }
+}
+
+void resendByte() {
+  switch (transmitterState) {
+    case T_WAITING:
+      ser_send_byte(SER_START);
+      break;
+    case T_MOUSE:
+      ser_send_byte(SER_MOUSE);
+      break;
+    case T_M_BYTE1:
+      ser_send_byte(sendMouseData[0]);
+      break;
+    case T_M_BYTE2:
+      ser_send_byte(sendMouseData[1]);
+      break;
+    case T_M_BYTE3:
+      ser_send_byte(sendMouseData[2]);
+      break;
+    case T_KEYBOARD:
+      ser_send_byte(keyboardData);
+    default:
+      break;
+  }
+}
+
+void resendFullPacket() {
+  switch (transmitterState) {
+    case T_WAITING:
+      ser_send_byte(SER_START);
+      break;
+    case T_MOUSE:
+      ser_send_byte(SER_MOUSE);
+      transmitterState = T_MOUSE;
+      break;
+    case T_M_BYTE1:
+      ser_send_byte(SER_MOUSE);
+      transmitterState = T_MOUSE;
+      break;
+    case T_M_BYTE2:
+      ser_send_byte(SER_MOUSE);
+      transmitterState = T_MOUSE;
+      break;
+    case T_M_BYTE3:
+      ser_send_byte(SER_MOUSE);
+      transmitterState = T_MOUSE;
+      break;
+    case T_KEYBOARD:
+      ser_send_byte(keyboardData);
+      break;
+    default:
+      break;
+  }
+}
+
+void dealWithReceivingKeyboard() {
+  if (ser_data == SER_ESC_BREAK) {
+    receiverState = R_KEYBOARD;
+    ser_send_byte(ACK);
+    menuState = START;
+    change = true;
+    level_time = 0;
+    reset_states();
+    return;
+  }
+  for (int i = 0; i < 12; i++) {
+    if (ser_data == ser_keys[i]) {
+      receiverState = R_KEYBOARD;
+      ser_send_byte(ACK);
+      if (isSecondPlayer) {
+        kbd_outbuf = valid_kbd_values[i % 6];
+      }
+      else
+        kbd_outbuf = valid_kbd_values[i % 6 + 6];
+      ser_action_handler();
+      return;
+    }
+  }
+}
+
+void ser_action_handler() {
+  if (kbd_outbuf == W_MAKE)
+    jump(boys[0]);
+  else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
+    left(boys[0]);
+  else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
+    right(boys[0]);
+  else if (kbd_outbuf == UP_MAKE)
+    jump(girls[0]);
+  else if (kbd_outbuf == LEFT_MAKE || kbd_outbuf == RIGHT_BREAK)
+    left(girls[0]);
+  else if (kbd_outbuf == RIGHT_MAKE || kbd_outbuf == LEFT_BREAK)
+    right(girls[0]);
+}
+
+void send_keyboard_packet() {
+  if (kbd_outbuf == ESC_BREAK) {
+    if (readyToSend) {
+      ser_send_byte(SER_ESC_BREAK);
+      keyboardData = SER_ESC_BREAK;
+      transmitterState = T_KEYBOARD;
+      return;
+    }
+    push(kbdQueue, SER_ESC_BREAK);
+    return;
+  }
+  for (int i = 0; i < 12; i++) {
+    if (kbd_outbuf == valid_kbd_values[i]) {
+      if (readyToSend) {
+        ser_send_byte(ser_keys[i]);
+        keyboardData = ser_keys[i];
+        transmitterState = T_KEYBOARD;
+        return;
+      }
+      push(kbdQueue, ser_keys[i]);
+      return;
+    }
+  }
+}
+
+void send_mouse_packet() {
+  if (readyToSend) {
+    ser_send_byte(SER_MOUSE);
+    sendMouseData[0] = packet.bytes[0];
+    sendMouseData[1] = packet.bytes[1];
+    sendMouseData[2] = packet.bytes[2];
+    transmitterState = T_MOUSE;
+    return;
+  }
+  push(mouseQueue, packet.bytes[0]);
+  push(mouseQueue, packet.bytes[1]);
+  push(mouseQueue, packet.bytes[2]);
+}
+
+void move_cursor(struct packet *pp, Sprite *cursor) {
   int16_t x = cursor->x + pp->delta_x;
   int16_t y = cursor->y - pp->delta_y;
   if (x < 0)
@@ -267,23 +617,48 @@ void move_cursor(struct packet *pp) {
   cursor->y = y;
 }
 
-void action_handler(Sprite *sp) {
-  if(sp->width == 35) {
+void action_handler() {
+  if (!multiplayer) {
     if (kbd_outbuf == W_MAKE)
-      jump(sp);
+      jump(boys[0]);
     else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
-      left(sp);
+      left(boys[0]);
     else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
-      right(sp);
-  }
-  else if(sp->width == 42) {
-    if (kbd_outbuf == UP_MAKE)
-      jump(sp);
+      right(boys[0]);
+    else if (kbd_outbuf == UP_MAKE)
+      jump(girls[0]);
     else if (kbd_outbuf == LEFT_MAKE || kbd_outbuf == RIGHT_BREAK)
-      left(sp);
+      left(girls[0]);
     else if (kbd_outbuf == RIGHT_MAKE || kbd_outbuf == LEFT_BREAK)
-      right(sp);
-  
+      right(girls[0]);
+  }
+  else if (!isSecondPlayer) {
+    if (kbd_outbuf == W_MAKE)
+      jump(boys[0]);
+    else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
+      left(boys[0]);
+    else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
+      right(boys[0]);
+    else if (kbd_outbuf == UP_MAKE)
+      jump(boys[0]);
+    else if (kbd_outbuf == LEFT_MAKE || kbd_outbuf == RIGHT_BREAK)
+      left(boys[0]);
+    else if (kbd_outbuf == RIGHT_MAKE || kbd_outbuf == LEFT_BREAK)
+      right(boys[0]);
+  }
+  else if (isSecondPlayer) {
+    if (kbd_outbuf == W_MAKE)
+      jump(girls[0]);
+    else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
+      left(girls[0]);
+    else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
+      right(girls[0]);
+    else if (kbd_outbuf == UP_MAKE)
+      jump(girls[0]);
+    else if (kbd_outbuf == LEFT_MAKE || kbd_outbuf == RIGHT_BREAK)
+      left(girls[0]);
+    else if (kbd_outbuf == RIGHT_MAKE || kbd_outbuf == LEFT_BREAK)
+      right(girls[0]);
   }
 }
 
@@ -324,9 +699,9 @@ int move_x(Sprite *sp) {
   int x = sp->x;
 
   if (sp->xspeed > 0) { // moving right
-    if(sp->width == 35)
+    if (sp->width == 35)
       boyState = WALKRIGHT;
-    else if(sp->width == 42)
+    else if (sp->width == 42)
       girlState = WALKRIGHT;
     x += sp->xspeed;
     if (x > get_hres() - sp->width - 20)
@@ -353,9 +728,9 @@ int move_x(Sprite *sp) {
     }
   }
   else if (sp->xspeed < 0) { // moving left
-    if(sp->width == 35)
+    if (sp->width == 35)
       boyState = WALKLEFT;
-    else if(sp->width == 42)
+    else if (sp->width == 42)
       girlState = WALKLEFT;
     x += sp->xspeed;
     if (x < 20)
@@ -382,10 +757,10 @@ int move_x(Sprite *sp) {
     }
   }
   else {
-    if(sp->width == 35)
+    if (sp->width == 35)
       boyState = NORMAL;
-    else if(sp->width == 42)
-      girlState = NORMAL; 
+    else if (sp->width == 42)
+      girlState = NORMAL;
   }
   return 0;
 }
@@ -408,7 +783,7 @@ int move_y(Sprite *sp) {
       }
       set_ground(sp);
     }
-    else if (wall->x - (sp->x + sp->width) < 0 || wall->x + wall->width - sp->x > 0) { //hits wall from above
+    else if (wall->x - (sp->x + sp->width) < 0 || wall->x + wall->width - sp->x > 0) { // hits wall from above
       if (!sp->isOnGround) {
         y = wall->y - sp->height;
         if (sp->y != y) {
@@ -474,100 +849,109 @@ void gravity(Sprite *sp) {
   sp->yspeed++;
 }
 
-void check_mouse_click(struct packet pp){
-  switch (menuState)
-  {
-  case START:
-    if(pp.lb){
-        if(cursor->x>=start->x && cursor->x<=start->x+start->width && cursor->y>=start->y && cursor->y<=start->y+start->height){
+void check_mouse_click(struct packet pp, Sprite *cursor) {
+  switch (menuState) {
+    case START:
+      if (pp.lb) {
+        if (cursor->x >= start->x && cursor->x <= start->x + start->width && cursor->y >= start->y && cursor->y <= start->y + start->height) {
+          ser_send_byte(SER_START);
           menuState = GAME;
+          transmitterState = T_WAITING;
+          receiverState = R_GAME;
+          ser_show_cursor = true;
+          multiplayer = true;
         }
-        if(cursor->x>=exit_button->x && cursor->x<=exit_button->x+exit_button->width && cursor->y>=exit_button->y && cursor->y<=exit_button->y+exit_button->height){
+        // if (cursor->x >= start->x && cursor->x <= start->x + start->width && cursor->y >= start->y && cursor->y <= start->y + start->height) {
+        //   menuState = GAME;
+        //   ser_show_cursor = true;
+        //   multiplayer = true;
+        //   ser_send_byte(SER_START);
+        // }
+        if (cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height) {
           systemState = EXIT;
         }
-        if(cursor->x>=leaderboard_button->x && cursor->x<=leaderboard_button->x+leaderboard_button->width && cursor->y>=leaderboard_button->y && cursor->y<=leaderboard_button->y+leaderboard_button->height){
+        if (cursor->x >= leaderboard_button->x && cursor->x <= leaderboard_button->x + leaderboard_button->width && cursor->y >= leaderboard_button->y && cursor->y <= leaderboard_button->y + leaderboard_button->height) {
           menuState = LEADERBOARD;
         }
-    }
-    break;
-  
-  default:
-    break;
+      }
+      break;
+
+    default:
+      break;
   }
 }
 
-void reset_states(){
+void reset_states() {
   changesprite = 0;
   spriteindex = 0;
   boyState = NORMAL;
   girlState = NORMAL;
-  for(int i = 0; i<6; i++){
-    boys[i]->x =20;
-    boys[i]->y =520;
-    girls[i]->x =738;
-    girls[i]->y =520;
+  for (int i = 0; i < 6; i++) {
+    boys[i]->x = 20;
+    boys[i]->y = 520;
+    girls[i]->x = 738;
+    girls[i]->y = 520;
   }
   updateArrayWithLevel(level);
   int i, x, y;
   for (i = 0; i < 1200; i++) {
-      x = (i % 40) * 20;
-      y = (i / 40) * 20;
-      if (levelArray[i] == 1) {
-        walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
-      }
-      else  {
-        walls20[i] = NULL;
-      }
+    x = (i % 40) * 20;
+    y = (i / 40) * 20;
+    if (levelArray[i] == 1) {
+      walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+    }
+    else {
+      walls20[i] = NULL;
+    }
   }
 }
 
-void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score){
-    int insert=-1;
-    for(int i=0; i<LEADERBOARD_SIZE;i++){
-      if(score<leaderboard[i].score || leaderboard[i].year == 0){
-        insert = i;
-        break;
-      }
+void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score) {
+  int insert = -1;
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    if (score < leaderboard[i].score || leaderboard[i].year == 0) {
+      insert = i;
+      break;
     }
+  }
 
-    if(insert>=0){
-      for(int j=LEADERBOARD_SIZE-1; j>insert;j--){ 
-        leaderboard[j] = leaderboard[j-1];
-      }
-      leaderboard[insert].year = year;
-      leaderboard[insert].month = month;
-      leaderboard[insert].day = day;
-      leaderboard[insert].hour = hour;
-      leaderboard[insert].minute = minute;
-      leaderboard[insert].score = score;
+  if (insert >= 0) {
+    for (int j = LEADERBOARD_SIZE - 1; j > insert; j--) {
+      leaderboard[j] = leaderboard[j - 1];
     }
-     
+    leaderboard[insert].year = year;
+    leaderboard[insert].month = month;
+    leaderboard[insert].day = day;
+    leaderboard[insert].hour = hour;
+    leaderboard[insert].minute = minute;
+    leaderboard[insert].score = score;
+  }
 }
 
-void write_leaderboard_data(){
-    FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "w");
-    if (file == NULL) {
-        printf("error writing leaderboard data\n");
-        return;
-    }
+void write_leaderboard_data() {
+  FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "w");
+  if (file == NULL) {
+    printf("error writing leaderboard data\n");
+    return;
+  }
 
-    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
-        fprintf(file, "%hhu %hhu %hhu %hhu %hhu %d\n", leaderboard[i].year, leaderboard[i].month, leaderboard[i].day, leaderboard[i].hour, leaderboard[i].minute, leaderboard[i].score);
-    }
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    fprintf(file, "%hhu %hhu %hhu %hhu %hhu %d\n", leaderboard[i].year, leaderboard[i].month, leaderboard[i].day, leaderboard[i].hour, leaderboard[i].minute, leaderboard[i].score);
+  }
 
-    fclose(file);
+  fclose(file);
 }
 
-void read_leaderboard_data(){
-    FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "r");
-    if (file == NULL) {
-        printf("error reading leaderboard data!\n");
-        return;
-    }
+void read_leaderboard_data() {
+  FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "r");
+  if (file == NULL) {
+    printf("error reading leaderboard data!\n");
+    return;
+  }
 
-    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
-        fscanf(file, "%hhu %hhu %hhu %hhu %hhu %d", &leaderboard[i].year, &leaderboard[i].month, &leaderboard[i].day, &leaderboard[i].hour, &leaderboard[i].minute, &leaderboard[i].score);
-    }
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    fscanf(file, "%hhu %hhu %hhu %hhu %hhu %d", &leaderboard[i].year, &leaderboard[i].month, &leaderboard[i].day, &leaderboard[i].hour, &leaderboard[i].minute, &leaderboard[i].score);
+  }
 
-    fclose(file);
+  fclose(file);
 }
