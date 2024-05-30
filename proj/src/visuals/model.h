@@ -74,6 +74,8 @@ typedef enum {
     START,
     GAME,
     LEADERBOARD,
+    GAMEOVER,
+    WIN,
     END
 } MenuState;
 

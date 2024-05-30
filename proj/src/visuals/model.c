@@ -21,15 +21,17 @@ Sprite *doorred;
 Sprite *walls20[1200];
 Sprite *greenleverright;
 Sprite *redleverleft;
-Sprite *rightToxic;
+/*
 Sprite *leftToxic;
+Sprite *centerToxic;
+Sprite *rightToxic;
 Sprite *leftFire;
+Sprite *centerFire;
 Sprite *rightFire;
 Sprite *leftWater;
-Sprite *rightWater;
-Sprite *centerToxic;
-Sprite *centerFire;
 Sprite *centerWater;
+Sprite *rightWater;
+*/
 Sprite *opendoor;
 Sprite *leaderboard_button;
 Sprite *num[12];
@@ -59,10 +61,6 @@ void load_sprites() {
   girls[4] = create_sprite((xpm_map_t) girlwalk2reverse_xpm, 738, 520, 0, 0);
   girls[5] = create_sprite((xpm_map_t) girlwin_xpm, 738, 520, 0, 0);
   cursor = create_sprite((xpm_map_t) hand_xpm, 0, 0, 0, 0);
-  /*
-  walls[0] = (create_sprite((xpm_map_t) wall_xpm, 100, 500, 0, 0));
-  walls[1] = (create_sprite((xpm_map_t) wall2_xpm, 350, 500, 0, 0));
-  */
   exit_button = create_sprite((xpm_map_t) exit_button_xpm, 200, 450, 0, 0);
   leaderboard_button = create_sprite((xpm_map_t) leaderboard_button_xpm, 200, 350, 0, 0);
   opendoor = create_sprite((xpm_map_t) opendoor_xpm, 100, 100, 0, 0);
@@ -70,15 +68,17 @@ void load_sprites() {
   doorred = create_sprite((xpm_map_t) doorred_xpm, 600, 100, 0, 0);
   greenleverright = create_sprite((xpm_map_t) greenleverright_xpm, 100, 100, 0, 0);
   redleverleft = create_sprite((xpm_map_t) redleverleft_xpm, 100, 100, 0, 0);
-  rightToxic = create_sprite((xpm_map_t) rightToxic_xpm, 100, 100, 0, 0);
+  /*
   leftToxic = create_sprite((xpm_map_t) leftToxic_xpm, 100, 100, 0, 0);
+  centerToxic = create_sprite((xpm_map_t) centerToxic_xpm, 100, 100, 0, 0);
+  rightToxic = create_sprite((xpm_map_t) rightToxic_xpm, 100, 100, 0, 0);
   leftFire = create_sprite((xpm_map_t) leftFire_xpm, 100, 100, 0, 0);
+  centerFire = create_sprite((xpm_map_t) centerFire_xpm, 100, 100, 0, 0);
   rightFire = create_sprite((xpm_map_t) rightFire_xpm, 100, 100, 0, 0);
   leftWater = create_sprite((xpm_map_t) leftWater_xpm, 100, 100, 0, 0);
-  rightWater = create_sprite((xpm_map_t) rightWater_xpm, 100, 100, 0, 0);
-  centerToxic = create_sprite((xpm_map_t) centerToxic_xpm, 100, 100, 0, 0);
-  centerFire = create_sprite((xpm_map_t) centerFire_xpm, 100, 100, 0, 0);
   centerWater = create_sprite((xpm_map_t) centerWater_xpm, 100, 100, 0, 0);
+  rightWater = create_sprite((xpm_map_t) rightWater_xpm, 100, 100, 0, 0);
+  */
   num[0] = create_sprite((xpm_map_t) num_0_xpm, 100, 100, 0, 0);
   num[1] = create_sprite((xpm_map_t) num_1_xpm, 100, 100, 0, 0);
   num[2] = create_sprite((xpm_map_t) num_2_xpm, 100, 100, 0, 0);
@@ -95,12 +95,37 @@ void load_sprites() {
   for (i = 0; i < 1200; i++) {
       x = (i % 40) * 20;
       y = (i / 40) * 20;
-      if (levelArray[i] == 1) {
+      if (levelArray[i] == 1)
         walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
-      }
-      else  {
-        walls20[i] = NULL;
-      }
+
+      else if (levelArray[i] == 6)
+        walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 7)
+        walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 8)
+        walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 9)
+        walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 10)
+        walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 11)
+        walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 12)
+        walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 13)
+        walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 14)
+        walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
+
+      else walls20[i] = NULL;
   }
 }
 
@@ -141,19 +166,34 @@ void updateArrayWithLevel(int level) {
 
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
   for (int j = 0; j < 1200; j++) {
-    if (levelArray[j] == 1)
+    if (levelArray[j] == 1 || (levelArray[j] >= 6 && levelArray[j] <= 14)) { // if it's not empty
+      if (levelArray[j] != 1) { // if it's a lake
+        if ((sp == boys[0] && (levelArray[j] >= 9 && levelArray[j] <= 11)) ||
+          (sp == girls[0] && (levelArray[j] >= 12 && levelArray[j] <= 14)) ||
+          (levelArray[j] >= 6 && levelArray[j] <= 8)) { 
+          if(!(x >= (walls20[j]->x + walls20[j]->width) || // boneco à direita do lago
+            (x + sp->width) <= walls20[j]->x)) {           // boneco à esquerda do lago
+            if(y == walls20[j]->y - sp->height) {          // boneco com os pés no lago
+              change = true;
+              menuState = START;
+              return walls20[j];
+            }
+          }
+        }
+      }
       if (!(x >= (walls20[j]->x + walls20[j]->width) || // boneco à direita da parede
-            (y + sp->height) <= walls20[j]->y ||      // boneco por cima da parede
-            (x + sp->width) <= walls20[j]->x ||       // boneco à esquerda da parede
+            (y + sp->height) <= walls20[j]->y ||        // boneco por cima da parede
+            (x + sp->width) <= walls20[j]->x ||         // boneco à esquerda da parede
             y >= (walls20[j]->y + walls20[j]->height))) // boneco por baixo da parede
         return walls20[j];
+    }
   }
   return NULL;
 }
 void update_timer() {
   timer_int_handler();
   if(menuState == GAME){
-    if(boyState ==WINNING && girlState == WINNING){
+    if(boyState == WINNING && girlState == WINNING){
         change = true;
 
         if(level == 3){
@@ -167,21 +207,14 @@ void update_timer() {
         kbc_ih();
         reset_states();
     }
-    
-    /*
-    for (int i = 0; i < 6; i++)
-      if (update(boys[i]) != 0)
-        change = true;
-    */
-   if(global_counter % FRAME_RATE == 0)
-   level_time++;
+    if(global_counter % FRAME_RATE == 0)
+      level_time++;
     if (update(boys[0]) != 0)
       change = true;
     if (update(girls[0]) != 0)
       change = true;
-      
   }
-  if(menuState==START && completed){
+  if(menuState == START && completed){
     rtc_update_values();
     completed = false;
     add_to_leaderboard(rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, level_time);
@@ -212,10 +245,6 @@ void update_keyboard() {
     level_time = 0;
     reset_states();
     }
-    /*
-    for(int i = 0; i < 6; i++)
-      action_handler(boys[i]);
-    */
     action_handler(boys[0]);
     action_handler(girls[0]);
     break;
@@ -313,10 +342,8 @@ void updateSpeed(Sprite *sp) {
 }
 
 int updatePosition(Sprite *sp) {
-
   int change = move_y(sp);
   change += move_x(sp);
-
   return change;
 }
 
@@ -392,7 +419,6 @@ int move_x(Sprite *sp) {
 
 int move_y(Sprite *sp) {
   int16_t y = sp->y;
-
   if (sp->yspeed > 0) { // moving down
     y += sp->yspeed;
     if (y > get_vres() - sp->height - 20)
@@ -479,13 +505,16 @@ void check_mouse_click(struct packet pp){
   {
   case START:
     if(pp.lb){
-        if(cursor->x>=start->x && cursor->x<=start->x+start->width && cursor->y>=start->y && cursor->y<=start->y+start->height){
+        if(cursor->x >= start->x && cursor->x <= start->x + start->width && 
+          cursor->y >= start->y && cursor->y <= start->y + start->height){
           menuState = GAME;
         }
-        if(cursor->x>=exit_button->x && cursor->x<=exit_button->x+exit_button->width && cursor->y>=exit_button->y && cursor->y<=exit_button->y+exit_button->height){
+        if(cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && 
+          cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height){
           systemState = EXIT;
         }
-        if(cursor->x>=leaderboard_button->x && cursor->x<=leaderboard_button->x+leaderboard_button->width && cursor->y>=leaderboard_button->y && cursor->y<=leaderboard_button->y+leaderboard_button->height){
+        if(cursor->x >= leaderboard_button->x && cursor->x <= leaderboard_button->x + leaderboard_button->width && 
+          cursor->y >= leaderboard_button->y && cursor->y <= leaderboard_button->y + leaderboard_button->height){
           menuState = LEADERBOARD;
         }
     }
@@ -512,12 +541,37 @@ void reset_states(){
   for (i = 0; i < 1200; i++) {
       x = (i % 40) * 20;
       y = (i / 40) * 20;
-      if (levelArray[i] == 1) {
+      if (levelArray[i] == 1)
         walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
-      }
-      else  {
-        walls20[i] = NULL;
-      }
+
+      else if (levelArray[i] == 6)
+        walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 7)
+        walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 8)
+        walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 9)
+        walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 10)
+        walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 11)
+        walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 12)
+        walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 13)
+        walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
+
+      else if (levelArray[i] == 14)
+        walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
+
+      else walls20[i] = NULL;
   }
 }
 

@@ -24,15 +24,17 @@ extern Sprite *doorblue;
 extern Sprite *doorred;
 extern Sprite *greenleverright;
 extern Sprite *redleverleft;
-extern Sprite *rightToxic;
-extern Sprite *centerToxic;
+/*
 extern Sprite *leftToxic;
+extern Sprite *centerToxic;
+extern Sprite *rightToxic;
 extern Sprite *leftFire;
 extern Sprite *centerFire;
 extern Sprite *rightFire;
 extern Sprite *leftWater;
 extern Sprite *centerWater;
 extern Sprite *rightWater;
+*/
 extern Sprite *opendoor;
 extern Sprite *walls20[1200];
 extern Sprite *num[12];
@@ -256,7 +258,7 @@ void draw_frame() {
     for (i = 0; i < 1200; i++) {
       x = (i % 40) * 20;
       y = (i / 40) * 20;
-      if (levelArray[i] == 1) {
+      if (levelArray[i] == 1 || (levelArray[i] >= 6 && levelArray[i] <= 14)) {
         draw_sprite(walls20[i]);
       }
       else if (levelArray[i] == 2) {
@@ -283,6 +285,7 @@ void draw_frame() {
       else if (levelArray[i] == 5) {
         draw_sprite_pos(redleverleft, x, y);
       }
+      /*
       else if (levelArray[i] == 6) {
         draw_sprite_pos(leftToxic, x, y);
       }
@@ -310,6 +313,7 @@ void draw_frame() {
       else if (levelArray[i] == 14) {
         draw_sprite_pos(rightWater, x, y);
       }
+      */
     }
     // Girl Draw Section
     if (girlState == NORMAL)
