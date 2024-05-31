@@ -11,6 +11,10 @@ uint32_t *background_map_menu = NULL;
 xpm_image_t background_img_menu;
 uint32_t *background_map_leaderboard = NULL;
 xpm_image_t background_img_leaderboard;
+uint32_t *background_map_gameover = NULL;
+xpm_image_t background_img_gameover;
+uint32_t *background_map_win = NULL;
+xpm_image_t background_img_win;
 extern Sprite *boy;
 extern SpriteState boyState;
 extern Sprite *boys[6];
@@ -20,10 +24,12 @@ extern Sprite *cursor;
 extern Sprite *start;
 extern Sprite *exit_button;
 extern Sprite *leaderboard_button;
+extern Sprite *tryagain_button;
 extern Sprite *doorblue;
 extern Sprite *doorred;
 extern Sprite *greenleverright;
 extern Sprite *redleverleft;
+extern Sprite *arrow;
 /*
 extern Sprite *leftToxic;
 extern Sprite *centerToxic;
@@ -163,6 +169,48 @@ int print_background_leaderboard(xpm_map_t xpm) {
   background_map_leaderboard = original_map;
   return 0;
 }
+int print_background_gameover(xpm_map_t xpm) {
+  if (background_map_gameover == NULL) {
+    background_map_gameover = (uint32_t *) xpm_load(xpm, XPM_8_8_8_8, &background_img_gameover);
+    if (background_map_gameover == NULL) {
+      printf("Error loading background\n");
+      return 1;
+    }
+  }
+  uint32_t *original_map = background_map_gameover;
+  for (uint16_t i = 0; i < background_img_gameover.height; i++) {
+    for (uint16_t j = 0; j < background_img_gameover.width; j++) {
+      if (vg_draw_pixel(j, i, *background_map_gameover) != 0) {
+        printf("Error drawing pixel\n");
+        return 1;
+      }
+      background_map_gameover++;
+    }
+  }
+  background_map_gameover = original_map;
+  return 0;
+}
+int print_background_win(xpm_map_t xpm) {
+  if (background_map_win == NULL) {
+    background_map_win = (uint32_t *) xpm_load(xpm, XPM_8_8_8_8, &background_img_win);
+    if (background_map_win == NULL) {
+      printf("Error loading background\n");
+      return 1;
+    }
+  }
+  uint32_t *original_map = background_map_win;
+  for (uint16_t i = 0; i < background_img_win.height; i++) {
+    for (uint16_t j = 0; j < background_img_win.width; j++) {
+      if (vg_draw_pixel(j, i, *background_map_win) != 0) {
+        printf("Error drawing pixel\n");
+        return 1;
+      }
+      background_map_win++;
+    }
+  }
+  background_map_win = original_map;
+  return 0;
+}
 void draw_temp_background(){
   for (uint16_t i = 0; i < get_vres(); i++) {
     for (uint16_t j = 0; j < get_hres(); j++) {
@@ -241,6 +289,8 @@ void draw_frame() {
   switch (menuState)
   {
   case START:
+    set_posx(exit_button, 200);
+    set_posy(exit_button, 450);
     print_background_menu((xpm_map_t) Menu_xpm);
     draw_sprite(start);
     draw_sprite(exit_button);
@@ -352,8 +402,26 @@ void draw_frame() {
     break;
   case LEADERBOARD:
     print_background_leaderboard((xpm_map_t) leaderboard_xpm);
+    draw_sprite(arrow);
     draw_leaderboard();
     break;
+  case GAMEOVER:
+    print_background_gameover((xpm_map_t) gameover_xpm);
+    set_posx(tryagain_button, 200);
+    set_posy(tryagain_button, 300);
+    set_posx(exit_button, 200);
+    set_posy(exit_button, 400);
+    draw_sprite(tryagain_button);
+    draw_sprite(exit_button);
+    break;
+    case WIN:
+    print_background_win((xpm_map_t) winscreen_xpm);
+    set_posx(tryagain_button, 200);
+    set_posy(tryagain_button, 300);
+    set_posx(exit_button, 200);
+    set_posy(exit_button, 400);
+    draw_sprite(tryagain_button);
+    draw_sprite(exit_button);
   default:
     break;
   }

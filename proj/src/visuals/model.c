@@ -14,6 +14,7 @@ Sprite *girls[6];
 Sprite *cursor;
 Sprite *start;
 Sprite *exit_button;
+Sprite *tryagain_button;
 SystemState systemState = RUNNING;
 MenuState menuState = START;
 Sprite *doorblue;
@@ -21,6 +22,7 @@ Sprite *doorred;
 Sprite *walls20[1200];
 Sprite *greenleverright;
 Sprite *redleverleft;
+Sprite *arrow;
 /*
 Sprite *leftToxic;
 Sprite *centerToxic;
@@ -68,6 +70,8 @@ void load_sprites() {
   doorred = create_sprite((xpm_map_t) doorred_xpm, 600, 100, 0, 0);
   greenleverright = create_sprite((xpm_map_t) greenleverright_xpm, 100, 100, 0, 0);
   redleverleft = create_sprite((xpm_map_t) redleverleft_xpm, 100, 100, 0, 0);
+  tryagain_button = create_sprite((xpm_map_t) tryagain_xpm, 200, 350, 0, 0);
+  arrow = create_sprite((xpm_map_t) arrow_xpm, 20, 20, 0, 0);
   /*
   leftToxic = create_sprite((xpm_map_t) leftToxic_xpm, 100, 100, 0, 0);
   centerToxic = create_sprite((xpm_map_t) centerToxic_xpm, 100, 100, 0, 0);
@@ -175,7 +179,11 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
             (x + sp->width) <= walls20[j]->x)) {           // boneco à esquerda do lago
             if(y == walls20[j]->y - sp->height) {          // boneco com os pés no lago
               change = true;
-              menuState = START;
+              menuState = GAMEOVER;
+              level=1;
+              level_time = 0;
+              kbc_ih();
+              reset_states();
               return walls20[j];
             }
           }
@@ -193,13 +201,19 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 void update_timer() {
   timer_int_handler();
   if(menuState == GAME){
+    if(completed){
+      rtc_update_values();
+      completed = false;
+      add_to_leaderboard(rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, level_time);
+      level_time = 0;
+      reset_states();
+    }
     if(boyState == WINNING && girlState == WINNING){
         change = true;
-
         if(level == 3){
           level=1;
           completed = true;
-          menuState = START;
+          menuState = WIN;
         }
         else{
           level++;
@@ -207,12 +221,14 @@ void update_timer() {
         kbc_ih();
         reset_states();
     }
+    else{
     if(global_counter % FRAME_RATE == 0)
       level_time++;
     if (update(boys[0]) != 0)
       change = true;
     if (update(girls[0]) != 0)
       change = true;
+    }
   }
   if(menuState == START && completed){
     rtc_update_values();
@@ -259,6 +275,10 @@ void update_keyboard() {
       change = true;
     }
     break;
+    case GAMEOVER:
+    if(kbd_outbuf == ESC_BREAK){
+      systemState = EXIT;
+    }
   default:
     break;
   }
@@ -519,7 +539,46 @@ void check_mouse_click(struct packet pp){
         }
     }
     break;
-  
+  case GAMEOVER:
+    if(pp.lb){
+        if(cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width && 
+          cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height){
+          menuState = GAME;
+          change = true;
+          level_time = 0;
+          reset_states();
+        }
+        if(cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && 
+          cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height){
+          change = true;
+          menuState = START;
+        }
+    }
+    break;
+    case WIN:
+    if(pp.lb){
+        if(cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width && 
+          cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height){
+          menuState = GAME;
+          change = true;
+          level_time = 0;
+          reset_states();
+        }
+        if(cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && 
+          cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height){
+          change = true;
+          menuState = START;
+        }
+    }
+    break;
+    case LEADERBOARD:
+    if(pp.lb){
+        if(cursor->x >= arrow->x && cursor->x <= arrow->x + arrow->width && 
+          cursor->y >= arrow->y && cursor->y <= arrow->y + arrow->height){
+          change = true;
+          menuState = START;
+        }
+    }
   default:
     break;
   }
@@ -533,8 +592,14 @@ void reset_states(){
   for(int i = 0; i<6; i++){
     boys[i]->x =20;
     boys[i]->y =520;
+    boys[i]->xspeed=0;
+    boys[i]->yspeed=0;
+    boys[i]->xaccell=0;
     girls[i]->x =738;
     girls[i]->y =520;
+    girls[i]->xspeed=0;
+    girls[i]->yspeed=0;
+    girls[i]->xaccell=0;
   }
   updateArrayWithLevel(level);
   int i, x, y;

@@ -1,7 +1,7 @@
 /* XPM */
 static char * tryagain_xpm[] = {
 "400 94 1566 2",
-"  	c None",
+"  	c #000001",
 ". 	c #FED727",
 "+ 	c #FED529",
 "@ 	c #FFE430",

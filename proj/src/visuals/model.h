@@ -45,6 +45,7 @@
 #include "visuals/xpms/opendoor.xpm"
 #include "visuals/xpms/wall20_20.xpm"
 #include "visuals/xpms/leaderboard_button.xpm"
+#include "visuals/xpms/tryagain.xpm"
 #include "visuals/xpms/num_0.xpm"
 #include "visuals/xpms/num_1.xpm"
 #include "visuals/xpms/num_2.xpm"
@@ -57,6 +58,7 @@
 #include "visuals/xpms/num_9.xpm"
 #include "visuals/xpms/dots.xpm"
 #include "visuals/xpms/bar.xpm"
+#include "visuals/xpms/arrow.xpm"
 #include <lcom/lcf.h>
 typedef enum {
   NORMAL,

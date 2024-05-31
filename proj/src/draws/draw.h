@@ -6,6 +6,8 @@
 #include "visuals/xpms/background.xpm"
 #include "visuals/xpms/menu.xpm"
 #include  "visuals/xpms/leaderboard.xpm"
+#include "visuals/xpms/gameover.xpm"
+#include "visuals/xpms/winscreen.xpm"
 #include <lcom/lcf.h>
  
 int draw_sprite(Sprite *sprite);
