@@ -5,6 +5,7 @@ extern int level_time;
 extern int global_counter;
 extern int changesprite;
 extern int spriteindex;
+extern bool redlever;
 uint32_t *background_map_game = NULL;
 xpm_image_t background_img;
 uint32_t *background_map_menu = NULL;
@@ -27,9 +28,10 @@ extern Sprite *leaderboard_button;
 extern Sprite *tryagain_button;
 extern Sprite *doorblue;
 extern Sprite *doorred;
-extern Sprite *greenleverright;
-extern Sprite *redleverleft;
 extern Sprite *arrow;
+extern Sprite *lever;
+extern Sprite *button[2];
+extern Sprite *buttonpressed[2];
 /*
 extern Sprite *leftToxic;
 extern Sprite *centerToxic;
@@ -311,8 +313,8 @@ void draw_frame() {
       if (levelArray[i] == 1 || (levelArray[i] >= 6 && levelArray[i] <= 14)) {
         draw_sprite(walls20[i]);
       }
-      else if (levelArray[i] == 2) {
-        draw_sprite_pos(greenleverright, x, y);
+      else if (levelArray[i] == 2 || levelArray[i] == 5) {
+        draw_sprite(lever);
       }
       else if (levelArray[i] == 3) {
         if ((boys[0]->x >= x && boys[0]->x <= x + doorblue->width) && 
@@ -332,38 +334,21 @@ void draw_frame() {
         else
           draw_sprite_pos(doorred, x, y);
       }
-      else if (levelArray[i] == 5) {
-        draw_sprite_pos(redleverleft, x, y);
+      else if (levelArray[i] == 15) {
+        if (((boys[0]->x >= x && boys[0]->x <= (x + 2*button[0]->width)) && // boneco a pisar o botão
+          (boys[0]->y == (y + button[0]->height - boys[0]->height))) ||
+          ((girls[0]->x >= x && girls[0]->x <= (x + 2*button[0]->width)) && // boneca a pisar o botão
+          (girls[0]->y == (y + button[0]->height - girls[0]->height)))) {
+          for (int i = 0; i < 2; i++) {
+            draw_sprite_pos(buttonpressed[i], x + i*20, y);
+          }
+        }
+        else {
+          for (int i = 0; i < 2; i++) {
+            draw_sprite_pos(button[i], x + i*20, y);
+          }
+        }
       }
-      /*
-      else if (levelArray[i] == 6) {
-        draw_sprite_pos(leftToxic, x, y);
-      }
-      else if (levelArray[i] == 7) {
-        draw_sprite_pos(centerToxic, x, y);
-      }
-      else if (levelArray[i] == 8) {
-        draw_sprite_pos(rightToxic, x, y);
-      }
-      else if (levelArray[i] == 9) {
-        draw_sprite_pos(leftFire, x, y);
-      }
-      else if (levelArray[i] == 10) {
-        draw_sprite_pos(centerFire, x, y);
-      }
-      else if (levelArray[i] == 11) {
-        draw_sprite_pos(rightFire, x, y);
-      }
-      else if (levelArray[i] == 12) {
-        draw_sprite_pos(leftWater, x, y);
-      }
-      else if (levelArray[i] == 13) {
-        draw_sprite_pos(centerWater, x, y);
-      }
-      else if (levelArray[i] == 14) {
-        draw_sprite_pos(rightWater, x, y);
-      }
-      */
     }
     // Girl Draw Section
     if (girlState == NORMAL)

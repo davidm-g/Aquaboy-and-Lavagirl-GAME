@@ -59,6 +59,10 @@
 #include "visuals/xpms/dots.xpm"
 #include "visuals/xpms/bar.xpm"
 #include "visuals/xpms/arrow.xpm"
+#include "visuals/xpms/buttonleft.xpm"
+#include "visuals/xpms/buttonright.xpm"
+#include "visuals/xpms/buttonleftpressed.xpm"
+#include "visuals/xpms/buttonrightpressed.xpm"
 #include <lcom/lcf.h>
 typedef enum {
   NORMAL,
