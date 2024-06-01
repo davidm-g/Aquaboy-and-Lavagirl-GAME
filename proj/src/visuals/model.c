@@ -25,26 +25,11 @@ Sprite *doorred;
 Sprite *walls20[1200];
 Sprite *arrow;
 Sprite *lever;
-/*
-Sprite *greenleverright;
-Sprite *redleverleft;
-
-Sprite *leftToxic;
-Sprite *centerToxic;
-Sprite *rightToxic;
-Sprite *leftFire;
-Sprite *centerFire;
-Sprite *rightFire;
-Sprite *leftWater;
-Sprite *centerWater;
-Sprite *rightWater;
-*/
 Sprite *opendoor;
 Sprite *leaderboard_button;
 Sprite *num[12];
 int *levelArray;
-LevelState levelState = LEVEL_1;
-int level=1;
+int level = 1;
 extern struct packet packet;
 extern int byte_counter;
 extern rtc_values rtc;
@@ -107,49 +92,50 @@ void load_sprites() {
   num[11] = create_sprite((xpm_map_t) dots_xpm, 100, 100, 0, 0);
   int i, x, y;
   for (i = 0; i < 1200; i++) {
-      x = (i % 40) * 20;
-      y = (i / 40) * 20;
-      if (levelArray[i] == 1)
-        walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+    x = (i % 40) * 20;
+    y = (i / 40) * 20;
+    if (levelArray[i] == 1)
+      walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 2) {
-        lever = create_sprite((xpm_map_t) redleverleft_xpm, x, y, 0, 0);
-        walls20[i] = NULL;
-      }
+    else if (levelArray[i] == 2) {
+      lever = create_sprite((xpm_map_t) redleverleft_xpm, x, y, 0, 0);
+      walls20[i] = NULL;
+    }
 
-      else if (levelArray[i] == 5) {
-        lever = create_sprite((xpm_map_t) greenleverright_xpm, x, y, 0, 0);
-        walls20[i] = NULL;
-      }
+    else if (levelArray[i] == 5) {
+      lever = create_sprite((xpm_map_t) greenleverright_xpm, x, y, 0, 0);
+      walls20[i] = NULL;
+    }
 
-      else if (levelArray[i] == 6)
-        walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 6)
+      walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 7)
-        walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 7)
+      walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 8)
-        walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 8)
+      walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 9)
-        walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 9)
+      walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 10)
-        walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 10)
+      walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 11)
-        walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 11)
+      walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 12)
-        walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 12)
+      walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 13)
-        walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 13)
+      walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 14)
-        walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 14)
+      walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
 
-      else walls20[i] = NULL;
+    else
+      walls20[i] = NULL;
   }
 }
 
@@ -166,38 +152,44 @@ void destroy_sprites() {
 }
 
 void initialize_leaderboard() {
-    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
-        leaderboard[i].score = INT_MAX;
-    }
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    leaderboard[i].score = INT_MAX;
+  }
 }
 
 void updateArrayWithLevel(int level) {
-    char filename[50];
-    levelArray[0] = 5;
-    sprintf(filename, "/home/lcom/labs/proj/src/visuals/levels/level%d.txt", level);
-    FILE *fp = fopen(filename, "r");
-    if (fp == NULL) {
-        printf("Error opening file\n");
-        return;
+  char filename[50];
+  sprintf(filename, "/home/lcom/labs/proj/src/visuals/levels/level%d.txt", level);
+
+  FILE *file = fopen(filename, "r");
+  if (file == NULL) {
+    printf("Error opening file\n");
+    return;
+  }
+
+  levelArray[0] = 5;
+
+  int i = 0;
+  while (i < ARRAY_SIZE) {
+    if (fscanf(file, "%d", &levelArray[i]) != 1) {
+      break;
     }
-    int i = 0;
-    while (!feof(fp) && i < (40 * 30)) {
-        fscanf(fp, "%d", &levelArray[i]);
-        i++;
-    }
-    fclose(fp);
+    i++;
+  }
+
+  fclose(file);
 }
 
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
   for (int j = 0; j < 1200; j++) {
-    if (levelArray[j] == 1 || (levelArray[j] >= 6 && levelArray[j] <= 14)) { // if it's a wall or lake
-      if (levelArray[j] >= 6 && levelArray[j] <= 14) { // if it's a lake
-        if ((sp == boys[0] && (levelArray[j] >= 9 && levelArray[j] <= 11)) || // boy above fire
-          (sp == girls[0] && (levelArray[j] >= 12 && levelArray[j] <= 14)) || // girl above water
-          (levelArray[j] >= 6 && levelArray[j] <= 8)) {                       // anyone above toxic
-          if(!(x >= (walls20[j]->x + walls20[j]->width) || // boneco à direita do lago
-            (x + sp->width) <= walls20[j]->x)) {           // boneco à esquerda do lago
-            if(y == walls20[j]->y - sp->height) {          // boneco com os pés no lago
+    if (levelArray[j] == 1 || (levelArray[j] >= 6 && levelArray[j] <= 14)) {    // if it's a wall or lake
+      if (levelArray[j] >= 6 && levelArray[j] <= 14) {                          // if it's a lake
+        if ((sp == boys[0] && (levelArray[j] >= 9 && levelArray[j] <= 11)) ||   // boy above fire
+            (sp == girls[0] && (levelArray[j] >= 12 && levelArray[j] <= 14)) || // girl above water
+            (levelArray[j] >= 6 && levelArray[j] <= 8)) {                       // anyone above toxic
+          if (!(x >= (walls20[j]->x + walls20[j]->width) ||                     // boneco à direita do lago
+                (x + sp->width) <= walls20[j]->x)) {                            // boneco à esquerda do lago
+            if (y == walls20[j]->y - sp->height) {                              // boneco com os pés no lago
               change = true;
               menuState = GAMEOVER;
               level = 1;
@@ -220,29 +212,29 @@ Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y) {
 }
 void update_timer() {
   timer_int_handler();
-  if(menuState == GAME){
-    if(completed){
+  if (menuState == GAME) {
+    if (completed) {
       rtc_update_values();
       completed = false;
-      add_to_leaderboard(rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, level_time);
+      add_to_leaderboard(rtc.day, rtc.month, rtc.year, rtc.hour, rtc.minute, level_time);
       level_time = 0;
       reset_states();
     }
-    if(boyState == WINNING && girlState == WINNING){
-        change = true;
-        if(level == 3){
-          level=1;
-          completed = true;
-          menuState = WIN;
-        }
-        else{
-          level++;
-        } 
-        kbc_ih();
-        reset_states();
+    if (boyState == WINNING && girlState == WINNING) {
+      change = true;
+      if (level == 3) {
+        level = 1;
+        completed = true;
+        menuState = WIN;
+      }
+      else {
+        level++;
+      }
+      kbc_ih();
+      reset_states();
     }
-    else{
-      if(global_counter % FRAME_RATE == 0)
+    else {
+      if (global_counter % FRAME_RATE == 0)
         level_time++;
       if (update(boys[0]) != 0)
         change = true;
@@ -250,10 +242,10 @@ void update_timer() {
         change = true;
     }
   }
-  if(menuState == START && completed){
+  if (menuState == START && completed) {
     rtc_update_values();
     completed = false;
-    add_to_leaderboard(rtc.year, rtc.month, rtc.day, rtc.hour, rtc.minute, level_time);
+    add_to_leaderboard(rtc.day, rtc.month, rtc.year, rtc.hour, rtc.minute, level_time);
     level_time = 0;
     reset_states();
   }
@@ -262,7 +254,7 @@ void update_timer() {
     flip_screen();
     change = false;
   }
-  else if(change == false && menuState == GAME){
+  else if (change == false && menuState == GAME) {
     boyState = NORMAL;
     girlState = NORMAL;
     draw_frame();
@@ -272,38 +264,36 @@ void update_timer() {
 
 void update_keyboard() {
   kbc_ih();
-  switch (menuState)
-  {
-  case GAME:
-    if (kbd_outbuf == ESC_BREAK){
-    menuState = START;
-    level = 1;
-    change = true;
-    level_time = 0;
-    reset_states();
-    }
-    action_handler(boys[0]);
-    action_handler(girls[0]);
-    break;
-  case START:
-    if(kbd_outbuf == ESC_BREAK){
-      systemState = EXIT;
-    }
-    break;
+  switch (menuState) {
+    case GAME:
+      if (kbd_outbuf == ESC_BREAK) {
+        menuState = START;
+        level = 1;
+        change = true;
+        level_time = 0;
+        reset_states();
+      }
+      action_handler(boys[0]);
+      action_handler(girls[0]);
+      break;
+    case START:
+      if (kbd_outbuf == ESC_BREAK) {
+        systemState = EXIT;
+      }
+      break;
     case LEADERBOARD:
-    if(kbd_outbuf == ESC_BREAK){
-      menuState = START;
-      change = true;
-    }
-    break;
+      if (kbd_outbuf == ESC_BREAK) {
+        menuState = START;
+        change = true;
+      }
+      break;
     case GAMEOVER:
-    if(kbd_outbuf == ESC_BREAK){
-      systemState = EXIT;
-    }
-  default:
-    break;
+      if (kbd_outbuf == ESC_BREAK) {
+        systemState = EXIT;
+      }
+    default:
+      break;
   }
-  
 }
 
 void update_mouse() {
@@ -317,10 +307,9 @@ void update_mouse() {
     check_mouse_click(packet);
   }
 }
-void update_rtc(){
-  if(global_counter % FRAME_RATE==0)
-  rtc_update_values();
-  
+void update_rtc() {
+  if (global_counter % FRAME_RATE == 0)
+    rtc_update_values();
 }
 void move_cursor(struct packet *pp) {
   int16_t x = cursor->x + pp->delta_x;
@@ -338,7 +327,7 @@ void move_cursor(struct packet *pp) {
 }
 
 void action_handler(Sprite *sp) {
-  if(sp->width == 35) {
+  if (sp->width == 35) {
     if (kbd_outbuf == W_MAKE)
       jump(sp);
     else if (kbd_outbuf == A_MAKE || kbd_outbuf == D_BREAK)
@@ -346,14 +335,13 @@ void action_handler(Sprite *sp) {
     else if (kbd_outbuf == D_MAKE || kbd_outbuf == A_BREAK)
       right(sp);
   }
-  else if(sp->width == 42) {
+  else if (sp->width == 42) {
     if (kbd_outbuf == UP_MAKE)
       jump(sp);
     else if (kbd_outbuf == LEFT_MAKE || kbd_outbuf == RIGHT_BREAK)
       left(sp);
     else if (kbd_outbuf == RIGHT_MAKE || kbd_outbuf == LEFT_BREAK)
       right(sp);
-  
   }
 }
 
@@ -392,9 +380,9 @@ int move_x(Sprite *sp) {
   int x = sp->x;
 
   if (sp->xspeed > 0) { // moving right
-    if(sp->width == 35)
+    if (sp->width == 35)
       boyState = WALKRIGHT;
-    else if(sp->width == 42)
+    else if (sp->width == 42)
       girlState = WALKRIGHT;
     x += sp->xspeed;
     if (x > get_hres() - sp->width - 20)
@@ -421,9 +409,9 @@ int move_x(Sprite *sp) {
     }
   }
   else if (sp->xspeed < 0) { // moving left
-    if(sp->width == 35)
+    if (sp->width == 35)
       boyState = WALKLEFT;
-    else if(sp->width == 42)
+    else if (sp->width == 42)
       girlState = WALKLEFT;
     x += sp->xspeed;
     if (x < 20)
@@ -450,10 +438,10 @@ int move_x(Sprite *sp) {
     }
   }
   else {
-    if(sp->width == 35)
+    if (sp->width == 35)
       boyState = NORMAL;
-    else if(sp->width == 42)
-      girlState = NORMAL; 
+    else if (sp->width == 42)
+      girlState = NORMAL;
   }
   return 0;
 }
@@ -475,7 +463,7 @@ int move_y(Sprite *sp) {
       }
       set_ground(sp);
     }
-    else if (wall->x - (sp->x + sp->width) < 0 || wall->x + wall->width - sp->x > 0) { //hits wall from above
+    else if (wall->x - (sp->x + sp->width) < 0 || wall->x + wall->width - sp->x > 0) { // hits wall from above
       if (!sp->isOnGround) {
         y = wall->y - sp->height;
         if (sp->y != y) {
@@ -541,246 +529,246 @@ void gravity(Sprite *sp) {
   sp->yspeed++;
 }
 
-void check_mouse_click(struct packet pp){
-  switch (menuState)
-  {
-  case START:
-    if(pp.lb){
-        if(cursor->x >= start->x && cursor->x <= start->x + start->width && 
-          cursor->y >= start->y && cursor->y <= start->y + start->height){
+void check_mouse_click(struct packet pp) {
+  switch (menuState) {
+    case START:
+      if (pp.lb) {
+        if (cursor->x >= start->x && cursor->x <= start->x + start->width &&
+            cursor->y >= start->y && cursor->y <= start->y + start->height) {
           menuState = GAME;
         }
-        if(cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && 
-          cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height){
+        if (cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width &&
+            cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height) {
           systemState = EXIT;
         }
-        if(cursor->x >= leaderboard_button->x && cursor->x <= leaderboard_button->x + leaderboard_button->width && 
-          cursor->y >= leaderboard_button->y && cursor->y <= leaderboard_button->y + leaderboard_button->height){
+        if (cursor->x >= leaderboard_button->x && cursor->x <= leaderboard_button->x + leaderboard_button->width &&
+            cursor->y >= leaderboard_button->y && cursor->y <= leaderboard_button->y + leaderboard_button->height) {
           menuState = LEADERBOARD;
         }
-    }
-    break;
-  case GAME:
-    if(pp.lb){
-        if(cursor->x >= lever->x && cursor->x <= lever->x + lever->width && 
-          cursor->y >= lever->y && cursor->y <= lever->y + lever->height) {
-            if(redlever) {
-              redlever = false;
-              updateArrayWithLevel(level + 10);
+      }
+      break;
+    case GAME:
+      if (pp.lb) {
+        if (cursor->x >= lever->x && cursor->x <= lever->x + lever->width &&
+            cursor->y >= lever->y && cursor->y <= lever->y + lever->height) {
+          if (redlever) {
+            redlever = false;
+            updateArrayWithLevel(level + 10);
+          }
+          else {
+            redlever = true;
+            updateArrayWithLevel(level);
+          }
+          change = true;
+          int i, x, y;
+          for (i = 0; i < 1200; i++) {
+            x = (i % 40) * 20;
+            y = (i / 40) * 20;
+            if (levelArray[i] == 1)
+              walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+
+            else if (levelArray[i] == 2) {
+              lever = create_sprite((xpm_map_t) redleverleft_xpm, x, y, 0, 0);
+              walls20[i] = NULL;
             }
-            else {
-              redlever = true;
-              updateArrayWithLevel(level);
+
+            else if (levelArray[i] == 5) {
+              lever = create_sprite((xpm_map_t) greenleverright_xpm, x, y, 0, 0);
+              walls20[i] = NULL;
             }
-            change = true;
-            int i, x, y;
-            for (i = 0; i < 1200; i++) {
-              x = (i % 40) * 20;
-              y = (i / 40) * 20;
-              if (levelArray[i] == 1)
-                walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 2) {
-                lever = create_sprite((xpm_map_t) redleverleft_xpm, x, y, 0, 0);
-                walls20[i] = NULL;
-              }
+            else if (levelArray[i] == 6)
+              walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 5) {
-                lever = create_sprite((xpm_map_t) greenleverright_xpm, x, y, 0, 0);
-                walls20[i] = NULL;
-              }
+            else if (levelArray[i] == 7)
+              walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 6)
-                walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 8)
+              walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 7)
-                walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 9)
+              walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 8)
-                walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 10)
+              walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 9)
-                walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 11)
+              walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 10)
-                walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 12)
+              walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 11)
-                walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 13)
+              walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 12)
-                walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
+            else if (levelArray[i] == 14)
+              walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
 
-              else if (levelArray[i] == 13)
-                walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
-
-              else if (levelArray[i] == 14)
-                walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
-
-              else walls20[i] = NULL;
+            else
+              walls20[i] = NULL;
           }
         }
-    }
-    break;
-  case GAMEOVER:
-    if(pp.lb){
-        if(cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width && 
-          cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height){
+      }
+      break;
+    case GAMEOVER:
+      if (pp.lb) {
+        if (cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width &&
+            cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height) {
           menuState = GAME;
           change = true;
           level_time = 0;
           reset_states();
         }
-        if(cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && 
-          cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height){
+        if (cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width &&
+            cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height) {
           change = true;
           menuState = START;
         }
-    }
-    break;
+      }
+      break;
     case WIN:
-    if(pp.lb){
-        if(cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width && 
-          cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height){
+      if (pp.lb) {
+        if (cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width &&
+            cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height) {
           menuState = GAME;
           change = true;
           level_time = 0;
           reset_states();
         }
-        if(cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width && 
-          cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height){
+        if (cursor->x >= exit_button->x && cursor->x <= exit_button->x + exit_button->width &&
+            cursor->y >= exit_button->y && cursor->y <= exit_button->y + exit_button->height) {
           change = true;
           menuState = START;
         }
-    }
-    break;
+      }
+      break;
     case LEADERBOARD:
-    if(pp.lb){
-        if(cursor->x >= arrow->x && cursor->x <= arrow->x + arrow->width && 
-          cursor->y >= arrow->y && cursor->y <= arrow->y + arrow->height){
+      if (pp.lb) {
+        if (cursor->x >= arrow->x && cursor->x <= arrow->x + arrow->width &&
+            cursor->y >= arrow->y && cursor->y <= arrow->y + arrow->height) {
           change = true;
           menuState = START;
         }
-    }
-  default:
-    break;
+      }
+    default:
+      break;
   }
 }
 
-void reset_states(){
+void reset_states() {
   changesprite = 0;
   spriteindex = 0;
   boyState = NORMAL;
   girlState = NORMAL;
   redlever = true;
-  for(int i = 0; i<6; i++){
-    boys[i]->x =20;
-    boys[i]->y =520;
-    boys[i]->xspeed=0;
-    boys[i]->yspeed=0;
-    boys[i]->xaccell=0;
-    girls[i]->x =738;
-    girls[i]->y =520;
-    girls[i]->xspeed=0;
-    girls[i]->yspeed=0;
-    girls[i]->xaccell=0;
+  for (int i = 0; i < 6; i++) {
+    boys[i]->x = 20;
+    boys[i]->y = 520;
+    boys[i]->xspeed = 0;
+    boys[i]->yspeed = 0;
+    boys[i]->xaccell = 0;
+    girls[i]->x = 738;
+    girls[i]->y = 520;
+    girls[i]->xspeed = 0;
+    girls[i]->yspeed = 0;
+    girls[i]->xaccell = 0;
   }
   updateArrayWithLevel(level);
   int i, x, y;
   for (i = 0; i < 1200; i++) {
-      x = (i % 40) * 20;
-      y = (i / 40) * 20;
-      if (levelArray[i] == 1)
-        walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
+    x = (i % 40) * 20;
+    y = (i / 40) * 20;
+    if (levelArray[i] == 1)
+      walls20[i] = (create_sprite((xpm_map_t) wall20_20_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 2) {
-        lever = create_sprite((xpm_map_t) redleverleft_xpm, x, y, 0, 0);
-        walls20[i] = NULL;
-      }
+    else if (levelArray[i] == 2) {
+      lever = create_sprite((xpm_map_t) redleverleft_xpm, x, y, 0, 0);
+      walls20[i] = NULL;
+    }
 
-      else if (levelArray[i] == 5) {
-        lever = create_sprite((xpm_map_t) greenleverright_xpm, x, y, 0, 0);
-        walls20[i] = NULL;
-      }
+    else if (levelArray[i] == 5) {
+      lever = create_sprite((xpm_map_t) greenleverright_xpm, x, y, 0, 0);
+      walls20[i] = NULL;
+    }
 
-      else if (levelArray[i] == 6)
-        walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 6)
+      walls20[i] = (create_sprite((xpm_map_t) leftToxic_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 7)
-        walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 7)
+      walls20[i] = (create_sprite((xpm_map_t) centerToxic_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 8)
-        walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 8)
+      walls20[i] = (create_sprite((xpm_map_t) rightToxic_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 9)
-        walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 9)
+      walls20[i] = (create_sprite((xpm_map_t) leftFire_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 10)
-        walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 10)
+      walls20[i] = (create_sprite((xpm_map_t) centerFire_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 11)
-        walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 11)
+      walls20[i] = (create_sprite((xpm_map_t) rightFire_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 12)
-        walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 12)
+      walls20[i] = (create_sprite((xpm_map_t) leftWater_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 13)
-        walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 13)
+      walls20[i] = (create_sprite((xpm_map_t) centerWater_xpm, x, y, 0, 0));
 
-      else if (levelArray[i] == 14)
-        walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
+    else if (levelArray[i] == 14)
+      walls20[i] = (create_sprite((xpm_map_t) rightWater_xpm, x, y, 0, 0));
 
-      else walls20[i] = NULL;
+    else
+      walls20[i] = NULL;
   }
 }
 
-void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score){
-    int insert =- 1;
-    for(int i = 0; i<LEADERBOARD_SIZE;i++){
-      if(score<leaderboard[i].score || leaderboard[i].year == 0){
-        insert = i;
-        break;
-      }
+void add_to_leaderboard(uint8_t day, uint8_t month, uint8_t year, uint8_t hour, uint8_t minute, int score) {
+  int insert = -1;
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    if (score < leaderboard[i].score || leaderboard[i].year == 0) {
+      insert = i;
+      break;
     }
+  }
 
-    if(insert >= 0){
-      for(int j=LEADERBOARD_SIZE-1; j>insert;j--){ 
-        leaderboard[j] = leaderboard[j-1];
-      }
-      leaderboard[insert].year = year;
-      leaderboard[insert].month = month;
-      leaderboard[insert].day = day;
-      leaderboard[insert].hour = hour;
-      leaderboard[insert].minute = minute;
-      leaderboard[insert].score = score;
+  if (insert >= 0) {
+    for (int j = LEADERBOARD_SIZE - 1; j > insert; j--) {
+      leaderboard[j] = leaderboard[j - 1];
     }
-     
+    leaderboard[insert].day = day;
+    leaderboard[insert].month = month;
+    leaderboard[insert].year = year;
+    leaderboard[insert].hour = hour;
+    leaderboard[insert].minute = minute;
+    leaderboard[insert].score = score;
+  }
 }
 
-void write_leaderboard_data(){
-    FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "w");
-    if (file == NULL) {
-        printf("error writing leaderboard data\n");
-        return;
-    }
+void write_leaderboard_data() {
+  FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "w");
+  if (file == NULL) {
+    printf("error writing leaderboard data\n");
+    return;
+  }
 
-    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
-        fprintf(file, "%hhu %hhu %hhu %hhu %hhu %d\n", leaderboard[i].year, leaderboard[i].month, leaderboard[i].day, leaderboard[i].hour, leaderboard[i].minute, leaderboard[i].score);
-    }
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    fprintf(file, "%hhu %hhu %hhu %hhu %hhu %d\n", leaderboard[i].day, leaderboard[i].month, leaderboard[i].year, leaderboard[i].hour, leaderboard[i].minute, leaderboard[i].score);
+  }
 
-    fclose(file);
+  fclose(file);
 }
 
-void read_leaderboard_data(){
-    FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "r");
-    if (file == NULL) {
-        printf("error reading leaderboard data!\n");
-        return;
-    }
+void read_leaderboard_data() {
+  FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "r");
+  if (file == NULL) {
+    printf("error reading leaderboard data!\n");
+    return;
+  }
 
-    for (int i = 0; i < LEADERBOARD_SIZE; i++) {
-        fscanf(file, "%hhu %hhu %hhu %hhu %hhu %d", &leaderboard[i].year, &leaderboard[i].month, &leaderboard[i].day, &leaderboard[i].hour, &leaderboard[i].minute, &leaderboard[i].score);
-    }
+  for (int i = 0; i < LEADERBOARD_SIZE; i++) {
+    fscanf(file, "%hhu %hhu %hhu %hhu %hhu %d", &leaderboard[i].day, &leaderboard[i].month, &leaderboard[i].year, &leaderboard[i].hour, &leaderboard[i].minute, &leaderboard[i].score);
+  }
 
-    fclose(file);
+  fclose(file);
 }

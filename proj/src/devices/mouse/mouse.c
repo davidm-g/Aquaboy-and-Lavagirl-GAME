@@ -96,15 +96,15 @@ int change_sample_rate(uint8_t rate) {
       return 1; //	write the code for the command to port 0x60
     if (read_value_data_from_kbc_mouse(OUT_BUF, &response))
       return 1; // read the acknowledgement byte
-    if (response == ACK){
+    if (response == ACK) {
       if (write_to_kbc_mouse(KBC_CMD_REG, REQUEST_MOUSE))
-      return 1;
+        return 1;
       if (write_to_kbc_mouse(WRITE_CMD_BYTE, rate))
-      return 1;
+        return 1;
       if (read_value_data_from_kbc_mouse(OUT_BUF, &response))
-      return 1;
-      if(response == ACK)// when ack, ggwp
-      return 0;
+        return 1;
+      if (response == ACK) // when ack, ggwp
+        return 0;
     }
     attempts--;
   }
@@ -156,5 +156,3 @@ void packet_parse() { // see documentation of struct packet
   packet.y_ov = (packet.bytes[0] & Y_OV);
   packet.x_ov = (packet.bytes[0] & X_OV);
 }
-
-

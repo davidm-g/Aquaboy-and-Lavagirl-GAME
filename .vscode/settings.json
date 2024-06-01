@@ -18,6 +18,7 @@
     "__tree": "c",
     "map": "c",
     "algorithm": "c",
-    "random": "c"
+    "random": "c",
+    "chrono": "c"
   }
 }

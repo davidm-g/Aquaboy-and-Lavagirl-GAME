@@ -1,17 +1,16 @@
+#include "defines.h"
 #include "devices/graphics/video.h"
-#include "devices/rtc/rtc.h"
 #include "devices/keyboard/i8042.h"
 #include "devices/keyboard/keyboard.h"
 #include "devices/mouse/mouse.h"
+#include "devices/rtc/rtc.h"
 #include "devices/timer/i8254.h"
 #include "devices/timer/timer.h"
 #include "devices/utils.h"
-#include <lcom/lcf.h>
-// #include "devices/graphics/vbe.h"
-#include "defines.h"
 #include "draws/draw.h"
 #include "visuals/model.h"
-extern  rtc_values rtc;
+#include <lcom/lcf.h>
+extern rtc_values rtc;
 extern int global_counter;
 extern uint8_t kbd_outbuf;
 extern uint32_t *background_map;
@@ -30,7 +29,6 @@ extern Sprite *start;
 extern bool change;
 extern Sprite *opendoor;
 extern Sprite *walls20[1200];
-extern LevelState levelState;
 extern int *levelArray;
 extern bool completed;
 extern int level;
@@ -72,7 +70,7 @@ int(proj_main_loop)(int argc, char **argv) {
   read_leaderboard_data();
   draw_frame();
   timer_set_frequency(0, FRAME_RATE);
-  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02,rtc_bit_no = 0x03;
+  uint8_t kbd_bit_no = 0x01, timer_bit_no = 0x00, mouse_bit_no = 0x02, rtc_bit_no = 0x03;
   int ipc_status, r;
   message msg;
   flip_screen();
@@ -86,12 +84,12 @@ int(proj_main_loop)(int argc, char **argv) {
   if (rtc_subscribe_int(&rtc_bit_no) != 0)
     return 1;
   start_rtc();
-  printf("current year is: %d\n",rtc.year);
-  printf("current month is: %d\n",rtc.month);
-  printf("current day is: %d\n",rtc.day);
-  printf("current hour is: %d\n",rtc.hour);
-  printf("current minute is: %d\n",rtc.minute);
-  printf("current second is: %d\n",rtc.second);
+  printf("current year is: %d\n", rtc.year);
+  printf("current month is: %d\n", rtc.month);
+  printf("current day is: %d\n", rtc.day);
+  printf("current hour is: %d\n", rtc.hour);
+  printf("current minute is: %d\n", rtc.minute);
+  printf("current second is: %d\n", rtc.second);
 
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
@@ -114,7 +112,7 @@ int(proj_main_loop)(int argc, char **argv) {
           if (msg.m_notify.interrupts & timer_bit_no) {
             update_timer();
           }
-          if(msg.m_notify.interrupts & rtc_bit_no){
+          if (msg.m_notify.interrupts & rtc_bit_no) {
             update_rtc();
           }
           break;
