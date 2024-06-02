@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aquaboy and Lavagirl: /home/davidm-g/Documents/LC/MINIX-LCOM/shared/proj/src/devices/rtc/rtc.h File Reference</title>
+<title>Aquaboy and Lavagirl: rtc.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -80,27 +80,27 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for rtc.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="rtc_8h__incl.png" border="0" usemap="#a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2rtc_2rtc_8h" alt=""/></div>
-<map name="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2rtc_2rtc_8h" id="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2rtc_2rtc_8h">
-<area shape="rect" title=" " alt="" coords="54,5,261,61"/>
-<area shape="rect" href="utils_8h.html" title=" " alt="" coords="5,109,80,136"/>
-<area shape="rect" title=" " alt="" coords="45,184,115,211"/>
-<area shape="rect" title=" " alt="" coords="155,109,240,136"/>
-<area shape="rect" title=" " alt="" coords="264,109,347,136"/>
+<div class="center"><img src="rtc_8h__incl.png" border="0" usemap="#artc_8h" alt=""/></div>
+<map name="artc_8h" id="artc_8h">
+<area shape="rect" title=" " alt="" coords="132,5,183,32"/>
+<area shape="rect" href="utils_8h.html" title=" " alt="" coords="5,80,80,107"/>
+<area shape="rect" title=" " alt="" coords="45,155,115,181"/>
+<area shape="rect" title=" " alt="" coords="155,80,240,107"/>
+<area shape="rect" title=" " alt="" coords="264,80,347,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="rtc_8h__dep__incl.png" border="0" usemap="#a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2rtc_2rtc_8hdep" alt=""/></div>
-<map name="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2rtc_2rtc_8hdep" id="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2rtc_2rtc_8hdep">
-<area shape="rect" title=" " alt="" coords="96,5,303,61"/>
-<area shape="rect" href="proj_8c.html" title=" " alt="" coords="5,317,212,373"/>
-<area shape="rect" href="rtc_8c.html" title=" " alt="" coords="96,109,303,165"/>
-<area shape="rect" href="model_8h.html" title=" " alt="" coords="327,109,533,165"/>
-<area shape="rect" href="model_8c.html" title=" " alt="" coords="147,213,353,269"/>
-<area shape="rect" href="draw_8h.html" title=" " alt="" coords="377,213,584,269"/>
-<area shape="rect" href="draw_8c.html" title=" " alt="" coords="377,317,584,373"/>
+<div class="center"><img src="rtc_8h__dep__incl.png" border="0" usemap="#artc_8hdep" alt=""/></div>
+<map name="artc_8hdep" id="artc_8hdep">
+<area shape="rect" title=" " alt="" coords="23,5,73,32"/>
+<area shape="rect" href="proj_8c.html" title=" " alt="" coords="7,229,65,256"/>
+<area shape="rect" href="rtc_8c.html" title=" " alt="" coords="23,80,73,107"/>
+<area shape="rect" href="model_8h.html" title=" " alt="" coords="97,80,172,107"/>
+<area shape="rect" href="model_8c.html" title=" " alt="" coords="73,155,148,181"/>
+<area shape="rect" href="draw_8h.html" title=" " alt="" coords="173,155,238,181"/>
+<area shape="rect" href="draw_8c.html" title=" " alt="" coords="173,229,237,256"/>
 </map>
 </div>
 </div>
@@ -145,12 +145,12 @@ Functions</h2></td></tr>
 <tr class="memitem:aad9b81b7c1ea288679dae99ca05b7118"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#aad9b81b7c1ea288679dae99ca05b7118">read_rtc_output</a> (uint8_t cmdbyte, uint8_t *result)</td></tr>
 <tr class="memdesc:aad9b81b7c1ea288679dae99ca05b7118"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads the output of the Real-Time Clock (RTC) using the specified command byte.  <a href="rtc_8h.html#aad9b81b7c1ea288679dae99ca05b7118">More...</a><br /></td></tr>
 <tr class="separator:aad9b81b7c1ea288679dae99ca05b7118"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5171a9c0f54940fe60f7500896afcc86"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a5171a9c0f54940fe60f7500896afcc86">rtc_subscribe_int</a> (uint8_t *bit_no)</td></tr>
-<tr class="memdesc:a5171a9c0f54940fe60f7500896afcc86"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes to RTC interrupts.  <a href="rtc_8h.html#a5171a9c0f54940fe60f7500896afcc86">More...</a><br /></td></tr>
-<tr class="separator:a5171a9c0f54940fe60f7500896afcc86"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8f17bf5280c908c8b199a90fefcc758"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#ab8f17bf5280c908c8b199a90fefcc758">rtc_unsubscribe_int</a> ()</td></tr>
-<tr class="memdesc:ab8f17bf5280c908c8b199a90fefcc758"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribes from RTC interrupts.  <a href="rtc_8h.html#ab8f17bf5280c908c8b199a90fefcc758">More...</a><br /></td></tr>
-<tr class="separator:ab8f17bf5280c908c8b199a90fefcc758"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6bbe679f115cec90d36d50eb2aac1b89"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a6bbe679f115cec90d36d50eb2aac1b89">rtc_subscribe_int</a> (uint8_t *bit_no)</td></tr>
+<tr class="memdesc:a6bbe679f115cec90d36d50eb2aac1b89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes to RTC interrupts.  <a href="rtc_8h.html#a6bbe679f115cec90d36d50eb2aac1b89">More...</a><br /></td></tr>
+<tr class="separator:a6bbe679f115cec90d36d50eb2aac1b89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d4850bb2a488644672d43287f160622"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#a9d4850bb2a488644672d43287f160622">rtc_unsubscribe_int</a> ()</td></tr>
+<tr class="memdesc:a9d4850bb2a488644672d43287f160622"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribes from RTC interrupts.  <a href="rtc_8h.html#a9d4850bb2a488644672d43287f160622">More...</a><br /></td></tr>
+<tr class="separator:a9d4850bb2a488644672d43287f160622"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae3e6ef6cb5629cbbb53f0bc7f3b8324b"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="rtc_8h.html#ae3e6ef6cb5629cbbb53f0bc7f3b8324b">is_updating_rtc</a> ()</td></tr>
 <tr class="memdesc:ae3e6ef6cb5629cbbb53f0bc7f3b8324b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the RTC is currently updating.  <a href="rtc_8h.html#ae3e6ef6cb5629cbbb53f0bc7f3b8324b">More...</a><br /></td></tr>
 <tr class="separator:ae3e6ef6cb5629cbbb53f0bc7f3b8324b"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -503,14 +503,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a5171a9c0f54940fe60f7500896afcc86"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5171a9c0f54940fe60f7500896afcc86">&#9670;&nbsp;</a></span>rtc_subscribe_int()</h2>
+<a id="a6bbe679f115cec90d36d50eb2aac1b89"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6bbe679f115cec90d36d50eb2aac1b89">&#9670;&nbsp;</a></span>rtc_subscribe_int()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int rtc_subscribe_int </td>
+          <td class="memname">int() rtc_subscribe_int </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>bit_no</em></td><td>)</td>
@@ -531,8 +531,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="rtc_8h_a5171a9c0f54940fe60f7500896afcc86_icgraph.png" border="0" usemap="#artc_8h_a5171a9c0f54940fe60f7500896afcc86_icgraph" alt=""/></div>
-<map name="artc_8h_a5171a9c0f54940fe60f7500896afcc86_icgraph" id="artc_8h_a5171a9c0f54940fe60f7500896afcc86_icgraph">
+<div class="center"><img src="rtc_8h_a6bbe679f115cec90d36d50eb2aac1b89_icgraph.png" border="0" usemap="#artc_8h_a6bbe679f115cec90d36d50eb2aac1b89_icgraph" alt=""/></div>
+<map name="artc_8h_a6bbe679f115cec90d36d50eb2aac1b89_icgraph" id="artc_8h_a6bbe679f115cec90d36d50eb2aac1b89_icgraph">
 <area shape="rect" title="Subscribes to RTC interrupts." alt="" coords="176,5,308,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
@@ -540,14 +540,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab8f17bf5280c908c8b199a90fefcc758"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab8f17bf5280c908c8b199a90fefcc758">&#9670;&nbsp;</a></span>rtc_unsubscribe_int()</h2>
+<a id="a9d4850bb2a488644672d43287f160622"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9d4850bb2a488644672d43287f160622">&#9670;&nbsp;</a></span>rtc_unsubscribe_int()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int rtc_unsubscribe_int </td>
+          <td class="memname">int() rtc_unsubscribe_int </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -561,8 +561,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="rtc_8h_ab8f17bf5280c908c8b199a90fefcc758_icgraph.png" border="0" usemap="#artc_8h_ab8f17bf5280c908c8b199a90fefcc758_icgraph" alt=""/></div>
-<map name="artc_8h_ab8f17bf5280c908c8b199a90fefcc758_icgraph" id="artc_8h_ab8f17bf5280c908c8b199a90fefcc758_icgraph">
+<div class="center"><img src="rtc_8h_a9d4850bb2a488644672d43287f160622_icgraph.png" border="0" usemap="#artc_8h_a9d4850bb2a488644672d43287f160622_icgraph" alt=""/></div>
+<map name="artc_8h_a9d4850bb2a488644672d43287f160622_icgraph" id="artc_8h_a9d4850bb2a488644672d43287f160622_icgraph">
 <area shape="rect" title="Unsubscribes from RTC interrupts." alt="" coords="176,5,324,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>

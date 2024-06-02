@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aquaboy and Lavagirl: /home/davidm-g/Documents/LC/MINIX-LCOM/shared/proj/src/devices/rtc/rtc.h Source File</title>
+<title>Aquaboy and Lavagirl: rtc.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -99,9 +99,9 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;} <a class="code" href="structrtc__values.html">rtc_values</a>;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">int</span> <a class="code" href="rtc_8h.html#aad9b81b7c1ea288679dae99ca05b7118">read_rtc_output</a>(uint8_t cmdbyte, uint8_t *result);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">int</span> <a class="code" href="rtc_8h.html#a5171a9c0f54940fe60f7500896afcc86">rtc_subscribe_int</a>(uint8_t *bit_no);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;int (<a class="code" href="rtc_8h.html#a6bbe679f115cec90d36d50eb2aac1b89">rtc_subscribe_int</a>)(uint8_t *bit_no);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">int</span> <a class="code" href="rtc_8h.html#ab8f17bf5280c908c8b199a90fefcc758">rtc_unsubscribe_int</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;int (<a class="code" href="rtc_8h.html#a9d4850bb2a488644672d43287f160622">rtc_unsubscribe_int</a>)();</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">int</span> <a class="code" href="rtc_8h.html#ae3e6ef6cb5629cbbb53f0bc7f3b8324b">is_updating_rtc</a>();</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
@@ -113,12 +113,12 @@ $(function() {
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160; </div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keywordtype">void</span> <a class="code" href="rtc_8h.html#a5b2834a4a1e27abeb2f0663b4c85c774">start_rtc</a>();</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="artc_8h_html_a5171a9c0f54940fe60f7500896afcc86"><div class="ttname"><a href="rtc_8h.html#a5171a9c0f54940fe60f7500896afcc86">rtc_subscribe_int</a></div><div class="ttdeci">int rtc_subscribe_int(uint8_t *bit_no)</div><div class="ttdoc">Subscribes to RTC interrupts.</div><div class="ttdef"><b>Definition:</b> rtc.c:12</div></div>
 <div class="ttc" id="artc_8h_html_a5b2834a4a1e27abeb2f0663b4c85c774"><div class="ttname"><a href="rtc_8h.html#a5b2834a4a1e27abeb2f0663b4c85c774">start_rtc</a></div><div class="ttdeci">void start_rtc()</div><div class="ttdoc">Starts the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:76</div></div>
+<div class="ttc" id="artc_8h_html_a6bbe679f115cec90d36d50eb2aac1b89"><div class="ttname"><a href="rtc_8h.html#a6bbe679f115cec90d36d50eb2aac1b89">rtc_subscribe_int</a></div><div class="ttdeci">int() rtc_subscribe_int(uint8_t *bit_no)</div><div class="ttdoc">Subscribes to RTC interrupts.</div><div class="ttdef"><b>Definition:</b> rtc.c:12</div></div>
 <div class="ttc" id="artc_8h_html_a891509fed13e0cac396e9c401f887d72"><div class="ttname"><a href="rtc_8h.html#a891509fed13e0cac396e9c401f887d72">to_binary</a></div><div class="ttdeci">uint8_t to_binary(uint8_t bcd_number)</div><div class="ttdoc">Converts a Binary-Coded Decimal (BCD) number to binary.</div><div class="ttdef"><b>Definition:</b> rtc.c:37</div></div>
+<div class="ttc" id="artc_8h_html_a9d4850bb2a488644672d43287f160622"><div class="ttname"><a href="rtc_8h.html#a9d4850bb2a488644672d43287f160622">rtc_unsubscribe_int</a></div><div class="ttdeci">int() rtc_unsubscribe_int()</div><div class="ttdoc">Unsubscribes from RTC interrupts.</div><div class="ttdef"><b>Definition:</b> rtc.c:19</div></div>
 <div class="ttc" id="artc_8h_html_aad9b81b7c1ea288679dae99ca05b7118"><div class="ttname"><a href="rtc_8h.html#aad9b81b7c1ea288679dae99ca05b7118">read_rtc_output</a></div><div class="ttdeci">int read_rtc_output(uint8_t cmdbyte, uint8_t *result)</div><div class="ttdoc">Reads the output of the Real-Time Clock (RTC) using the specified command byte.</div><div class="ttdef"><b>Definition:</b> rtc.c:5</div></div>
 <div class="ttc" id="artc_8h_html_aaf9fa7dc504378312f4e526ae11da75e"><div class="ttname"><a href="rtc_8h.html#aaf9fa7dc504378312f4e526ae11da75e">rtc_update_values</a></div><div class="ttdeci">int rtc_update_values()</div><div class="ttdoc">Updates the values of the RTC.</div><div class="ttdef"><b>Definition:</b> rtc.c:43</div></div>
-<div class="ttc" id="artc_8h_html_ab8f17bf5280c908c8b199a90fefcc758"><div class="ttname"><a href="rtc_8h.html#ab8f17bf5280c908c8b199a90fefcc758">rtc_unsubscribe_int</a></div><div class="ttdeci">int rtc_unsubscribe_int()</div><div class="ttdoc">Unsubscribes from RTC interrupts.</div><div class="ttdef"><b>Definition:</b> rtc.c:19</div></div>
 <div class="ttc" id="artc_8h_html_ae3cb7e5bd3f03913e98b5e75a07ceb27"><div class="ttname"><a href="rtc_8h.html#ae3cb7e5bd3f03913e98b5e75a07ceb27">is_binary_rtc</a></div><div class="ttdeci">bool is_binary_rtc()</div><div class="ttdoc">Checks if the RTC is in binary mode.</div><div class="ttdef"><b>Definition:</b> rtc.c:30</div></div>
 <div class="ttc" id="artc_8h_html_ae3e6ef6cb5629cbbb53f0bc7f3b8324b"><div class="ttname"><a href="rtc_8h.html#ae3e6ef6cb5629cbbb53f0bc7f3b8324b">is_updating_rtc</a></div><div class="ttdeci">int is_updating_rtc()</div><div class="ttdoc">Checks if the RTC is currently updating.</div><div class="ttdef"><b>Definition:</b> rtc.c:23</div></div>
 <div class="ttc" id="astructrtc__values_html"><div class="ttname"><a href="structrtc__values.html">rtc_values</a></div><div class="ttdef"><b>Definition:</b> rtc.h:21</div></div>

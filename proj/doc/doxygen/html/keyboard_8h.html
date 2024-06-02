@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aquaboy and Lavagirl: /home/davidm-g/Documents/LC/MINIX-LCOM/shared/proj/src/devices/keyboard/keyboard.h File Reference</title>
+<title>Aquaboy and Lavagirl: keyboard.h File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -79,28 +79,28 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for keyboard.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h__incl.png" border="0" usemap="#a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2keyboard_2keyboard_8h" alt=""/></div>
-<map name="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2keyboard_2keyboard_8h" id="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2keyboard_2keyboard_8h">
-<area shape="rect" title=" " alt="" coords="71,5,310,61"/>
-<area shape="rect" href="utils_8h.html" title=" " alt="" coords="5,109,80,136"/>
-<area shape="rect" title=" " alt="" coords="45,184,115,211"/>
-<area shape="rect" href="keyboard_2i8042_8h.html" title=" " alt="" coords="155,109,226,136"/>
-<area shape="rect" title=" " alt="" coords="251,109,336,136"/>
-<area shape="rect" title=" " alt="" coords="360,109,443,136"/>
+<div class="center"><img src="keyboard_8h__incl.png" border="0" usemap="#akeyboard_8h" alt=""/></div>
+<map name="akeyboard_8h" id="akeyboard_8h">
+<area shape="rect" title=" " alt="" coords="143,5,238,32"/>
+<area shape="rect" href="utils_8h.html" title=" " alt="" coords="5,80,80,107"/>
+<area shape="rect" title=" " alt="" coords="45,155,115,181"/>
+<area shape="rect" href="keyboard_2i8042_8h.html" title=" " alt="" coords="155,80,226,107"/>
+<area shape="rect" title=" " alt="" coords="251,80,336,107"/>
+<area shape="rect" title=" " alt="" coords="360,80,443,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
 This graph shows which files directly or indirectly include this file:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h__dep__incl.png" border="0" usemap="#a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2keyboard_2keyboard_8hdep" alt=""/></div>
-<map name="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2keyboard_2keyboard_8hdep" id="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2keyboard_2keyboard_8hdep">
-<area shape="rect" title=" " alt="" coords="96,5,335,61"/>
-<area shape="rect" href="proj_8c.html" title=" " alt="" coords="5,317,212,373"/>
-<area shape="rect" href="keyboard_8c.html" title=" " alt="" coords="96,109,335,165"/>
-<area shape="rect" href="model_8h.html" title=" " alt="" coords="359,109,565,165"/>
-<area shape="rect" href="model_8c.html" title=" " alt="" coords="147,213,353,269"/>
-<area shape="rect" href="draw_8h.html" title=" " alt="" coords="377,213,584,269"/>
-<area shape="rect" href="draw_8c.html" title=" " alt="" coords="377,317,584,373"/>
+<div class="center"><img src="keyboard_8h__dep__incl.png" border="0" usemap="#akeyboard_8hdep" alt=""/></div>
+<map name="akeyboard_8hdep" id="akeyboard_8hdep">
+<area shape="rect" title=" " alt="" coords="25,5,119,32"/>
+<area shape="rect" href="proj_8c.html" title=" " alt="" coords="9,229,68,256"/>
+<area shape="rect" href="keyboard_8c.html" title=" " alt="" coords="25,80,119,107"/>
+<area shape="rect" href="model_8h.html" title=" " alt="" coords="143,80,217,107"/>
+<area shape="rect" href="model_8c.html" title=" " alt="" coords="76,155,151,181"/>
+<area shape="rect" href="draw_8h.html" title=" " alt="" coords="175,155,241,181"/>
+<area shape="rect" href="draw_8c.html" title=" " alt="" coords="176,229,240,256"/>
 </map>
 </div>
 </div>
@@ -108,40 +108,40 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab9e6ed7960d60aa4834f2038247d4536"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#ab9e6ed7960d60aa4834f2038247d4536">kbc_ih</a> ()</td></tr>
-<tr class="memdesc:ab9e6ed7960d60aa4834f2038247d4536"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keyboard interrupt handler.  <a href="keyboard_8h.html#ab9e6ed7960d60aa4834f2038247d4536">More...</a><br /></td></tr>
-<tr class="separator:ab9e6ed7960d60aa4834f2038247d4536"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8eee4d0a15beada731a514481b5ad4bf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a8eee4d0a15beada731a514481b5ad4bf">keyboard_subscribe_int</a> (uint8_t *bit_no)</td></tr>
-<tr class="memdesc:a8eee4d0a15beada731a514481b5ad4bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes to keyboard interrupts.  <a href="keyboard_8h.html#a8eee4d0a15beada731a514481b5ad4bf">More...</a><br /></td></tr>
-<tr class="separator:a8eee4d0a15beada731a514481b5ad4bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac95aea27a5e91b363b876fed881f368f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#ac95aea27a5e91b363b876fed881f368f">keyboard_unsubscribe_int</a> ()</td></tr>
-<tr class="memdesc:ac95aea27a5e91b363b876fed881f368f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribes from keyboard interrupts.  <a href="keyboard_8h.html#ac95aea27a5e91b363b876fed881f368f">More...</a><br /></td></tr>
-<tr class="separator:ac95aea27a5e91b363b876fed881f368f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5168f22184d8edc53bec6e23fe72330a"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a5168f22184d8edc53bec6e23fe72330a">can_read_outbuf</a> ()</td></tr>
-<tr class="memdesc:a5168f22184d8edc53bec6e23fe72330a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the output buffer can be read.  <a href="keyboard_8h.html#a5168f22184d8edc53bec6e23fe72330a">More...</a><br /></td></tr>
-<tr class="separator:a5168f22184d8edc53bec6e23fe72330a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1ae2434f19a86a8d31a03f8f0ad6db30"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a1ae2434f19a86a8d31a03f8f0ad6db30">write_to_kbc</a> (uint8_t port, uint8_t cmdbyte)</td></tr>
-<tr class="memdesc:a1ae2434f19a86a8d31a03f8f0ad6db30"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a command byte to the keyboard controller.  <a href="keyboard_8h.html#a1ae2434f19a86a8d31a03f8f0ad6db30">More...</a><br /></td></tr>
-<tr class="separator:a1ae2434f19a86a8d31a03f8f0ad6db30"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3089f4e9cc9ce432897e142f31bf69ef"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a3089f4e9cc9ce432897e142f31bf69ef">read_value_data_from_kbc</a> (uint8_t port, uint8_t *output)</td></tr>
-<tr class="memdesc:a3089f4e9cc9ce432897e142f31bf69ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a value/data from the keyboard controller.  <a href="keyboard_8h.html#a3089f4e9cc9ce432897e142f31bf69ef">More...</a><br /></td></tr>
-<tr class="separator:a3089f4e9cc9ce432897e142f31bf69ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a14426e8ab2226cd7aabf6c1048c402db"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a14426e8ab2226cd7aabf6c1048c402db">restore_interrupts</a> ()</td></tr>
-<tr class="memdesc:a14426e8ab2226cd7aabf6c1048c402db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restores the interrupts.  <a href="keyboard_8h.html#a14426e8ab2226cd7aabf6c1048c402db">More...</a><br /></td></tr>
-<tr class="separator:a14426e8ab2226cd7aabf6c1048c402db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea970a154161a35f6894898a092ed70a"><td class="memItemLeft" align="right" valign="top">void()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#aea970a154161a35f6894898a092ed70a">kbc_ih</a> ()</td></tr>
+<tr class="memdesc:aea970a154161a35f6894898a092ed70a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Keyboard interrupt handler.  <a href="keyboard_8h.html#aea970a154161a35f6894898a092ed70a">More...</a><br /></td></tr>
+<tr class="separator:aea970a154161a35f6894898a092ed70a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a178b1db0b319dccad2840cc3fd273132"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a178b1db0b319dccad2840cc3fd273132">keyboard_subscribe_int</a> (uint8_t *bit_no)</td></tr>
+<tr class="memdesc:a178b1db0b319dccad2840cc3fd273132"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes to keyboard interrupts.  <a href="keyboard_8h.html#a178b1db0b319dccad2840cc3fd273132">More...</a><br /></td></tr>
+<tr class="separator:a178b1db0b319dccad2840cc3fd273132"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32cc4de66854f8a7bd909e7aa8b901ed"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a32cc4de66854f8a7bd909e7aa8b901ed">keyboard_unsubscribe_int</a> ()</td></tr>
+<tr class="memdesc:a32cc4de66854f8a7bd909e7aa8b901ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribes from keyboard interrupts.  <a href="keyboard_8h.html#a32cc4de66854f8a7bd909e7aa8b901ed">More...</a><br /></td></tr>
+<tr class="separator:a32cc4de66854f8a7bd909e7aa8b901ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacc91077c01e23ad0d84f3694f85f5f9"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#aacc91077c01e23ad0d84f3694f85f5f9">can_read_outbuf</a> ()</td></tr>
+<tr class="memdesc:aacc91077c01e23ad0d84f3694f85f5f9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the output buffer can be read.  <a href="keyboard_8h.html#aacc91077c01e23ad0d84f3694f85f5f9">More...</a><br /></td></tr>
+<tr class="separator:aacc91077c01e23ad0d84f3694f85f5f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb">write_to_kbc</a> (uint8_t port, uint8_t cmdbyte)</td></tr>
+<tr class="memdesc:acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes a command byte to the keyboard controller.  <a href="keyboard_8h.html#acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb">More...</a><br /></td></tr>
+<tr class="separator:acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a45f73ea0177612691f0d02a4273143eb"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a45f73ea0177612691f0d02a4273143eb">read_value_data_from_kbc</a> (uint8_t port, uint8_t *output)</td></tr>
+<tr class="memdesc:a45f73ea0177612691f0d02a4273143eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reads a value/data from the keyboard controller.  <a href="keyboard_8h.html#a45f73ea0177612691f0d02a4273143eb">More...</a><br /></td></tr>
+<tr class="separator:a45f73ea0177612691f0d02a4273143eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada12b5376a9cd8cf26d13c552ae2adee"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#ada12b5376a9cd8cf26d13c552ae2adee">restore_interrupts</a> ()</td></tr>
+<tr class="memdesc:ada12b5376a9cd8cf26d13c552ae2adee"><td class="mdescLeft">&#160;</td><td class="mdescRight">Restores the interrupts.  <a href="keyboard_8h.html#ada12b5376a9cd8cf26d13c552ae2adee">More...</a><br /></td></tr>
+<tr class="separator:ada12b5376a9cd8cf26d13c552ae2adee"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a088baa9cfa5677f344bf7936c57a6f2f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="keyboard_8h.html#a088baa9cfa5677f344bf7936c57a6f2f">wait_esc_key</a> ()</td></tr>
 <tr class="memdesc:a088baa9cfa5677f344bf7936c57a6f2f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Waits for the ESC key to be pressed.  <a href="keyboard_8h.html#a088baa9cfa5677f344bf7936c57a6f2f">More...</a><br /></td></tr>
 <tr class="separator:a088baa9cfa5677f344bf7936c57a6f2f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a5168f22184d8edc53bec6e23fe72330a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5168f22184d8edc53bec6e23fe72330a">&#9670;&nbsp;</a></span>can_read_outbuf()</h2>
+<a id="aacc91077c01e23ad0d84f3694f85f5f9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aacc91077c01e23ad0d84f3694f85f5f9">&#9670;&nbsp;</a></span>can_read_outbuf()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int can_read_outbuf </td>
+          <td class="memname">int() can_read_outbuf </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -154,8 +154,8 @@ Functions</h2></td></tr>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a5168f22184d8edc53bec6e23fe72330a_cgraph.png" border="0" usemap="#akeyboard_8h_a5168f22184d8edc53bec6e23fe72330a_cgraph" alt=""/></div>
-<map name="akeyboard_8h_a5168f22184d8edc53bec6e23fe72330a_cgraph" id="akeyboard_8h_a5168f22184d8edc53bec6e23fe72330a_cgraph">
+<div class="center"><img src="keyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_cgraph.png" border="0" usemap="#akeyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_cgraph" alt=""/></div>
+<map name="akeyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_cgraph" id="akeyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_cgraph">
 <area shape="rect" title="Checks if the output buffer can be read." alt="" coords="5,5,136,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="184,5,283,32"/>
 </map>
@@ -163,8 +163,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a5168f22184d8edc53bec6e23fe72330a_icgraph.png" border="0" usemap="#akeyboard_8h_a5168f22184d8edc53bec6e23fe72330a_icgraph" alt=""/></div>
-<map name="akeyboard_8h_a5168f22184d8edc53bec6e23fe72330a_icgraph" id="akeyboard_8h_a5168f22184d8edc53bec6e23fe72330a_icgraph">
+<div class="center"><img src="keyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_icgraph.png" border="0" usemap="#akeyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_icgraph" alt=""/></div>
+<map name="akeyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_icgraph" id="akeyboard_8h_aacc91077c01e23ad0d84f3694f85f5f9_icgraph">
 <area shape="rect" title="Checks if the output buffer can be read." alt="" coords="1187,208,1317,235"/>
 <area shape="rect" href="keyboard_8c.html#aea970a154161a35f6894898a092ed70a" title="Keyboard interrupt handler." alt="" coords="1007,157,1071,184"/>
 <area shape="rect" href="keyboard_8c.html#a3089f4e9cc9ce432897e142f31bf69ef" title="Reads a value/data from the keyboard controller." alt="" coords="940,233,1139,260"/>
@@ -183,14 +183,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ab9e6ed7960d60aa4834f2038247d4536"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9e6ed7960d60aa4834f2038247d4536">&#9670;&nbsp;</a></span>kbc_ih()</h2>
+<a id="aea970a154161a35f6894898a092ed70a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea970a154161a35f6894898a092ed70a">&#9670;&nbsp;</a></span>kbc_ih()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void kbc_ih </td>
+          <td class="memname">void() kbc_ih </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -202,8 +202,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_cgraph.png" border="0" usemap="#akeyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_cgraph" alt=""/></div>
-<map name="akeyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_cgraph" id="akeyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_cgraph">
+<div class="center"><img src="keyboard_8h_aea970a154161a35f6894898a092ed70a_cgraph.png" border="0" usemap="#akeyboard_8h_aea970a154161a35f6894898a092ed70a_cgraph" alt=""/></div>
+<map name="akeyboard_8h_aea970a154161a35f6894898a092ed70a_cgraph" id="akeyboard_8h_aea970a154161a35f6894898a092ed70a_cgraph">
 <area shape="rect" title="Keyboard interrupt handler." alt="" coords="5,31,69,57"/>
 <area shape="rect" href="keyboard_8c.html#a5168f22184d8edc53bec6e23fe72330a" title="Checks if the output buffer can be read." alt="" coords="117,5,248,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="296,31,395,57"/>
@@ -212,8 +212,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_icgraph.png" border="0" usemap="#akeyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_icgraph" alt=""/></div>
-<map name="akeyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_icgraph" id="akeyboard_8h_ab9e6ed7960d60aa4834f2038247d4536_icgraph">
+<div class="center"><img src="keyboard_8h_aea970a154161a35f6894898a092ed70a_icgraph.png" border="0" usemap="#akeyboard_8h_aea970a154161a35f6894898a092ed70a_icgraph" alt=""/></div>
+<map name="akeyboard_8h_aea970a154161a35f6894898a092ed70a_icgraph" id="akeyboard_8h_aea970a154161a35f6894898a092ed70a_icgraph">
 <area shape="rect" title="Keyboard interrupt handler." alt="" coords="917,132,981,159"/>
 <area shape="rect" href="model_8c.html#affabab2c68a26fa7d716b13c35048e04" title="Checks for collision between a sprite and a given position." alt="" coords="753,56,869,83"/>
 <area shape="rect" href="model_8c.html#a3dbbef8766f0ce676f34b8b4f1bf3485" title="Updates the timer." alt="" coords="176,107,285,133"/>
@@ -229,14 +229,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a8eee4d0a15beada731a514481b5ad4bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8eee4d0a15beada731a514481b5ad4bf">&#9670;&nbsp;</a></span>keyboard_subscribe_int()</h2>
+<a id="a178b1db0b319dccad2840cc3fd273132"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a178b1db0b319dccad2840cc3fd273132">&#9670;&nbsp;</a></span>keyboard_subscribe_int()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int keyboard_subscribe_int </td>
+          <td class="memname">int() keyboard_subscribe_int </td>
           <td>(</td>
           <td class="paramtype">uint8_t *&#160;</td>
           <td class="paramname"><em>bit_no</em></td><td>)</td>
@@ -256,8 +256,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a8eee4d0a15beada731a514481b5ad4bf_icgraph.png" border="0" usemap="#akeyboard_8h_a8eee4d0a15beada731a514481b5ad4bf_icgraph" alt=""/></div>
-<map name="akeyboard_8h_a8eee4d0a15beada731a514481b5ad4bf_icgraph" id="akeyboard_8h_a8eee4d0a15beada731a514481b5ad4bf_icgraph">
+<div class="center"><img src="keyboard_8h_a178b1db0b319dccad2840cc3fd273132_icgraph.png" border="0" usemap="#akeyboard_8h_a178b1db0b319dccad2840cc3fd273132_icgraph" alt=""/></div>
+<map name="akeyboard_8h_a178b1db0b319dccad2840cc3fd273132_icgraph" id="akeyboard_8h_a178b1db0b319dccad2840cc3fd273132_icgraph">
 <area shape="rect" title="Subscribes to keyboard interrupts." alt="" coords="176,31,351,57"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 <area shape="rect" href="keyboard_8c.html#a088baa9cfa5677f344bf7936c57a6f2f" title="Waits for the ESC key to be pressed." alt="" coords="12,56,121,83"/>
@@ -266,14 +266,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="ac95aea27a5e91b363b876fed881f368f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac95aea27a5e91b363b876fed881f368f">&#9670;&nbsp;</a></span>keyboard_unsubscribe_int()</h2>
+<a id="a32cc4de66854f8a7bd909e7aa8b901ed"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a32cc4de66854f8a7bd909e7aa8b901ed">&#9670;&nbsp;</a></span>keyboard_unsubscribe_int()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int keyboard_unsubscribe_int </td>
+          <td class="memname">int() keyboard_unsubscribe_int </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -286,8 +286,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_ac95aea27a5e91b363b876fed881f368f_icgraph.png" border="0" usemap="#akeyboard_8h_ac95aea27a5e91b363b876fed881f368f_icgraph" alt=""/></div>
-<map name="akeyboard_8h_ac95aea27a5e91b363b876fed881f368f_icgraph" id="akeyboard_8h_ac95aea27a5e91b363b876fed881f368f_icgraph">
+<div class="center"><img src="keyboard_8h_a32cc4de66854f8a7bd909e7aa8b901ed_icgraph.png" border="0" usemap="#akeyboard_8h_a32cc4de66854f8a7bd909e7aa8b901ed_icgraph" alt=""/></div>
+<map name="akeyboard_8h_a32cc4de66854f8a7bd909e7aa8b901ed_icgraph" id="akeyboard_8h_a32cc4de66854f8a7bd909e7aa8b901ed_icgraph">
 <area shape="rect" title="Unsubscribes from keyboard interrupts." alt="" coords="176,31,367,57"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 <area shape="rect" href="keyboard_8c.html#a088baa9cfa5677f344bf7936c57a6f2f" title="Waits for the ESC key to be pressed." alt="" coords="12,56,121,83"/>
@@ -296,14 +296,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a3089f4e9cc9ce432897e142f31bf69ef"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3089f4e9cc9ce432897e142f31bf69ef">&#9670;&nbsp;</a></span>read_value_data_from_kbc()</h2>
+<a id="a45f73ea0177612691f0d02a4273143eb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a45f73ea0177612691f0d02a4273143eb">&#9670;&nbsp;</a></span>read_value_data_from_kbc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int read_value_data_from_kbc </td>
+          <td class="memname">int() read_value_data_from_kbc </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>port</em>, </td>
@@ -334,8 +334,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_cgraph.png" border="0" usemap="#akeyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_cgraph" alt=""/></div>
-<map name="akeyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_cgraph" id="akeyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_cgraph">
+<div class="center"><img src="keyboard_8h_a45f73ea0177612691f0d02a4273143eb_cgraph.png" border="0" usemap="#akeyboard_8h_a45f73ea0177612691f0d02a4273143eb_cgraph" alt=""/></div>
+<map name="akeyboard_8h_a45f73ea0177612691f0d02a4273143eb_cgraph" id="akeyboard_8h_a45f73ea0177612691f0d02a4273143eb_cgraph">
 <area shape="rect" title="Reads a value/data from the keyboard controller." alt="" coords="5,31,204,57"/>
 <area shape="rect" href="keyboard_8c.html#a5168f22184d8edc53bec6e23fe72330a" title="Checks if the output buffer can be read." alt="" coords="252,5,383,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="431,31,529,57"/>
@@ -344,8 +344,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_icgraph.png" border="0" usemap="#akeyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_icgraph" alt=""/></div>
-<map name="akeyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_icgraph" id="akeyboard_8h_a3089f4e9cc9ce432897e142f31bf69ef_icgraph">
+<div class="center"><img src="keyboard_8h_a45f73ea0177612691f0d02a4273143eb_icgraph.png" border="0" usemap="#akeyboard_8h_a45f73ea0177612691f0d02a4273143eb_icgraph" alt=""/></div>
+<map name="akeyboard_8h_a45f73ea0177612691f0d02a4273143eb_icgraph" id="akeyboard_8h_a45f73ea0177612691f0d02a4273143eb_icgraph">
 <area shape="rect" title="Reads a value/data from the keyboard controller." alt="" coords="192,5,391,32"/>
 <area shape="rect" href="keyboard_8c.html#a14426e8ab2226cd7aabf6c1048c402db" title="Restores the interrupts." alt="" coords="5,5,144,32"/>
 </map>
@@ -353,14 +353,14 @@ Here is the caller graph for this function:</div>
 
 </div>
 </div>
-<a id="a14426e8ab2226cd7aabf6c1048c402db"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a14426e8ab2226cd7aabf6c1048c402db">&#9670;&nbsp;</a></span>restore_interrupts()</h2>
+<a id="ada12b5376a9cd8cf26d13c552ae2adee"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ada12b5376a9cd8cf26d13c552ae2adee">&#9670;&nbsp;</a></span>restore_interrupts()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int restore_interrupts </td>
+          <td class="memname">int() restore_interrupts </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -373,8 +373,8 @@ Here is the caller graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a14426e8ab2226cd7aabf6c1048c402db_cgraph.png" border="0" usemap="#akeyboard_8h_a14426e8ab2226cd7aabf6c1048c402db_cgraph" alt=""/></div>
-<map name="akeyboard_8h_a14426e8ab2226cd7aabf6c1048c402db_cgraph" id="akeyboard_8h_a14426e8ab2226cd7aabf6c1048c402db_cgraph">
+<div class="center"><img src="keyboard_8h_ada12b5376a9cd8cf26d13c552ae2adee_cgraph.png" border="0" usemap="#akeyboard_8h_ada12b5376a9cd8cf26d13c552ae2adee_cgraph" alt=""/></div>
+<map name="akeyboard_8h_ada12b5376a9cd8cf26d13c552ae2adee_cgraph" id="akeyboard_8h_ada12b5376a9cd8cf26d13c552ae2adee_cgraph">
 <area shape="rect" title="Restores the interrupts." alt="" coords="5,81,144,108"/>
 <area shape="rect" href="keyboard_8c.html#a3089f4e9cc9ce432897e142f31bf69ef" title="Reads a value/data from the keyboard controller." alt="" coords="192,56,391,83"/>
 <area shape="rect" href="keyboard_8c.html#a1ae2434f19a86a8d31a03f8f0ad6db30" title="Writes a command byte to the keyboard controller." alt="" coords="451,107,557,133"/>
@@ -418,14 +418,14 @@ Here is the call graph for this function:</div>
 
 </div>
 </div>
-<a id="a1ae2434f19a86a8d31a03f8f0ad6db30"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1ae2434f19a86a8d31a03f8f0ad6db30">&#9670;&nbsp;</a></span>write_to_kbc()</h2>
+<a id="acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb">&#9670;&nbsp;</a></span>write_to_kbc()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">int write_to_kbc </td>
+          <td class="memname">int() write_to_kbc </td>
           <td>(</td>
           <td class="paramtype">uint8_t&#160;</td>
           <td class="paramname"><em>port</em>, </td>
@@ -456,8 +456,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_cgraph.png" border="0" usemap="#akeyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_cgraph" alt=""/></div>
-<map name="akeyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_cgraph" id="akeyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_cgraph">
+<div class="center"><img src="keyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_cgraph.png" border="0" usemap="#akeyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_cgraph" alt=""/></div>
+<map name="akeyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_cgraph" id="akeyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_cgraph">
 <area shape="rect" title="Writes a command byte to the keyboard controller." alt="" coords="5,5,111,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="159,5,257,32"/>
 </map>
@@ -465,8 +465,8 @@ Here is the call graph for this function:</div>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
-<div class="center"><img src="keyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_icgraph.png" border="0" usemap="#akeyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_icgraph" alt=""/></div>
-<map name="akeyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_icgraph" id="akeyboard_8h_a1ae2434f19a86a8d31a03f8f0ad6db30_icgraph">
+<div class="center"><img src="keyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_icgraph.png" border="0" usemap="#akeyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_icgraph" alt=""/></div>
+<map name="akeyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_icgraph" id="akeyboard_8h_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb_icgraph">
 <area shape="rect" title="Writes a command byte to the keyboard controller." alt="" coords="192,5,297,32"/>
 <area shape="rect" href="keyboard_8c.html#a14426e8ab2226cd7aabf6c1048c402db" title="Restores the interrupts." alt="" coords="5,5,144,32"/>
 </map>

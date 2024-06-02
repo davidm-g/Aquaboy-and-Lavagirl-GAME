@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aquaboy and Lavagirl: /home/davidm-g/Documents/LC/MINIX-LCOM/shared/proj/src/devices/keyboard/keyboard.h Source File</title>
+<title>Aquaboy and Lavagirl: keyboard.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,30 +75,30 @@ $(function() {
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;stdbool.h&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;stdint.h&gt;</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> <a class="code" href="keyboard_8h.html#ab9e6ed7960d60aa4834f2038247d4536">kbc_ih</a>();</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;void (<a class="code" href="keyboard_8h.html#aea970a154161a35f6894898a092ed70a">kbc_ih</a>)();</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#a8eee4d0a15beada731a514481b5ad4bf">keyboard_subscribe_int</a>(uint8_t *bit_no);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;int (<a class="code" href="keyboard_8h.html#a178b1db0b319dccad2840cc3fd273132">keyboard_subscribe_int</a>)(uint8_t *bit_no);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#ac95aea27a5e91b363b876fed881f368f">keyboard_unsubscribe_int</a>();</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;int (<a class="code" href="keyboard_8h.html#a32cc4de66854f8a7bd909e7aa8b901ed">keyboard_unsubscribe_int</a>)();</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#a5168f22184d8edc53bec6e23fe72330a">can_read_outbuf</a>();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;int (<a class="code" href="keyboard_8h.html#aacc91077c01e23ad0d84f3694f85f5f9">can_read_outbuf</a>)();</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#a1ae2434f19a86a8d31a03f8f0ad6db30">write_to_kbc</a>(uint8_t port, uint8_t cmdbyte);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;int (<a class="code" href="keyboard_8h.html#acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb">write_to_kbc</a>)(uint8_t port, uint8_t cmdbyte);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#a3089f4e9cc9ce432897e142f31bf69ef">read_value_data_from_kbc</a>(uint8_t port, uint8_t *output);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;int (<a class="code" href="keyboard_8h.html#a45f73ea0177612691f0d02a4273143eb">read_value_data_from_kbc</a>)(uint8_t port, uint8_t *output);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#a14426e8ab2226cd7aabf6c1048c402db">restore_interrupts</a>();</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;int (<a class="code" href="keyboard_8h.html#ada12b5376a9cd8cf26d13c552ae2adee">restore_interrupts</a>)();</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keywordtype">int</span> <a class="code" href="keyboard_8h.html#a088baa9cfa5677f344bf7936c57a6f2f">wait_esc_key</a>();</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="ttc" id="akeyboard_8h_html_a088baa9cfa5677f344bf7936c57a6f2f"><div class="ttname"><a href="keyboard_8h.html#a088baa9cfa5677f344bf7936c57a6f2f">wait_esc_key</a></div><div class="ttdeci">int wait_esc_key()</div><div class="ttdoc">Waits for the ESC key to be pressed.</div><div class="ttdef"><b>Definition:</b> keyboard.c:17</div></div>
-<div class="ttc" id="akeyboard_8h_html_a14426e8ab2226cd7aabf6c1048c402db"><div class="ttname"><a href="keyboard_8h.html#a14426e8ab2226cd7aabf6c1048c402db">restore_interrupts</a></div><div class="ttdeci">int restore_interrupts()</div><div class="ttdoc">Restores the interrupts.</div><div class="ttdef"><b>Definition:</b> keyboard.c:119</div></div>
-<div class="ttc" id="akeyboard_8h_html_a1ae2434f19a86a8d31a03f8f0ad6db30"><div class="ttname"><a href="keyboard_8h.html#a1ae2434f19a86a8d31a03f8f0ad6db30">write_to_kbc</a></div><div class="ttdeci">int write_to_kbc(uint8_t port, uint8_t cmdbyte)</div><div class="ttdoc">Writes a command byte to the keyboard controller.</div><div class="ttdef"><b>Definition:</b> keyboard.c:88</div></div>
-<div class="ttc" id="akeyboard_8h_html_a3089f4e9cc9ce432897e142f31bf69ef"><div class="ttname"><a href="keyboard_8h.html#a3089f4e9cc9ce432897e142f31bf69ef">read_value_data_from_kbc</a></div><div class="ttdeci">int read_value_data_from_kbc(uint8_t port, uint8_t *output)</div><div class="ttdoc">Reads a value/data from the keyboard controller.</div><div class="ttdef"><b>Definition:</b> keyboard.c:106</div></div>
-<div class="ttc" id="akeyboard_8h_html_a5168f22184d8edc53bec6e23fe72330a"><div class="ttname"><a href="keyboard_8h.html#a5168f22184d8edc53bec6e23fe72330a">can_read_outbuf</a></div><div class="ttdeci">int can_read_outbuf()</div><div class="ttdoc">Checks if the output buffer can be read.</div><div class="ttdef"><b>Definition:</b> keyboard.c:58</div></div>
-<div class="ttc" id="akeyboard_8h_html_a8eee4d0a15beada731a514481b5ad4bf"><div class="ttname"><a href="keyboard_8h.html#a8eee4d0a15beada731a514481b5ad4bf">keyboard_subscribe_int</a></div><div class="ttdeci">int keyboard_subscribe_int(uint8_t *bit_no)</div><div class="ttdoc">Subscribes to keyboard interrupts.</div><div class="ttdef"><b>Definition:</b> keyboard.c:47</div></div>
-<div class="ttc" id="akeyboard_8h_html_ab9e6ed7960d60aa4834f2038247d4536"><div class="ttname"><a href="keyboard_8h.html#ab9e6ed7960d60aa4834f2038247d4536">kbc_ih</a></div><div class="ttdeci">void kbc_ih()</div><div class="ttdoc">Keyboard interrupt handler.</div><div class="ttdef"><b>Definition:</b> keyboard.c:6</div></div>
-<div class="ttc" id="akeyboard_8h_html_ac95aea27a5e91b363b876fed881f368f"><div class="ttname"><a href="keyboard_8h.html#ac95aea27a5e91b363b876fed881f368f">keyboard_unsubscribe_int</a></div><div class="ttdeci">int keyboard_unsubscribe_int()</div><div class="ttdoc">Unsubscribes from keyboard interrupts.</div><div class="ttdef"><b>Definition:</b> keyboard.c:54</div></div>
+<div class="ttc" id="akeyboard_8h_html_a178b1db0b319dccad2840cc3fd273132"><div class="ttname"><a href="keyboard_8h.html#a178b1db0b319dccad2840cc3fd273132">keyboard_subscribe_int</a></div><div class="ttdeci">int() keyboard_subscribe_int(uint8_t *bit_no)</div><div class="ttdoc">Subscribes to keyboard interrupts.</div><div class="ttdef"><b>Definition:</b> keyboard.c:47</div></div>
+<div class="ttc" id="akeyboard_8h_html_a32cc4de66854f8a7bd909e7aa8b901ed"><div class="ttname"><a href="keyboard_8h.html#a32cc4de66854f8a7bd909e7aa8b901ed">keyboard_unsubscribe_int</a></div><div class="ttdeci">int() keyboard_unsubscribe_int()</div><div class="ttdoc">Unsubscribes from keyboard interrupts.</div><div class="ttdef"><b>Definition:</b> keyboard.c:54</div></div>
+<div class="ttc" id="akeyboard_8h_html_a45f73ea0177612691f0d02a4273143eb"><div class="ttname"><a href="keyboard_8h.html#a45f73ea0177612691f0d02a4273143eb">read_value_data_from_kbc</a></div><div class="ttdeci">int() read_value_data_from_kbc(uint8_t port, uint8_t *output)</div><div class="ttdoc">Reads a value/data from the keyboard controller.</div><div class="ttdef"><b>Definition:</b> keyboard.c:106</div></div>
+<div class="ttc" id="akeyboard_8h_html_aacc91077c01e23ad0d84f3694f85f5f9"><div class="ttname"><a href="keyboard_8h.html#aacc91077c01e23ad0d84f3694f85f5f9">can_read_outbuf</a></div><div class="ttdeci">int() can_read_outbuf()</div><div class="ttdoc">Checks if the output buffer can be read.</div><div class="ttdef"><b>Definition:</b> keyboard.c:58</div></div>
+<div class="ttc" id="akeyboard_8h_html_acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb"><div class="ttname"><a href="keyboard_8h.html#acfa5bb6f1cd2b6fc5f4ea44cd0bf14fb">write_to_kbc</a></div><div class="ttdeci">int() write_to_kbc(uint8_t port, uint8_t cmdbyte)</div><div class="ttdoc">Writes a command byte to the keyboard controller.</div><div class="ttdef"><b>Definition:</b> keyboard.c:88</div></div>
+<div class="ttc" id="akeyboard_8h_html_ada12b5376a9cd8cf26d13c552ae2adee"><div class="ttname"><a href="keyboard_8h.html#ada12b5376a9cd8cf26d13c552ae2adee">restore_interrupts</a></div><div class="ttdeci">int() restore_interrupts()</div><div class="ttdoc">Restores the interrupts.</div><div class="ttdef"><b>Definition:</b> keyboard.c:119</div></div>
+<div class="ttc" id="akeyboard_8h_html_aea970a154161a35f6894898a092ed70a"><div class="ttname"><a href="keyboard_8h.html#aea970a154161a35f6894898a092ed70a">kbc_ih</a></div><div class="ttdeci">void() kbc_ih()</div><div class="ttdoc">Keyboard interrupt handler.</div><div class="ttdef"><b>Definition:</b> keyboard.c:6</div></div>
 <div class="ttc" id="amouse_2i8042_8h_html"><div class="ttname"><a href="mouse_2i8042_8h.html">i8042.h</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->

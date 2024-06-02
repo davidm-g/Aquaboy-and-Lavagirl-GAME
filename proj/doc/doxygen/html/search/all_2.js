@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['can_5fread_5foutbuf_33',['can_read_outbuf',['../keyboard_8c.html#a5168f22184d8edc53bec6e23fe72330a',1,'can_read_outbuf():&#160;keyboard.c'],['../keyboard_8h.html#a5168f22184d8edc53bec6e23fe72330a',1,'can_read_outbuf():&#160;keyboard.c']]],
+  ['can_5fread_5foutbuf_33',['can_read_outbuf',['../keyboard_8c.html#a5168f22184d8edc53bec6e23fe72330a',1,'can_read_outbuf():&#160;keyboard.c'],['../keyboard_8h.html#aacc91077c01e23ad0d84f3694f85f5f9',1,'can_read_outbuf():&#160;keyboard.c']]],
   ['can_5fread_5foutbuf_5fmouse_34',['can_read_outbuf_mouse',['../mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef',1,'can_read_outbuf_mouse():&#160;mouse.c'],['../mouse_8h.html#adadf243f6a3148a2a63bd88ca6b89cef',1,'can_read_outbuf_mouse():&#160;mouse.c']]],
   ['capacity_35',['capacity',['../structQueue.html#a0c88facf3c1aedaf08bb955d6e3f29c7',1,'Queue']]],
   ['change_36',['change',['../proj_8c.html#a857502cff71d45019163294ccc1779d5',1,'change():&#160;model.c'],['../model_8c.html#a857502cff71d45019163294ccc1779d5',1,'change():&#160;model.c']]],

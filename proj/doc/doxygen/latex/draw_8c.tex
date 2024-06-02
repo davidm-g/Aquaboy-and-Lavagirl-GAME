@@ -1,8 +1,7 @@
-\hypertarget{draw_8c}{}\doxysection{/home/davidm-\/g/\+Documents/\+LC/\+MINIX-\/\+LCOM/shared/proj/src/draws/draw.c File Reference}
-\label{draw_8c}\index{/home/davidm-\/g/Documents/LC/MINIX-\/LCOM/shared/proj/src/draws/draw.c@{/home/davidm-\/g/Documents/LC/MINIX-\/LCOM/shared/proj/src/draws/draw.c}}
+\hypertarget{draw_8c}{}\doxysection{draw.\+c File Reference}
+\label{draw_8c}\index{draw.c@{draw.c}}
 {\ttfamily \#include \char`\"{}draw.\+h\char`\"{}}\newline
-Include dependency graph for draw.\+c\+:
-\nopagebreak
+Include dependency graph for draw.\+c\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -20,11 +19,11 @@ Include dependency graph for draw.\+c\+:
 \begin{DoxyCompactItemize}
 \item 
 int \mbox{\hyperlink{draw_8c_a858c1454a817fd7dca9e21bafa491242}{draw\+\_\+sprite}} (\mbox{\hyperlink{structSprite}{Sprite}} $\ast$sprite)
-\item 
+\begin{DoxyCompactList}\small\item\em Draws a sprite on the screen. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{draw_8c_ad8e3a223b81610252d08dd0e7cfd75c3}{draw\+\_\+sprite\+\_\+pos}} (\mbox{\hyperlink{structSprite}{Sprite}} $\ast$sprite, int x, int y)
-\item 
+\begin{DoxyCompactList}\small\item\em Draws a sprite at a specific position on the screen. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{draw_8c_a60cc3bfe95809976618a46f078e58243}{print\+\_\+background\+\_\+game}} (xpm\+\_\+map\+\_\+t xpm)
-\item 
+\begin{DoxyCompactList}\small\item\em Prints the background game using an XPM map. \end{DoxyCompactList}\item 
 int \mbox{\hyperlink{draw_8c_ac630afb0b0dcc1c88b343fefdf45a002}{print\+\_\+background\+\_\+menu}} (xpm\+\_\+map\+\_\+t xpm)
 \item 
 int \mbox{\hyperlink{draw_8c_a4bae38b3c936411dfc25ee018a90bdf4}{print\+\_\+background\+\_\+leaderboard}} (xpm\+\_\+map\+\_\+t xpm)
@@ -38,11 +37,11 @@ void \mbox{\hyperlink{draw_8c_a7e55a7f6348eac1033c5bdd1fa7ed55f}{draw\+\_\+temp\
 void \mbox{\hyperlink{draw_8c_a4f3d01370e91e93f6b4fe1f9d8201e9f}{draw\+\_\+time}} ()
 \item 
 int \mbox{\hyperlink{draw_8c_a00b9a438da34ecdcf2785d56624de8f0}{draw\+\_\+digits}} (int number, int x\+\_\+pos, int y\+\_\+pos, int offset)
-\item 
+\begin{DoxyCompactList}\small\item\em Draws digits on the screen. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{draw_8c_adc37ea95d6b131697311029bc38d65ea}{draw\+\_\+leaderboard}} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Draws the leaderboard on the screen. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{draw_8c_a8f7acda4de2ff9ede5fca68d2db09959}{draw\+\_\+frame}} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Draws a frame on the screen. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -148,16 +147,32 @@ int16\+\_\+t \mbox{\hyperlink{draw_8c_a780edb8ad65677d73615b4e40d06f5f1}{mouse\+
 \doxysubsubsection{\texorpdfstring{draw\_digits()}{draw\_digits()}}
 {\footnotesize\ttfamily int draw\+\_\+digits (\begin{DoxyParamCaption}\item[{int}]{number,  }\item[{int}]{x\+\_\+pos,  }\item[{int}]{y\+\_\+pos,  }\item[{int}]{offset }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+
+
+Draws digits on the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em number} & The number to be drawn. \\
+\hline
+{\em x\+\_\+pos} & The x-\/coordinate of the position. \\
+\hline
+{\em y\+\_\+pos} & The y-\/coordinate of the position. \\
+\hline
+{\em offset} & The offset between digits. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success, non-\/zero otherwise. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{draw_8c_a00b9a438da34ecdcf2785d56624de8f0_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -170,16 +185,18 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{draw\_frame()}{draw\_frame()}}
 {\footnotesize\ttfamily void draw\+\_\+frame (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+
+
+Draws a frame on the screen. 
+
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{draw_8c_a8f7acda4de2ff9ede5fca68d2db09959_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -192,16 +209,18 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{draw\_leaderboard()}{draw\_leaderboard()}}
 {\footnotesize\ttfamily void draw\+\_\+leaderboard (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+
+
+Draws the leaderboard on the screen. 
+
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{draw_8c_adc37ea95d6b131697311029bc38d65ea_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -214,16 +233,26 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{draw\_sprite()}{draw\_sprite()}}
 {\footnotesize\ttfamily int draw\+\_\+sprite (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSprite}{Sprite}} $\ast$}]{sprite }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+
+
+Draws a sprite on the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sprite} & The sprite to be drawn. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success, non-\/zero otherwise. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=276pt]{draw_8c_a858c1454a817fd7dca9e21bafa491242_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -236,16 +265,30 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{draw\_sprite\_pos()}{draw\_sprite\_pos()}}
 {\footnotesize\ttfamily int draw\+\_\+sprite\+\_\+pos (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structSprite}{Sprite}} $\ast$}]{sprite,  }\item[{int}]{x,  }\item[{int}]{y }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+
+
+Draws a sprite at a specific position on the screen. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em sprite} & The sprite to be drawn. \\
+\hline
+{\em x} & The x-\/coordinate of the position. \\
+\hline
+{\em y} & The y-\/coordinate of the position. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success, non-\/zero otherwise. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=298pt]{draw_8c_ad8e3a223b81610252d08dd0e7cfd75c3_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -258,8 +301,7 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{draw\_temp\_background()}{draw\_temp\_background()}}
 {\footnotesize\ttfamily void draw\+\_\+temp\+\_\+background (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -272,16 +314,14 @@ Here is the call graph for this function\+:
 \doxysubsubsection{\texorpdfstring{draw\_time()}{draw\_time()}}
 {\footnotesize\ttfamily void draw\+\_\+time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{draw_8c_a4f3d01370e91e93f6b4fe1f9d8201e9f_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -294,16 +334,26 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{print\_background\_game()}{print\_background\_game()}}
 {\footnotesize\ttfamily int print\+\_\+background\+\_\+game (\begin{DoxyParamCaption}\item[{xpm\+\_\+map\+\_\+t}]{xpm }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+
+
+Prints the background game using an XPM map. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em xpm} & The XPM map representing the background game. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+0 on success, non-\/zero otherwise. 
+\end{DoxyReturn}
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=336pt]{draw_8c_a60cc3bfe95809976618a46f078e58243_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -316,16 +366,14 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{print\_background\_gameover()}{print\_background\_gameover()}}
 {\footnotesize\ttfamily int print\+\_\+background\+\_\+gameover (\begin{DoxyParamCaption}\item[{xpm\+\_\+map\+\_\+t}]{xpm }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{draw_8c_a19492846d5e97c5459c41aace99039be_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -338,16 +386,14 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{print\_background\_leaderboard()}{print\_background\_leaderboard()}}
 {\footnotesize\ttfamily int print\+\_\+background\+\_\+leaderboard (\begin{DoxyParamCaption}\item[{xpm\+\_\+map\+\_\+t}]{xpm }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=350pt]{draw_8c_a4bae38b3c936411dfc25ee018a90bdf4_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -360,16 +406,14 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{print\_background\_menu()}{print\_background\_menu()}}
 {\footnotesize\ttfamily int print\+\_\+background\+\_\+menu (\begin{DoxyParamCaption}\item[{xpm\+\_\+map\+\_\+t}]{xpm }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=336pt]{draw_8c_ac630afb0b0dcc1c88b343fefdf45a002_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -382,16 +426,14 @@ Here is the caller graph for this function\+:
 \doxysubsubsection{\texorpdfstring{print\_background\_win()}{print\_background\_win()}}
 {\footnotesize\ttfamily int print\+\_\+background\+\_\+win (\begin{DoxyParamCaption}\item[{xpm\+\_\+map\+\_\+t}]{xpm }\end{DoxyParamCaption})}
 
-Here is the call graph for this function\+:
-\nopagebreak
+Here is the call graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
 \includegraphics[width=326pt]{draw_8c_a662bbff5f4dcf5b8ac718e15bece4fb7_cgraph}
 \end{center}
 \end{figure}
-Here is the caller graph for this function\+:
-\nopagebreak
+Here is the caller graph for this function\+:\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode

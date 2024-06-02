@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aquaboy and Lavagirl: /home/davidm-g/Documents/LC/MINIX-LCOM/shared/proj/src/devices/mouse/mouse.c File Reference</title>
+<title>Aquaboy and Lavagirl: mouse.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -76,38 +76,46 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for mouse.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="mouse_8c__incl.png" border="0" usemap="#a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2mouse_2mouse_8c" alt=""/></div>
-<map name="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2mouse_2mouse_8c" id="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2mouse_2mouse_8c">
-<area shape="rect" title=" " alt="" coords="93,5,300,61"/>
-<area shape="rect" href="mouse_8h.html" title=" " alt="" coords="157,109,236,136"/>
-<area shape="rect" href="mouse_2i8042_8h.html" title=" " alt="" coords="5,184,76,211"/>
-<area shape="rect" title=" " alt="" coords="101,184,186,211"/>
-<area shape="rect" title=" " alt="" coords="210,184,293,211"/>
-<area shape="rect" title=" " alt="" coords="317,184,388,211"/>
+<div class="center"><img src="mouse_8c__incl.png" border="0" usemap="#amouse_8c" alt=""/></div>
+<map name="amouse_8c" id="amouse_8c">
+<area shape="rect" title=" " alt="" coords="158,5,235,32"/>
+<area shape="rect" href="mouse_8h.html" title=" " alt="" coords="157,80,236,107"/>
+<area shape="rect" href="mouse_2i8042_8h.html" title=" " alt="" coords="5,155,76,181"/>
+<area shape="rect" title=" " alt="" coords="101,155,186,181"/>
+<area shape="rect" title=" " alt="" coords="210,155,293,181"/>
+<area shape="rect" title=" " alt="" coords="317,155,388,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a20285aed4b3ef45812cd967532dd09db"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a20285aed4b3ef45812cd967532dd09db">mouse_subscribe_int</a> (uint8_t *bit_no)</td></tr>
+<tr class="memdesc:a20285aed4b3ef45812cd967532dd09db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Subscribes to mouse interrupts.  <a href="mouse_8c.html#a20285aed4b3ef45812cd967532dd09db">More...</a><br /></td></tr>
 <tr class="separator:a20285aed4b3ef45812cd967532dd09db"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3ecf823d80520009ae5e0d76ae40a3c3"><td class="memItemLeft" align="right" valign="top">int()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a3ecf823d80520009ae5e0d76ae40a3c3">mouse_unsubscribe_int</a> ()</td></tr>
+<tr class="memdesc:a3ecf823d80520009ae5e0d76ae40a3c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Unsubscribes from mouse interrupts.  <a href="mouse_8c.html#a3ecf823d80520009ae5e0d76ae40a3c3">More...</a><br /></td></tr>
 <tr class="separator:a3ecf823d80520009ae5e0d76ae40a3c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae2b9080d623ab180b1f545e9b038636f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#ae2b9080d623ab180b1f545e9b038636f">write_to_kbc_mouse</a> (uint8_t port, uint8_t cmdbyte)</td></tr>
 <tr class="separator:ae2b9080d623ab180b1f545e9b038636f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4776d05b8faed4b54dcba64d73b64980"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a4776d05b8faed4b54dcba64d73b64980">read_value_data_from_kbc_mouse</a> (uint8_t port, uint8_t *output)</td></tr>
 <tr class="separator:a4776d05b8faed4b54dcba64d73b64980"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adadf243f6a3148a2a63bd88ca6b89cef"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef">can_read_outbuf_mouse</a> ()</td></tr>
+<tr class="memdesc:adadf243f6a3148a2a63bd88ca6b89cef"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if the output buffer can be read from the mouse.  <a href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef">More...</a><br /></td></tr>
 <tr class="separator:adadf243f6a3148a2a63bd88ca6b89cef"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae4d02df9cd1d60745697ef4d2b249431"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431">send_cmd_mouse</a> (uint8_t cmd)</td></tr>
+<tr class="memdesc:ae4d02df9cd1d60745697ef4d2b249431"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sends a command to the mouse.  <a href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431">More...</a><br /></td></tr>
 <tr class="separator:ae4d02df9cd1d60745697ef4d2b249431"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0d62a61bfd722c1d12e4764d5f36a1cf"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf">change_sample_rate</a> (uint8_t rate)</td></tr>
+<tr class="memdesc:a0d62a61bfd722c1d12e4764d5f36a1cf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the sample rate of the mouse.  <a href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf">More...</a><br /></td></tr>
 <tr class="separator:a0d62a61bfd722c1d12e4764d5f36a1cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a210374b50462acdedab00df64d5cea3c"><td class="memItemLeft" align="right" valign="top">void()&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a210374b50462acdedab00df64d5cea3c">mouse_ih</a> ()</td></tr>
+<tr class="memdesc:a210374b50462acdedab00df64d5cea3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Mouse interrupt handler.  <a href="mouse_8c.html#a210374b50462acdedab00df64d5cea3c">More...</a><br /></td></tr>
 <tr class="separator:a210374b50462acdedab00df64d5cea3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a736aa929125c49d204d44323da038a95"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a736aa929125c49d204d44323da038a95">bytes_to_packet</a> ()</td></tr>
+<tr class="memdesc:a736aa929125c49d204d44323da038a95"><td class="mdescLeft">&#160;</td><td class="mdescRight">Converts bytes to a mouse packet.  <a href="mouse_8c.html#a736aa929125c49d204d44323da038a95">More...</a><br /></td></tr>
 <tr class="separator:a736aa929125c49d204d44323da038a95"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3b71fce460b15fe9d0de3d8c77d9cad3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="mouse_8c.html#a3b71fce460b15fe9d0de3d8c77d9cad3">packet_parse</a> ()</td></tr>
+<tr class="memdesc:a3b71fce460b15fe9d0de3d8c77d9cad3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Parses a mouse packet.  <a href="mouse_8c.html#a3b71fce460b15fe9d0de3d8c77d9cad3">More...</a><br /></td></tr>
 <tr class="separator:a3b71fce460b15fe9d0de3d8c77d9cad3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
@@ -136,12 +144,14 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Converts bytes to a mouse packet. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a736aa929125c49d204d44323da038a95_icgraph.png" border="0" usemap="#amouse_8c_a736aa929125c49d204d44323da038a95_icgraph" alt=""/></div>
 <map name="amouse_8c_a736aa929125c49d204d44323da038a95_icgraph" id="amouse_8c_a736aa929125c49d204d44323da038a95_icgraph">
-<area shape="rect" title=" " alt="" coords="343,5,471,32"/>
+<area shape="rect" title="Converts bytes to a mouse packet." alt="" coords="343,5,471,32"/>
 <area shape="rect" href="model_8c.html#ab5fa7e7da1851578789c26ec9d71448b" title="Updates the mouse." alt="" coords="176,5,295,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
@@ -163,12 +173,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Checks if the output buffer can be read from the mouse. </p>
+<dl class="section return"><dt>Returns</dt><dd>Return 0 if the output buffer can be read and non-zero otherwise. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_cgraph.png" border="0" usemap="#amouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_cgraph" alt=""/></div>
 <map name="amouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_cgraph" id="amouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_cgraph">
-<area shape="rect" title=" " alt="" coords="5,5,187,32"/>
+<area shape="rect" title="Checks if the output buffer can be read from the mouse." alt="" coords="5,5,187,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="235,5,333,32"/>
 </map>
 </div>
@@ -177,13 +190,13 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_icgraph.png" border="0" usemap="#amouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_icgraph" alt=""/></div>
 <map name="amouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_icgraph" id="amouse_8c_adadf243f6a3148a2a63bd88ca6b89cef_icgraph">
-<area shape="rect" title=" " alt="" coords="597,35,779,61"/>
-<area shape="rect" href="mouse_8c.html#a210374b50462acdedab00df64d5cea3c" title=" " alt="" coords="423,5,508,32"/>
+<area shape="rect" title="Checks if the output buffer can be read from the mouse." alt="" coords="597,35,779,61"/>
+<area shape="rect" href="mouse_8c.html#a210374b50462acdedab00df64d5cea3c" title="Mouse interrupt handler." alt="" coords="423,5,508,32"/>
 <area shape="rect" href="mouse_8c.html#a4776d05b8faed4b54dcba64d73b64980" title=" " alt="" coords="381,57,549,98"/>
 <area shape="rect" href="model_8c.html#ab5fa7e7da1851578789c26ec9d71448b" title="Updates the mouse." alt="" coords="195,5,314,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,56,128,83"/>
-<area shape="rect" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf" title=" " alt="" coords="176,56,333,83"/>
-<area shape="rect" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431" title=" " alt="" coords="185,107,324,133"/>
+<area shape="rect" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf" title="Changes the sample rate of the mouse." alt="" coords="176,56,333,83"/>
+<area shape="rect" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431" title="Sends a command to the mouse." alt="" coords="185,107,324,133"/>
 </map>
 </div>
 
@@ -204,15 +217,24 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Changes the sample rate of the mouse. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rate</td><td>The new sample rate. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return 0 upon success and non-zero otherwise. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_cgraph.png" border="0" usemap="#amouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_cgraph" alt=""/></div>
 <map name="amouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_cgraph" id="amouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_cgraph">
-<area shape="rect" title=" " alt="" coords="5,77,163,104"/>
+<area shape="rect" title="Changes the sample rate of the mouse." alt="" coords="5,77,163,104"/>
 <area shape="rect" href="mouse_8c.html#a4776d05b8faed4b54dcba64d73b64980" title=" " alt="" coords="211,41,379,82"/>
 <area shape="rect" href="mouse_8c.html#ae2b9080d623ab180b1f545e9b038636f" title=" " alt="" coords="439,107,595,133"/>
-<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title=" " alt="" coords="427,5,608,32"/>
+<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title="Checks if the output buffer can be read from the mouse." alt="" coords="427,5,608,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="656,56,755,83"/>
 </map>
 </div>
@@ -221,7 +243,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_icgraph.png" border="0" usemap="#amouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_icgraph" alt=""/></div>
 <map name="amouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_icgraph" id="amouse_8c_a0d62a61bfd722c1d12e4764d5f36a1cf_icgraph">
-<area shape="rect" title=" " alt="" coords="176,5,333,32"/>
+<area shape="rect" title="Changes the sample rate of the mouse." alt="" coords="176,5,333,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
 </div>
@@ -242,13 +264,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Mouse interrupt handler. </p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a210374b50462acdedab00df64d5cea3c_cgraph.png" border="0" usemap="#amouse_8c_a210374b50462acdedab00df64d5cea3c_cgraph" alt=""/></div>
 <map name="amouse_8c_a210374b50462acdedab00df64d5cea3c_cgraph" id="amouse_8c_a210374b50462acdedab00df64d5cea3c_cgraph">
-<area shape="rect" title=" " alt="" coords="5,31,91,57"/>
-<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title=" " alt="" coords="139,5,320,32"/>
+<area shape="rect" title="Mouse interrupt handler." alt="" coords="5,31,91,57"/>
+<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title="Checks if the output buffer can be read from the mouse." alt="" coords="139,5,320,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="368,31,467,57"/>
 </map>
 </div>
@@ -257,7 +281,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a210374b50462acdedab00df64d5cea3c_icgraph.png" border="0" usemap="#amouse_8c_a210374b50462acdedab00df64d5cea3c_icgraph" alt=""/></div>
 <map name="amouse_8c_a210374b50462acdedab00df64d5cea3c_icgraph" id="amouse_8c_a210374b50462acdedab00df64d5cea3c_icgraph">
-<area shape="rect" title=" " alt="" coords="343,5,428,32"/>
+<area shape="rect" title="Mouse interrupt handler." alt="" coords="343,5,428,32"/>
 <area shape="rect" href="model_8c.html#ab5fa7e7da1851578789c26ec9d71448b" title="Updates the mouse." alt="" coords="176,5,295,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
@@ -280,12 +304,21 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Subscribes to mouse interrupts. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">bit_no</td><td>Pointer to the variable that will store the bit mask of the subscribed interrupt. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return 0 upon success and non-zero otherwise. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a20285aed4b3ef45812cd967532dd09db_icgraph.png" border="0" usemap="#amouse_8c_a20285aed4b3ef45812cd967532dd09db_icgraph" alt=""/></div>
 <map name="amouse_8c_a20285aed4b3ef45812cd967532dd09db_icgraph" id="amouse_8c_a20285aed4b3ef45812cd967532dd09db_icgraph">
-<area shape="rect" title=" " alt="" coords="176,5,335,32"/>
+<area shape="rect" title="Subscribes to mouse interrupts." alt="" coords="176,5,335,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
 </div>
@@ -306,12 +339,15 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Unsubscribes from mouse interrupts. </p>
+<dl class="section return"><dt>Returns</dt><dd>Return 0 upon success and non-zero otherwise. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a3ecf823d80520009ae5e0d76ae40a3c3_icgraph.png" border="0" usemap="#amouse_8c_a3ecf823d80520009ae5e0d76ae40a3c3_icgraph" alt=""/></div>
 <map name="amouse_8c_a3ecf823d80520009ae5e0d76ae40a3c3_icgraph" id="amouse_8c_a3ecf823d80520009ae5e0d76ae40a3c3_icgraph">
-<area shape="rect" title=" " alt="" coords="176,5,351,32"/>
+<area shape="rect" title="Unsubscribes from mouse interrupts." alt="" coords="176,5,351,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
 </div>
@@ -332,12 +368,14 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Parses a mouse packet. </p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_a3b71fce460b15fe9d0de3d8c77d9cad3_icgraph.png" border="0" usemap="#amouse_8c_a3b71fce460b15fe9d0de3d8c77d9cad3_icgraph" alt=""/></div>
 <map name="amouse_8c_a3b71fce460b15fe9d0de3d8c77d9cad3_icgraph" id="amouse_8c_a3b71fce460b15fe9d0de3d8c77d9cad3_icgraph">
-<area shape="rect" title=" " alt="" coords="343,5,451,32"/>
+<area shape="rect" title="Parses a mouse packet." alt="" coords="343,5,451,32"/>
 <area shape="rect" href="model_8c.html#ab5fa7e7da1851578789c26ec9d71448b" title="Updates the mouse." alt="" coords="176,5,295,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
@@ -376,7 +414,7 @@ Here is the call graph for this function:</div>
 <div class="center"><img src="mouse_8c_a4776d05b8faed4b54dcba64d73b64980_cgraph.png" border="0" usemap="#amouse_8c_a4776d05b8faed4b54dcba64d73b64980_cgraph" alt=""/></div>
 <map name="amouse_8c_a4776d05b8faed4b54dcba64d73b64980_cgraph" id="amouse_8c_a4776d05b8faed4b54dcba64d73b64980_cgraph">
 <area shape="rect" title=" " alt="" coords="5,23,173,65"/>
-<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title=" " alt="" coords="221,5,403,32"/>
+<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title="Checks if the output buffer can be read from the mouse." alt="" coords="221,5,403,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="451,31,549,57"/>
 </map>
 </div>
@@ -386,8 +424,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="mouse_8c_a4776d05b8faed4b54dcba64d73b64980_icgraph.png" border="0" usemap="#amouse_8c_a4776d05b8faed4b54dcba64d73b64980_icgraph" alt=""/></div>
 <map name="amouse_8c_a4776d05b8faed4b54dcba64d73b64980_icgraph" id="amouse_8c_a4776d05b8faed4b54dcba64d73b64980_icgraph">
 <area shape="rect" title=" " alt="" coords="381,23,549,65"/>
-<area shape="rect" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf" title=" " alt="" coords="176,5,333,32"/>
-<area shape="rect" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431" title=" " alt="" coords="185,56,324,83"/>
+<area shape="rect" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf" title="Changes the sample rate of the mouse." alt="" coords="176,5,333,32"/>
+<area shape="rect" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431" title="Sends a command to the mouse." alt="" coords="185,56,324,83"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,31,128,57"/>
 </map>
 </div>
@@ -409,15 +447,24 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sends a command to the mouse. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">cmd</td><td>The command to be sent. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Return 0 upon success and non-zero otherwise. </dd></dl>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_ae4d02df9cd1d60745697ef4d2b249431_cgraph.png" border="0" usemap="#amouse_8c_ae4d02df9cd1d60745697ef4d2b249431_cgraph" alt=""/></div>
 <map name="amouse_8c_ae4d02df9cd1d60745697ef4d2b249431_cgraph" id="amouse_8c_ae4d02df9cd1d60745697ef4d2b249431_cgraph">
-<area shape="rect" title=" " alt="" coords="5,77,144,104"/>
+<area shape="rect" title="Sends a command to the mouse." alt="" coords="5,77,144,104"/>
 <area shape="rect" href="mouse_8c.html#a4776d05b8faed4b54dcba64d73b64980" title=" " alt="" coords="192,41,360,82"/>
 <area shape="rect" href="mouse_8c.html#ae2b9080d623ab180b1f545e9b038636f" title=" " alt="" coords="421,107,577,133"/>
-<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title=" " alt="" coords="408,5,589,32"/>
+<area shape="rect" href="mouse_8c.html#adadf243f6a3148a2a63bd88ca6b89cef" title="Checks if the output buffer can be read from the mouse." alt="" coords="408,5,589,32"/>
 <area shape="rect" href="group__utils.html#ga79a031a8611f5b2d6afa4158e92b0fb4" title="Invokes sys_inb() system call but reads the value into a uint8_t variable." alt="" coords="637,56,736,83"/>
 </map>
 </div>
@@ -426,7 +473,7 @@ Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="mouse_8c_ae4d02df9cd1d60745697ef4d2b249431_icgraph.png" border="0" usemap="#amouse_8c_ae4d02df9cd1d60745697ef4d2b249431_icgraph" alt=""/></div>
 <map name="amouse_8c_ae4d02df9cd1d60745697ef4d2b249431_icgraph" id="amouse_8c_ae4d02df9cd1d60745697ef4d2b249431_icgraph">
-<area shape="rect" title=" " alt="" coords="176,5,315,32"/>
+<area shape="rect" title="Sends a command to the mouse." alt="" coords="176,5,315,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
 </div>
@@ -473,8 +520,8 @@ Here is the caller graph for this function:</div>
 <div class="center"><img src="mouse_8c_ae2b9080d623ab180b1f545e9b038636f_icgraph.png" border="0" usemap="#amouse_8c_ae2b9080d623ab180b1f545e9b038636f_icgraph" alt=""/></div>
 <map name="amouse_8c_ae2b9080d623ab180b1f545e9b038636f_icgraph" id="amouse_8c_ae2b9080d623ab180b1f545e9b038636f_icgraph">
 <area shape="rect" title=" " alt="" coords="381,31,537,57"/>
-<area shape="rect" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf" title=" " alt="" coords="176,5,333,32"/>
-<area shape="rect" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431" title=" " alt="" coords="185,56,324,83"/>
+<area shape="rect" href="mouse_8c.html#a0d62a61bfd722c1d12e4764d5f36a1cf" title="Changes the sample rate of the mouse." alt="" coords="176,5,333,32"/>
+<area shape="rect" href="mouse_8c.html#ae4d02df9cd1d60745697ef4d2b249431" title="Sends a command to the mouse." alt="" coords="185,56,324,83"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,31,128,57"/>
 </map>
 </div>

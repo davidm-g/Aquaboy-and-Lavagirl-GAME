@@ -1,7 +1,7 @@
-<map id="/home/davidm&#45;g/Documents/LC/MINIX&#45;LCOM/shared/proj/src/devices/rtc/rtc.h" name="/home/davidm&#45;g/Documents/LC/MINIX&#45;LCOM/shared/proj/src/devices/rtc/rtc.h">
-<area shape="rect" id="node1" title=" " alt="" coords="54,5,261,61"/>
-<area shape="rect" id="node2" href="$utils_8h.html" title=" " alt="" coords="5,109,80,136"/>
-<area shape="rect" id="node3" title=" " alt="" coords="45,184,115,211"/>
-<area shape="rect" id="node4" title=" " alt="" coords="155,109,240,136"/>
-<area shape="rect" id="node5" title=" " alt="" coords="264,109,347,136"/>
+<map id="rtc.h" name="rtc.h">
+<area shape="rect" id="node1" title=" " alt="" coords="132,5,183,32"/>
+<area shape="rect" id="node2" href="$utils_8h.html" title=" " alt="" coords="5,80,80,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="45,155,115,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="155,80,240,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="264,80,347,107"/>
 </map>

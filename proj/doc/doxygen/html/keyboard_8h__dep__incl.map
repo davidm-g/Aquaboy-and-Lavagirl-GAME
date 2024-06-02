@@ -1,9 +1,9 @@
-<map id="/home/davidm&#45;g/Documents/LC/MINIX&#45;LCOM/shared/proj/src/devices/keyboard/keyboard.h" name="/home/davidm&#45;g/Documents/LC/MINIX&#45;LCOM/shared/proj/src/devices/keyboard/keyboard.h">
-<area shape="rect" id="node1" title=" " alt="" coords="96,5,335,61"/>
-<area shape="rect" id="node2" href="$proj_8c.html" title=" " alt="" coords="5,317,212,373"/>
-<area shape="rect" id="node3" href="$keyboard_8c.html" title=" " alt="" coords="96,109,335,165"/>
-<area shape="rect" id="node4" href="$model_8h.html" title=" " alt="" coords="359,109,565,165"/>
-<area shape="rect" id="node5" href="$model_8c.html" title=" " alt="" coords="147,213,353,269"/>
-<area shape="rect" id="node6" href="$draw_8h.html" title=" " alt="" coords="377,213,584,269"/>
-<area shape="rect" id="node7" href="$draw_8c.html" title=" " alt="" coords="377,317,584,373"/>
+<map id="keyboard.h" name="keyboard.h">
+<area shape="rect" id="node1" title=" " alt="" coords="25,5,119,32"/>
+<area shape="rect" id="node2" href="$proj_8c.html" title=" " alt="" coords="9,229,68,256"/>
+<area shape="rect" id="node3" href="$keyboard_8c.html" title=" " alt="" coords="25,80,119,107"/>
+<area shape="rect" id="node4" href="$model_8h.html" title=" " alt="" coords="143,80,217,107"/>
+<area shape="rect" id="node5" href="$model_8c.html" title=" " alt="" coords="76,155,151,181"/>
+<area shape="rect" id="node6" href="$draw_8h.html" title=" " alt="" coords="175,155,241,181"/>
+<area shape="rect" id="node7" href="$draw_8c.html" title=" " alt="" coords="176,229,240,256"/>
 </map>

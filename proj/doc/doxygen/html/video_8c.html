@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.9.1"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Aquaboy and Lavagirl: /home/davidm-g/Documents/LC/MINIX-LCOM/shared/proj/src/devices/graphics/video.c File Reference</title>
+<title>Aquaboy and Lavagirl: video.c File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -75,25 +75,29 @@ $(function() {
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for video.c:</div>
 <div class="dyncontent">
-<div class="center"><img src="video_8c__incl.png" border="0" usemap="#a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2graphics_2video_8c" alt=""/></div>
-<map name="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2graphics_2video_8c" id="a_2home_2davidm-g_2Documents_2LC_2MINIX-LCOM_2shared_2proj_2src_2devices_2graphics_2video_8c">
-<area shape="rect" title=" " alt="" coords="46,5,255,61"/>
-<area shape="rect" href="video_8h.html" title=" " alt="" coords="115,109,186,136"/>
-<area shape="rect" title=" " alt="" coords="5,184,91,211"/>
-<area shape="rect" title=" " alt="" coords="115,184,186,211"/>
-<area shape="rect" title=" " alt="" coords="211,184,277,211"/>
+<div class="center"><img src="video_8c__incl.png" border="0" usemap="#avideo_8c" alt=""/></div>
+<map name="avideo_8c" id="avideo_8c">
+<area shape="rect" title=" " alt="" coords="116,5,185,32"/>
+<area shape="rect" href="video_8h.html" title=" " alt="" coords="115,80,186,107"/>
+<area shape="rect" title=" " alt="" coords="5,155,91,181"/>
+<area shape="rect" title=" " alt="" coords="115,155,186,181"/>
+<area shape="rect" title=" " alt="" coords="211,155,277,181"/>
 </map>
 </div>
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a16d73f78d19c944e160e8b3e7024f0cd"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8c.html#a16d73f78d19c944e160e8b3e7024f0cd">set_graphic_mode</a> (uint16_t mode)</td></tr>
+<tr class="memdesc:a16d73f78d19c944e160e8b3e7024f0cd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the graphic mode to the specified mode.  <a href="video_8c.html#a16d73f78d19c944e160e8b3e7024f0cd">More...</a><br /></td></tr>
 <tr class="separator:a16d73f78d19c944e160e8b3e7024f0cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa86357e516b83208fb5e6c5786d93880"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8c.html#aa86357e516b83208fb5e6c5786d93880">set_text_mode</a> ()</td></tr>
+<tr class="memdesc:aa86357e516b83208fb5e6c5786d93880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the text mode.  <a href="video_8c.html#aa86357e516b83208fb5e6c5786d93880">More...</a><br /></td></tr>
 <tr class="separator:aa86357e516b83208fb5e6c5786d93880"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abf2ffa2b9a2151d4259d995dfcc9aa18"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8c.html#abf2ffa2b9a2151d4259d995dfcc9aa18">change_screen_vertical_retrace</a> (int h)</td></tr>
+<tr class="memdesc:abf2ffa2b9a2151d4259d995dfcc9aa18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the screen vertical retrace.  <a href="video_8c.html#abf2ffa2b9a2151d4259d995dfcc9aa18">More...</a><br /></td></tr>
 <tr class="separator:abf2ffa2b9a2151d4259d995dfcc9aa18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6eee762bc1440dc6026fb25f98f8fee8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="video_8c.html#a6eee762bc1440dc6026fb25f98f8fee8">change_screen_artifacts</a> (int h)</td></tr>
+<tr class="memdesc:a6eee762bc1440dc6026fb25f98f8fee8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Changes the screen artifacts.  <a href="video_8c.html#a6eee762bc1440dc6026fb25f98f8fee8">More...</a><br /></td></tr>
 <tr class="separator:a6eee762bc1440dc6026fb25f98f8fee8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -113,6 +117,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Changes the screen artifacts. </p>
+<p>This function changes the screen artifacts to the specified value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h</td><td>The value to set the screen artifacts to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="abf2ffa2b9a2151d4259d995dfcc9aa18"></a>
@@ -131,6 +144,15 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
+<p>Changes the screen vertical retrace. </p>
+<p>This function changes the screen vertical retrace to the specified value.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">h</td><td>The value to set the screen vertical retrace to. </td></tr>
+  </table>
+  </dd>
+</dl>
+
 </div>
 </div>
 <a id="a16d73f78d19c944e160e8b3e7024f0cd"></a>
@@ -148,12 +170,22 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the graphic mode to the specified mode. </p>
+<p>This function sets the graphic mode of the video device to the specified mode.</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">mode</td><td>The mode to set the graphic mode to. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero otherwise. </dd></dl>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
 <div class="center"><img src="video_8c_a16d73f78d19c944e160e8b3e7024f0cd_icgraph.png" border="0" usemap="#avideo_8c_a16d73f78d19c944e160e8b3e7024f0cd_icgraph" alt=""/></div>
 <map name="avideo_8c_a16d73f78d19c944e160e8b3e7024f0cd_icgraph" id="avideo_8c_a16d73f78d19c944e160e8b3e7024f0cd_icgraph">
-<area shape="rect" title=" " alt="" coords="176,5,317,32"/>
+<area shape="rect" title="Sets the graphic mode to the specified mode." alt="" coords="176,5,317,32"/>
 <area shape="rect" href="proj_8c.html#ad290208c74ef25eb347d1d96a390cd66" title=" " alt="" coords="5,5,128,32"/>
 </map>
 </div>
@@ -174,6 +206,10 @@ Here is the caller graph for this function:</div>
         </tr>
       </table>
 </div><div class="memdoc">
+
+<p>Sets the text mode. </p>
+<p>This function sets the video device to the text mode.</p>
+<dl class="section return"><dt>Returns</dt><dd>0 on success, non-zero otherwise. </dd></dl>
 
 </div>
 </div>
