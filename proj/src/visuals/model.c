@@ -680,7 +680,7 @@ void write_leaderboard_data(){
 void read_leaderboard_data(){
     FILE *file = fopen("/home/lcom/labs/proj/src/visuals/leaderboard_data.txt", "r");
     if (file == NULL) {
-        printf("error reading leaderboard data!\n");
+        printf("error reading leaderboard data\n");
         return;
     }
 
