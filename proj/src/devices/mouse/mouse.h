@@ -1,6 +1,3 @@
-/**
-
-*/
 #include "i8042.h"
 #include <lcom/lcf.h>
 #include <stdbool.h>
@@ -13,4 +10,3 @@ void packet_parse();
 void(mouse_ih)();
 int can_read_outbuf_mouse();
 int change_sample_rate(uint8_t rate);
-

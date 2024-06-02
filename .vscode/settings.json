@@ -14,6 +14,11 @@
     "keyboard.h": "c",
     "utils.h": "c",
     "defines.h": "c",
-    "queue.h": "c"
+    "queue.h": "c",
+    "__tree": "c",
+    "map": "c",
+    "algorithm": "c",
+    "random": "c",
+    "chrono": "c"
   }
 }
