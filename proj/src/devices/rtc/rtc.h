@@ -26,12 +26,77 @@ typedef struct {
   uint8_t minute;
   uint8_t second;
 } rtc_values;
+/**
+ * @brief Reads the output of the Real-Time Clock (RTC) using the specified command byte.
+ *
+ * This function reads the output of the RTC using the specified command byte and stores the result in the provided pointer.
+ *
+ * @param cmdbyte The command byte to send to the RTC.
+ * @param result Pointer to store the result of the RTC output.
+ * @return 0 on success, non-zero otherwise.
+ */
 int read_rtc_output(uint8_t cmdbyte, uint8_t *result);
-int(rtc_subscribe_int)(uint8_t *bit_no);
-int(rtc_unsubscribe_int)();
+
+/**
+ * @brief Subscribes to RTC interrupts.
+ *
+ * This function subscribes to RTC interrupts and enables the specified bit number.
+ *
+ * @param bit_no Pointer to store the bit number associated with the RTC interrupt.
+ * @return 0 on success, non-zero otherwise.
+ */
+int (rtc_subscribe_int)(uint8_t *bit_no);
+
+/**
+ * @brief Unsubscribes from RTC interrupts.
+ *
+ * This function unsubscribes from RTC interrupts and disables the previously subscribed bit number.
+ *
+ * @return 0 on success, non-zero otherwise.
+ */
+int (rtc_unsubscribe_int)();
+
+/**
+ * @brief Checks if the RTC is currently updating.
+ *
+ * This function checks if the RTC is currently updating its values.
+ *
+ * @return 1 if the RTC is updating, 0 otherwise.
+ */
 int is_updating_rtc();
+
+/**
+ * @brief Checks if the RTC is in binary mode.
+ *
+ * This function checks if the RTC is in binary mode.
+ *
+ * @return true if the RTC is in binary mode, false otherwise.
+ */
 bool is_binary_rtc();
+
+/**
+ * @brief Converts a Binary-Coded Decimal (BCD) number to binary.
+ *
+ * This function converts a BCD number to binary.
+ *
+ * @param bcd_number The BCD number to convert.
+ * @return The binary representation of the BCD number.
+ */
 uint8_t to_binary(uint8_t bcd_number);
+
+/**
+ * @brief Updates the values of the RTC.
+ *
+ * This function updates the values of the RTC, including the date and time.
+ *
+ * @return 0 on success, non-zero otherwise.
+ */
 int rtc_update_values();
+
+/**
+ * @brief Starts the RTC.
+ *
+ * This function starts the RTC and initializes its settings.
+ */
 void start_rtc();
 #endif

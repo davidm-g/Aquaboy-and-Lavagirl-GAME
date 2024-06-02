@@ -94,31 +94,166 @@ typedef struct {
   int score;
 } LeaderboardEntry;
 
+/**
+ * @brief Interrupt handler for the timer.
+ */
 void(timer_int_handler)();
+
+/**
+ * @brief Loads the sprites.
+ */
 void load_sprites();
+
+/**
+ * @brief Updates the array with the given level.
+ * @param level The level to update the array with.
+ */
 void updateArrayWithLevel(int level);
+
+/**
+ * @brief Checks for collision between a sprite and a given position.
+ * @param sp The sprite to check collision with.
+ * @param x The x-coordinate of the position to check.
+ * @param y The y-coordinate of the position to check.
+ * @return The sprite that collided with the position, or NULL if no collision occurred.
+ */
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y);
+
+/**
+ * @brief Updates the timer.
+ */
 void update_timer();
+
+/**
+ * @brief Updates the keyboard.
+ */
 void update_keyboard();
+
+/**
+ * @brief Updates the mouse.
+ */
 void update_mouse();
+
+/**
+ * @brief Destroys all sprites.
+ */
 void destroy_sprites();
+
+/**
+ * @brief Moves the cursor based on the given mouse packet.
+ * @param pp The mouse packet containing the movement information.
+ */
 void move_cursor(struct packet *pp);
+
+/**
+ * @brief Handles the action for a sprite.
+ * @param sp The sprite to handle the action for.
+ */
 void action_handler(Sprite *sp);
+
+/**
+ * @brief Updates the sprite.
+ * @param sp The sprite to update.
+ * @return 1 if the sprite was updated successfully, 0 otherwise.
+ */
 int update(Sprite *sp);
+
+/**
+ * @brief Updates the speed of the sprite.
+ * @param sp The sprite to update the speed for.
+ */
 void updateSpeed(Sprite *sp);
+
+/**
+ * @brief Updates the position of the sprite.
+ * @param sp The sprite to update the position for.
+ * @return 1 if the sprite's position was updated successfully, 0 otherwise.
+ */
 int updatePosition(Sprite *sp);
+
+/**
+ * @brief Moves the sprite horizontally.
+ * @param sp The sprite to move.
+ * @return 1 if the sprite was moved successfully, 0 otherwise.
+ */
 int move_x(Sprite *sp);
+
+/**
+ * @brief Moves the sprite vertically.
+ * @param sp The sprite to move.
+ * @return 1 if the sprite was moved successfully, 0 otherwise.
+ */
 int move_y(Sprite *sp);
+
+/**
+ * @brief Sets the ground for the sprite.
+ * @param sp The sprite to set the ground for.
+ */
 void set_ground(Sprite *sp);
+
+/**
+ * @brief Makes the sprite jump.
+ * @param sp The sprite to make jump.
+ */
 void jump(Sprite *sp);
+
+/**
+ * @brief Applies gravity to the sprite.
+ * @param sp The sprite to apply gravity to.
+ */
 void gravity(Sprite *sp);
+
+/**
+ * @brief Moves the sprite to the left.
+ * @param sp The sprite to move.
+ */
 void left(Sprite *sp);
+
+/**
+ * @brief Moves the sprite to the right.
+ * @param sp The sprite to move.
+ */
 void right(Sprite *sp);
+
+/**
+ * @brief Checks for mouse click and performs the corresponding action.
+ * @param pp The mouse packet containing the click information.
+ */
 void check_mouse_click(struct packet pp);
+
+/**
+ * @brief Updates the real-time clock.
+ */
 void update_rtc();
+
+/**
+ * @brief Resets the states of the game.
+ */
 void reset_states();
+
+/**
+ * @brief Adds a score to the leaderboard.
+ * @param year The year of the score.
+ * @param month The month of the score.
+ * @param day The day of the score.
+ * @param hour The hour of the score.
+ * @param minute The minute of the score.
+ * @param score The score to add.
+ */
 void add_to_leaderboard(uint8_t year, uint8_t month, uint8_t day, uint8_t hour, uint8_t minute, int score);
+
+/**
+ * @brief Initializes the leaderboard.
+ */
 void initialize_leaderboard();
+
+/**
+ * @brief Writes the leaderboard data to a file.
+ */
 void write_leaderboard_data();
+
+/**
+ * @brief Reads the leaderboard data from a file.
+ */
 void read_leaderboard_data();
 #endif
