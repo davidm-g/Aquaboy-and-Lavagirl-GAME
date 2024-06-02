@@ -140,15 +140,27 @@ void load_sprites() {
 }
 
 void destroy_sprites() {
-  /*
-  for (int i = 0; i < 6; i++)
+  
+  for (int i = 0; i < 6; i++){
     destroy_sprite(boys[i]);
-  */
-  destroy_sprite(boys[0]);
-  destroy_sprite(girls[0]);
+    destroy_sprite(girls[i]);
+  }
+  destroy_sprite(start);
+  destroy_sprite(exit_button);
+  destroy_sprite(tryagain_button);
+  destroy_sprite(arrow);
+  destroy_sprite(lever);
+  destroy_sprite(opendoor);
+  destroy_sprite(doorblue);
+  destroy_sprite(doorred);
+  destroy_sprite(leaderboard_button);
+  for (int i = 0; i < 12; i++)
+    destroy_sprite(num[i]);
+
   destroy_sprite(cursor);
   for (int i = 0; i < 1200; i++)
     destroy_sprite(walls20[i]);
+  
 }
 
 void initialize_leaderboard() {
@@ -230,8 +242,8 @@ void update_timer() {
       else {
         level++;
       }
-      kbc_ih();
       reset_states();
+      kbc_ih();
     }
     else {
       if (global_counter % FRAME_RATE == 0)
@@ -630,6 +642,9 @@ void check_mouse_click(struct packet pp) {
       if (pp.lb) {
         if (cursor->x >= tryagain_button->x && cursor->x <= tryagain_button->x + tryagain_button->width &&
             cursor->y >= tryagain_button->y && cursor->y <= tryagain_button->y + tryagain_button->height) {
+          rtc_update_values();
+          completed = false;
+          add_to_leaderboard(rtc.day, rtc.month, rtc.year, rtc.hour, rtc.minute, level_time);
           menuState = GAME;
           change = true;
           level_time = 0;

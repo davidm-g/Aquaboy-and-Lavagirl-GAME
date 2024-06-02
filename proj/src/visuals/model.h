@@ -96,9 +96,7 @@ typedef struct {
 
 void(timer_int_handler)();
 void load_sprites();
-
 void updateArrayWithLevel(int level);
-
 Sprite *checkCollision(Sprite *sp, uint16_t x, uint16_t y);
 void update_timer();
 void update_keyboard();

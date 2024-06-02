@@ -84,13 +84,6 @@ int(proj_main_loop)(int argc, char **argv) {
   if (rtc_subscribe_int(&rtc_bit_no) != 0)
     return 1;
   start_rtc();
-  printf("current year is: %d\n", rtc.year);
-  printf("current month is: %d\n", rtc.month);
-  printf("current day is: %d\n", rtc.day);
-  printf("current hour is: %d\n", rtc.hour);
-  printf("current minute is: %d\n", rtc.minute);
-  printf("current second is: %d\n", rtc.second);
-
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
   change_sample_rate(20);
