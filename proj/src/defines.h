@@ -13,9 +13,7 @@
 #define SER_START 0x01
 #define SER_END 0x02
 #define SER_COMPLETE 0x03
-
-// KEYS
-#define SER_ESC_BREAK 0X80
+#define SER_ESC_BREAK 0X04
 
 // WASD KEYS
 #define SER_W_MAKE 0X81

@@ -96,7 +96,6 @@ typedef struct {
 
 typedef enum {
   T_START,
-  T_WAITING,
   T_GAME,
   T_MOUSE,
   T_M_BYTE1,
@@ -110,9 +109,7 @@ typedef enum {
   R_GAME,
   R_MOUSE,
   R_M_BYTE1,
-  R_M_BYTE2,
-  R_M_BYTE3,
-  R_KEYBOARD
+  R_M_BYTE2
 } ReceiverState;
 
 void(timer_int_handler)();
@@ -128,14 +125,16 @@ void update_rtc();
 void update_ser();
 void start_ser();
 void dealWithSending();
+void sendNextByte();
 void dealWithReceiving();
+void receive_data();
 void ser_update_mouse();
 void ser_packet_parse();
 int dealWithAcknolegments();
-void nextState();
+void ser_send_next();
 void resendByte();
 void resendFullPacket();
-void dealWithReceivingKeyboard();
+int dealWithReceivingKeyboard();
 void ser_action_handler();
 void send_keyboard_packet();
 void send_mouse_packet();

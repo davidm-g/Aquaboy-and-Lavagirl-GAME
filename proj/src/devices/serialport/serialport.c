@@ -36,14 +36,12 @@ int ser_ih() {
     return -1;
 
   if ((iir & INT_ID) == SER_RX_INT) {
-    printf("Received byte\n");
     while (ser_read_byte());
     return 0;
   }
 
   if ((iir & INT_ID) == SER_TX_INT) {
     printf("Ready to send\n");
-
     readyToSend = true;
     return 1;
   }

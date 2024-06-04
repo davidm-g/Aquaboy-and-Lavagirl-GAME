@@ -96,7 +96,6 @@ int(proj_main_loop)(int argc, char **argv) {
     return 1;
   if (ser_init() != 0)
     return 1;
-  start_ser();
   send_cmd_mouse(SET_STREAM_MODE);
   send_cmd_mouse(ENABLE_DATA);
   change_sample_rate(20);

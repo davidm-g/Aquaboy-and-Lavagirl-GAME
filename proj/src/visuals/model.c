@@ -56,6 +56,7 @@ bool isSecondPlayer = false;
 extern bool readyToSend;
 bool multiplayer = false;
 bool ser_show_cursor = false;
+uint8_t acknoledgment = 0;
 
 LeaderboardEntry leaderboard[LEADERBOARD_SIZE];
 void(timer_int_handler)() {
@@ -212,6 +213,8 @@ void update_keyboard() {
   kbc_ih();
   switch (menuState) {
     case GAME:
+      if (multiplayer)
+        send_keyboard_packet();
       if (kbd_outbuf == ESC_BREAK) {
         menuState = START;
         change = true;
@@ -235,8 +238,6 @@ void update_keyboard() {
     default:
       break;
   }
-  if (multiplayer)
-    send_keyboard_packet();
 }
 
 void update_mouse() {
@@ -267,9 +268,10 @@ void update_ser() {
       dealWithReceiving();
       break;
     case 1:
-      // dealWithSending();
+      dealWithSending();
       break;
     case 2:
+      printf("ERROR\n");
       ser_send_byte(NACK); // prob never used
       break;
 
@@ -284,99 +286,133 @@ void start_ser() {
 }
 
 void dealWithSending() {
-  switch (transmitterState) {
-    case T_MOUSE:
-      ser_send_byte(sendMouseData[0]);
-      transmitterState = T_M_BYTE1;
+  switch (acknoledgment) {
+    case ACK:
+      sendNextByte();
       break;
-    case T_M_BYTE1:
-      ser_send_byte(sendMouseData[1]);
-      transmitterState = T_M_BYTE2;
+
+    case NACK:
+      resendByte();
       break;
-    case T_M_BYTE2:
-      ser_send_byte(sendMouseData[2]);
-      transmitterState = T_M_BYTE3;
+
+    case ERROR:
+      resendFullPacket();
       break;
-    case T_M_BYTE3:
-      ser_send_byte(SER_COMPLETE);
-      transmitterState = T_GAME;
-      if (!isEmpty(mouseQueue)) {
-        sendMouseData[0] = pop(mouseQueue);
-        sendMouseData[1] = pop(mouseQueue);
-        sendMouseData[2] = pop(mouseQueue);
-      }
-      break;
-    case T_KEYBOARD:
-      ser_send_byte(SER_COMPLETE);
-      if (!isEmpty(kbdQueue))
-        keyboardData = pop(kbdQueue);
-      transmitterState = T_GAME;
 
     default:
       break;
   }
 }
 
+void sendNextByte() {
+  switch (transmitterState) {
+    case T_GAME:
+      printf("T_GAME\n");
+      break;
+    case T_MOUSE:
+      printf("T_MOUSE\n");
+      ser_send_byte(sendMouseData[0]);
+      acknoledgment = 0;
+      transmitterState = T_M_BYTE1;
+      break;
+
+    case T_M_BYTE1:
+      printf("T_BYTE1\n");
+      ser_send_byte(sendMouseData[1]);
+      acknoledgment = 0;
+      transmitterState = T_M_BYTE2;
+      break;
+
+    case T_M_BYTE2:
+      printf("T_BYTE2\n");
+      ser_send_byte(sendMouseData[2]);
+      acknoledgment = 0;
+      transmitterState = T_M_BYTE3;
+      break;
+
+    case T_M_BYTE3:
+      printf("T_BYTE3\n");
+    case T_KEYBOARD:
+      printf("T_KEYBOARD\n");
+      ser_send_next();
+      break;
+
+    default:
+      printf("T_DEFAULT ERROR\n");
+      break;
+  }
+}
+
 void dealWithReceiving() {
+  switch (ser_data) {
+    case ACK:
+      acknoledgment = ACK;
+      sendNextByte();
+      break;
+
+    case NACK:
+      acknoledgment = NACK;
+      resendByte();
+      break;
+
+    case ERROR:
+      acknoledgment = ERROR;
+      resendFullPacket();
+      break;
+
+    default:
+      receive_data();
+      break;
+  }
+}
+
+void receive_data() {
   switch (receiverState) {
     case R_START:
+      printf("R_START\n");
       if (ser_data == SER_START) {
+        ser_send_byte(ACK);
+        start_ser();
         receiverState = R_GAME;
         transmitterState = T_GAME;
+        ser_show_cursor = true;
         multiplayer = true;
         isSecondPlayer = true;
         menuState = GAME;
-        ser_send_byte(ACK);
+        acknoledgment = ACK;
       }
       break;
     case R_GAME:
-      if (dealWithAcknolegments() != 0) {
-        if (ser_data == SER_MOUSE) {
-          ser_send_byte(ACK);
-          receiverState = R_MOUSE;
-        }
-        else
-          dealWithReceivingKeyboard();
+      printf("R_GAME\n");
+      if (ser_data == SER_MOUSE) {
+        printf("mouse data\n");
+        ser_send_byte(ACK);
+        receiverState = R_MOUSE;
+      }
+      else if (dealWithReceivingKeyboard() != 0) {
+        ser_send_byte(NACK);
       }
       break;
     case R_MOUSE:
-      if (dealWithAcknolegments() != 0) {
-        ser_packet.bytes[0] = ser_data;
-        ser_send_byte(ACK);
-        receiverState = R_M_BYTE1;
-      }
+      printf("R_MOUSE\n");
+      ser_packet.bytes[0] = ser_data;
+      ser_send_byte(ACK);
+      receiverState = R_M_BYTE1;
       break;
     case R_M_BYTE1:
-      if (dealWithAcknolegments() != 0) {
-        ser_packet.bytes[1] = ser_data;
-        ser_send_byte(ACK);
-        receiverState = R_M_BYTE2;
-      }
+      printf("R_BYTE1\n");
+      ser_packet.bytes[1] = ser_data;
+      ser_send_byte(ACK);
+      receiverState = R_M_BYTE2;
       break;
     case R_M_BYTE2:
-      if (dealWithAcknolegments() != 0) {
-        ser_packet.bytes[2] = ser_data;
-        ser_send_byte(ACK);
-        receiverState = R_M_BYTE3;
-        ser_update_mouse();
-      }
+      printf("R_BYTE2\n");
+      ser_packet.bytes[2] = ser_data;
+      ser_send_byte(ACK);
+      receiverState = R_GAME;
+      ser_update_mouse();
       break;
-    case R_M_BYTE3:
-      if (dealWithAcknolegments() != 0) {
-        if (ser_data == SER_COMPLETE)
-          receiverState = R_GAME;
-        else
-          ser_send_byte(ACK);
-      }
-      break;
-    case R_KEYBOARD:
-      if (dealWithAcknolegments() != 0) {
-        if (ser_data == SER_COMPLETE)
-          receiverState = R_GAME;
-        else
-          ser_send_byte(ACK);
-      }
-      break;
+
     default:
       break;
   }
@@ -415,137 +451,172 @@ void ser_packet_parse() {
 
 int dealWithAcknolegments() {
   if (ser_data == ACK) {
-    nextState();
+    acknoledgment = ACK;
+    sendNextByte();
     return 0;
   }
   else if (ser_data == NACK) {
+    acknoledgment = NACK;
     resendByte();
     return 0;
   }
   else if (ser_data == ERROR) {
+    acknoledgment = ERROR;
     resendFullPacket();
     return 0;
   }
   else if (ser_data == SER_COMPLETE) {
+    acknoledgment = ACK;
     receiverState = R_GAME;
   }
   return 1;
 }
 
-void nextState() {
-  switch (transmitterState) {
-    case T_WAITING || GAME:
-      transmitterState = T_GAME;
-      break;
-    case T_MOUSE:
-      ser_send_byte(sendMouseData[0]);
-      transmitterState = T_M_BYTE1;
-      break;
-    case T_M_BYTE1:
-      ser_send_byte(sendMouseData[1]);
-      transmitterState = T_M_BYTE2;
-      break;
-    case T_M_BYTE2:
-      ser_send_byte(sendMouseData[2]);
-      transmitterState = T_M_BYTE3;
-      break;
-    case T_M_BYTE3:
-      errorTries = 0;
-      if (!isEmpty(mouseQueue)) {
-        sendMouseData[0] = pop(mouseQueue);
-        sendMouseData[1] = pop(mouseQueue);
-        sendMouseData[2] = pop(mouseQueue);
-      }
-      ser_send_byte(SER_COMPLETE);
-      transmitterState = T_GAME;
-      break;
-    case T_KEYBOARD:
-      errorTries = 0;
-      if (!isEmpty(kbdQueue))
-        keyboardData = pop(kbdQueue);
-      ser_send_byte(SER_COMPLETE);
-      transmitterState = T_GAME;
-    default:
-      break;
+void ser_send_next() {
+  errorTries = 0;
+  if (!isEmpty(kbdQueue)) { // send queued keyboard data
+    keyboardData = pop(kbdQueue);
+    ser_send_byte(keyboardData);
+    acknoledgment = 0;
+    transmitterState = T_KEYBOARD;
+    return;
+  }
+  else if (!isEmpty(mouseQueue)) { // send queued mouse data
+    ser_send_byte(SER_MOUSE);
+    acknoledgment = 0;
+    sendMouseData[0] = pop(mouseQueue);
+    sendMouseData[1] = pop(mouseQueue);
+    sendMouseData[2] = pop(mouseQueue);
+    transmitterState = T_MOUSE;
+    return;
+  }
+  else { // nothing to send
+    transmitterState = T_GAME;
+    readyToSend = true;
   }
 }
 
 void resendByte() {
-  switch (transmitterState) {
-    case T_WAITING:
-      ser_send_byte(SER_START);
-      break;
-    case T_MOUSE:
-      ser_send_byte(SER_MOUSE);
-      break;
-    case T_M_BYTE1:
-      ser_send_byte(sendMouseData[0]);
-      break;
-    case T_M_BYTE2:
-      ser_send_byte(sendMouseData[1]);
-      break;
-    case T_M_BYTE3:
-      ser_send_byte(sendMouseData[2]);
-      break;
-    case T_KEYBOARD:
-      ser_send_byte(keyboardData);
-    default:
-      break;
+  printf("Resending byte\n");
+  if (readyToSend) {
+    switch (transmitterState) {
+      case T_GAME:
+        ser_send_byte(SER_START);
+        acknoledgment = 0;
+        break;
+      case T_MOUSE:
+        ser_send_byte(SER_MOUSE);
+        acknoledgment = 0;
+        break;
+      case T_M_BYTE1:
+        ser_send_byte(sendMouseData[0]);
+        acknoledgment = 0;
+        break;
+      case T_M_BYTE2:
+        ser_send_byte(sendMouseData[1]);
+        acknoledgment = 0;
+        break;
+      case T_M_BYTE3:
+        ser_send_byte(sendMouseData[2]);
+        acknoledgment = 0;
+        break;
+      case T_KEYBOARD:
+        ser_send_byte(keyboardData);
+        acknoledgment = 0;
+        break;
+      default:
+        acknoledgment = NACK;
+        break;
+    }
   }
+  else
+    acknoledgment = NACK;
 }
 
 void resendFullPacket() {
+  printf("Resending full packet\n");
   switch (transmitterState) {
-    case T_WAITING:
-      ser_send_byte(SER_START);
+    case T_GAME:
+      if (readyToSend) {
+        ser_send_byte(SER_START);
+        acknoledgment = 0;
+      }
+      else
+        acknoledgment = ERROR;
       break;
     case T_MOUSE:
-      ser_send_byte(SER_MOUSE);
-      transmitterState = T_MOUSE;
+      if (readyToSend) {
+        ser_send_byte(SER_MOUSE);
+        acknoledgment = 0;
+      }
+      else
+        acknoledgment = ERROR;
       break;
     case T_M_BYTE1:
-      ser_send_byte(SER_MOUSE);
-      transmitterState = T_MOUSE;
+      if (readyToSend) {
+        ser_send_byte(SER_MOUSE);
+        acknoledgment = 0;
+        transmitterState = T_MOUSE;
+      }
+      else
+        acknoledgment = ERROR;
       break;
     case T_M_BYTE2:
-      ser_send_byte(SER_MOUSE);
-      transmitterState = T_MOUSE;
+      if (readyToSend) {
+        ser_send_byte(SER_MOUSE);
+        acknoledgment = 0;
+        transmitterState = T_MOUSE;
+      }
+      else
+        acknoledgment = ERROR;
       break;
     case T_M_BYTE3:
-      ser_send_byte(SER_MOUSE);
-      transmitterState = T_MOUSE;
+      if (readyToSend) {
+        ser_send_byte(SER_MOUSE);
+        acknoledgment = 0;
+        transmitterState = T_MOUSE;
+      }
+      else
+        acknoledgment = ERROR;
       break;
     case T_KEYBOARD:
-      ser_send_byte(keyboardData);
+      if (readyToSend) {
+        ser_send_byte(keyboardData);
+        acknoledgment = 0;
+        transmitterState = T_KEYBOARD;
+      }
+      else
+        acknoledgment = ERROR;
       break;
+
     default:
+      acknoledgment = ERROR;
       break;
   }
 }
 
-void dealWithReceivingKeyboard() {
+int dealWithReceivingKeyboard() {
   if (ser_data == SER_ESC_BREAK) {
-    receiverState = R_KEYBOARD;
     ser_send_byte(ACK);
-    menuState = START;
-    change = true;
-    level_time = 0;
-    reset_states();
-    return;
+    kbd_outbuf = ESC_BREAK;
+    printf("close\n");
+    update_keyboard();
+    return 0;
   }
   for (int i = 0; i < 12; i++) {
     if (ser_data == ser_keys[i]) {
-      receiverState = R_KEYBOARD;
       ser_send_byte(ACK);
+      printf("kbd data\n");
       if (isSecondPlayer) {
         kbd_outbuf = valid_kbd_values[i % 6];
       }
       else
-        kbd_outbuf = valid_kbd_values[i % 6 + 6];
+        kbd_outbuf = valid_kbd_values[(i % 6) + 6];
       ser_action_handler();
-      return;
+      return 0;
     }
   }
+  return 1;
 }
 
 void ser_action_handler() {
@@ -565,41 +636,43 @@ void ser_action_handler() {
 
 void send_keyboard_packet() {
   if (kbd_outbuf == ESC_BREAK) {
-    if (readyToSend) {
-      ser_send_byte(SER_ESC_BREAK);
-      keyboardData = SER_ESC_BREAK;
-      transmitterState = T_KEYBOARD;
-      return;
-    }
     push(kbdQueue, SER_ESC_BREAK);
-    return;
   }
-  for (int i = 0; i < 12; i++) {
-    if (kbd_outbuf == valid_kbd_values[i]) {
-      if (readyToSend) {
-        ser_send_byte(ser_keys[i]);
-        keyboardData = ser_keys[i];
-        transmitterState = T_KEYBOARD;
-        return;
+  else {
+    for (int i = 0; i < 12; i++) {
+      if (kbd_outbuf == valid_kbd_values[i]) {
+        push(kbdQueue, ser_keys[i]);
+        break;
       }
-      push(kbdQueue, ser_keys[i]);
-      return;
     }
+  }
+  if (!readyToSend) {
+    printf("not ready to send\n");
+    readyToSend = true;
+  }
+  printf("transmitter state is %u\n", transmitterState);
+  printf("transmitter state should be %u\n", T_GAME);
+  if (transmitterState == T_GAME && readyToSend) {
+    keyboardData = pop(kbdQueue);
+    ser_send_byte(keyboardData);
+    transmitterState = T_KEYBOARD;
+    acknoledgment = 0;
   }
 }
 
 void send_mouse_packet() {
-  if (readyToSend) {
-    ser_send_byte(SER_MOUSE);
-    sendMouseData[0] = packet.bytes[0];
-    sendMouseData[1] = packet.bytes[1];
-    sendMouseData[2] = packet.bytes[2];
-    transmitterState = T_MOUSE;
-    return;
-  }
   push(mouseQueue, packet.bytes[0]);
   push(mouseQueue, packet.bytes[1]);
   push(mouseQueue, packet.bytes[2]);
+  if (transmitterState == T_GAME && readyToSend) {
+    ser_send_byte(SER_MOUSE);
+    transmitterState = T_MOUSE;
+    acknoledgment = 0;
+    sendMouseData[0] = pop(mouseQueue);
+    sendMouseData[1] = pop(mouseQueue);
+    sendMouseData[2] = pop(mouseQueue);
+    return;
+  }
 }
 
 void move_cursor(struct packet *pp, Sprite *cursor) {
@@ -855,8 +928,9 @@ void check_mouse_click(struct packet pp, Sprite *cursor) {
       if (pp.lb) {
         if (cursor->x >= start->x && cursor->x <= start->x + start->width && cursor->y >= start->y && cursor->y <= start->y + start->height) {
           ser_send_byte(SER_START);
+          start_ser();
           menuState = GAME;
-          transmitterState = T_WAITING;
+          transmitterState = T_GAME;
           receiverState = R_GAME;
           ser_show_cursor = true;
           multiplayer = true;
@@ -882,6 +956,16 @@ void check_mouse_click(struct packet pp, Sprite *cursor) {
 }
 
 void reset_states() {
+  transmitterState = T_START;
+  receiverState = R_START;
+  clear(&mouseQueue);
+  clear(&kbdQueue);
+  error = 0;
+  errorTries = 0;
+  isSecondPlayer = false;
+  multiplayer = false;
+  ser_show_cursor = false;
+  acknoledgment = 0;
   changesprite = 0;
   spriteindex = 0;
   boyState = NORMAL;

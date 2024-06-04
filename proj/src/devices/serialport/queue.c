@@ -55,7 +55,8 @@ uint8_t back(Queue *queue) {
   return queue->values[queue->back];
 }
 
-void clear(Queue *queue) {
-  free(queue->values);
-  free(queue);
+void clear(Queue **queue) {
+  free((*queue)->values);
+  free(*queue);
+  *queue = NULL;
 }
